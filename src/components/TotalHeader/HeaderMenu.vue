@@ -43,7 +43,11 @@ export default {
 </script>
 
 <style scoped>
+    a {
+        font-size: 13px;
+    }
     .wrap {
+        margin-top: 20px;
         background-color: #bfa;
         padding: 0 56px;
         display: flex;
@@ -53,10 +57,15 @@ export default {
     /* 左侧abstract */
     .menu-abstract {
         display: flex;
-    }
+        }
     .abstract-item {
         color: #18191c;
         margin-right: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
     }
     .abstract-item .abstract-bgc {
         width: 40px;
@@ -77,8 +86,6 @@ export default {
         grid-template-columns: repeat(9,1fr);
         grid-gap: 10px;
         grid-auto-flow: row;
-
-        width: 100%;
         margin-left: 10px;
     }
     .menu-channel .channel-item {
@@ -89,5 +96,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100%;
+    }
+    /* 右侧activity */
+    .menu-activity {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        width: 230px;
     }
 </style>
