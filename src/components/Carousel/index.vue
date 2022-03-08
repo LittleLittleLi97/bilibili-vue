@@ -1,11 +1,10 @@
 <template>
-<!--    <TotalHeader/>-->
-    <Carousel/>
+
 </template>
 
 <script>
 export default {
-    name:'App',
+    name:'Carousel',
 }
 </script>
 
