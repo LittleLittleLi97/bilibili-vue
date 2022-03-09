@@ -1,6 +1,6 @@
 <template>
-<!--    <TotalHeader/>-->
-    <Carousel/>
+   <TotalHeader/>
+    <!-- <Carousel/> -->
 </template>
 
 <script>
