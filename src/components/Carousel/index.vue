@@ -1,5 +1,12 @@
 <template>
-
+  <div class="block">
+    <el-carousel trigger="click">
+      <el-carousel-item><img src="./images/01.png"></el-carousel-item>
+      <el-carousel-item><img src="./images/02.png"></el-carousel-item>
+      <el-carousel-item><img src="./images/03.png"></el-carousel-item>
+      <el-carousel-item><img src="./images/04.png"></el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
@@ -9,5 +16,8 @@ export default {
 </script>
 
 <style>
-
+img {
+    height: 200px;
+    width: 500px;
+}
 </style>
