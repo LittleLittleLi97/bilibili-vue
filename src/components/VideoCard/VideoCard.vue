@@ -24,6 +24,8 @@ export default {
     width: 100%;
 }
 .video-image img {
+    width: 100%;
+    height: 100%;
     border-radius: 6px;
 }
 .video-card .video-title {
@@ -31,6 +33,10 @@ export default {
     font-size: 15px;
     font-weight: 500;
     line-height: 22px;
+
+    height: 44px;
+
+
     margin-top: 5px;
 }
 .video-card .video-info {
