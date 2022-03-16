@@ -6,6 +6,8 @@ import MiniHeader from './components/TotalHeader/MiniHeader.vue'
 import Carousel from './components/Carousel'
 import VideoCard from './components/VideoCard/VideoCard.vue'
 
+import '../public/common.css'
+
 const app = createApp(App);
 
 app.component(TotalHeader.name, TotalHeader);

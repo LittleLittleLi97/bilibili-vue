@@ -9,12 +9,20 @@
             <VideoCard/>
             <VideoCard/>
         </div>
+        <Section/>
+        <SectionWithRank/>
     </div>
 </template>
 
 <script>
+import Section from './Section.vue'
+import SectionWithRank from './SectionWithRank.vue'
 export default {
-
+    name:'HomePage',
+    components:{
+        Section,
+        SectionWithRank,
+    }
 }
 </script>
 
@@ -31,15 +39,13 @@ export default {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 20px 10px;
+    grid-gap: 20px 12px;
+
+    /* 与下面Seciton的边距 */
+    margin-bottom: 50px;
 }
-.carousel {
+.main-recommend .carousel {
     grid-column: 1/3;
     grid-row: 1/3;
-}
-.card {
-    width: 210px;
-    height: 180px;
-    background-color: #bfa;
 }
 </style>

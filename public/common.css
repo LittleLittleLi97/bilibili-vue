@@ -1,0 +1,21 @@
+/* 标题 */
+.common-title {
+    font-size: 24px;
+    color: #18191C;
+}
+
+/* 按钮 带边框 */
+.common-border-button {
+    font-size: 13px;
+    color: #18191C;
+
+    padding: 8px 12px;
+    margin-left: 10px;
+
+    border: 1px solid #e3e5e7;
+    border-radius: 8px;
+}
+
+.common-border-button i {
+    font-size: 13px;
+}
