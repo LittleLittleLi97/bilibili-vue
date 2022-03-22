@@ -11,21 +11,31 @@
             <!-- <li class="type-item"><a href=""><i class="iconfont icon-iphone"></i>下载APP</a></li> -->
         </ul>
         <div class="search">
-            <input type="text" placeholder="请输入搜索字段">
-            <div class="search-button">
-                <i class="iconfont icon-search"></i>
+            <div class="input-area">
+                <input type="text" placeholder="请输入搜索字段">
+                <div class="search-button">
+                    <i class="iconfont icon-search"></i>
+                </div>
             </div>
+            <div class="recommend-area"></div>
         </div>
         <ul class="user-manipulate">
             <li class="user-item"><a href="">登录</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i>大会员</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-mail"></i>消息</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-fengche"></i>动态</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-shoucang"></i>收藏</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-history"></i>历史记录</a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-icon"></i>创作中心</a></li>
+            <li class="user-item">
+                <a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i><span>大会员</span></a>
+                <!-- <div class="vip-none">
+                    <div class="vip-none-title">精彩推荐</div>
+                    <img src="">
+                    <div class="blue-button">开通大会员</div>
+                </div> -->
+            </li>
+            <li class="user-item"><a href=""><i class="iconfont icon-mail"></i><span>消息</span></a></li>
+            <li class="user-item"><a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a></li>
+            <li class="user-item"><a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a></li>
+            <li class="user-item"><a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a></li>
+            <li class="user-item"><a href=""><i class="iconfont icon-icon"></i><span>创作中心</span></a></li>
         </ul>
-        <div class="upload"><a href="">投稿</a></div>
+        <div class="upload"><span>投稿</span></div>
     </div>
 </template>
 
@@ -35,86 +45,131 @@ export default {
 }
 </script>
 
-<style scoped>
-    i {
-        font-size: 18px;
-    }
-    a{
-        color: #fff;
+<style scoped lang="less">
+    a {
         font-size: 14px;
+        // color: #fff;
     }
     .banner {
-        position: absolute;
-        width: 100%;
-        padding: 10px 24px;
-        /* 0 24 */
+        background-color: #bfa;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        box-sizing: border-box;
-    }
-    /* 左侧 */
-    .type-list {
-        display: flex;
-        align-items: baseline;
-    }
-    .type-list .type-item {
-        margin-right: 10px;
-    }
-    /* 中间搜索 */
-    .search {
-        position: relative;
-        display: flex;
-        flex: 1 auto;
-        justify-content: center;
-    }
-    .search input {
-        padding-left: 10px;
-        width: 80%;
-        height: 40px;
-        background-color: #f1f2f3;
-        /* color: ; */
-        border: none;
-        border-radius: 8px;
-        outline: none;
-    }
-    .search .search-button {
-        position: relative;
-        left: -20px;
-        width: 50px;
-        background-color: #f1f2f3;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
         align-items: center;
-    }
-    .search-button i {
-        font-size: 25px;
-    }
-    /* 右侧用户操作 */
-    .user-manipulate {
-        display: flex;
-        align-items: center;
-    }
-    .user-manipulate .user-item {
-        margin-right: 10px;
-    }
-    .user-item a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .user-item a i {
-        margin-bottom: 10px;
-    }
-    /* 右侧投稿 */
-    .upload {
-        display: flex;
-        width: 90px;
-        height: 34px;
-        background-color: #fb7299;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
+
+        padding: 0 24px;
+
+        .type-list {
+            display: flex;
+
+            .type-item {
+                margin-right: 8px;
+
+                line-height: 64px;
+            }
+        }
+        .search {
+            flex: 1;
+
+            .input-area {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                flex: 1;
+
+                height: 40px;
+                padding: 0 5px;
+
+                box-sizing: border-box;
+                border-radius: 8px;
+
+                background-color: #f1f2f3;
+
+
+                &:hover {
+                    background-color: #fff;
+                }
+    
+                input {
+                    flex: 1;
+
+                    height: 30px;
+
+                    padding-left: 10px;
+                    margin-right: 5px;
+
+                    background-color: pink;
+
+                    box-sizing: border-box;
+                    border: none;
+                    border-radius: 8px;
+
+                    color: #61666d;
+
+                    outline: none;
+                }
+                .search-button {
+                    // background-color: pink;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    height: 30px;
+                    width: 30px;
+
+                    border-radius: 8px;
+
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #e3e5e6;
+                    }
+
+                    .iconfont {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .user-manipulate {
+            display: flex;
+
+            .user-item {
+                display: flex;
+                align-items: center;
+
+                margin-left: 8px;
+
+                a {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    i {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+
+        .upload {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 90px;
+            height: 34px;
+
+            margin-left: 12px;
+
+            background-color: #fb7299;
+
+            border-radius: 8px;
+
+            span {
+                font-size: 14px;
+                color: #fff;
+            }
+        }
     }
 </style>
