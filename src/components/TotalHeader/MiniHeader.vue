@@ -12,12 +12,43 @@
         </ul>
         <div class="search">
             <div class="input-area">
-                <input type="text" placeholder="请输入搜索字段">
+                <input type="text" placeholder="请输入搜索字段" @click="here">
                 <div class="search-button">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
-            <div class="recommend-area"></div>
+            <div class="recommend-area">
+                <div class="recommend-history">
+                    <div class="recommend-title">搜索历史</div>
+                    <ul class="history-list">
+                        <li><a href="">凡人修仙传</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                        <li><a href="">猫和老鼠</a></li>
+                    </ul>
+                </div>
+                <div class="recommend-hot">
+                    <div class="recommend-title">热搜</div>
+                    <ul class="hot-list">
+                        <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank hot-rank-top">2</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank hot-rank-top">3</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">4</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">5</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">6</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">7</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">8</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">9</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <li><a href=""><span class="hot-rank">10</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <ul class="user-manipulate">
             <li class="user-item"><a href="">登录</a></li>
@@ -40,23 +71,36 @@
 </template>
 
 <script>
+import {onMounted} from 'vue';
 export default {
     name:'MiniHeader',
-}
+    setup(props) {
+        function here() {
+            console.log(123)
+        }
+        return {
+            here,
+        }
+    }
+}   
 </script>
 
 <style scoped lang="less">
     a {
         font-size: 14px;
-        // color: #fff;
+        color: #fff;
     }
     .banner {
-        background-color: #bfa;
         display: flex;
         justify-content: space-between;
         align-items: center;
 
+        position: absolute;
+
+        width: 100%;
         padding: 0 24px;
+
+        box-sizing: border-box;
 
         .type-list {
             display: flex;
@@ -69,6 +113,8 @@ export default {
         }
         .search {
             flex: 1;
+
+            position: relative;
 
             .input-area {
                 display: flex;
@@ -98,7 +144,7 @@ export default {
                     padding-left: 10px;
                     margin-right: 5px;
 
-                    background-color: pink;
+                    background-color: transparent;
 
                     box-sizing: border-box;
                     border: none;
@@ -127,6 +173,100 @@ export default {
 
                     .iconfont {
                         font-size: 20px;
+                    }
+                }
+            }
+            .recommend-area {
+                background-color: #fff;
+                position: absolute;
+                z-index: 100;
+
+                width: 100%;
+
+                padding: 10px 0 20px 0;
+
+                border: 1px solid #e3e5e7;
+                border-top: none;
+                border-radius: 0 0 8px 8px;
+                
+                box-sizing: border-box;
+
+                // 推荐中标题的统一样式
+                .recommend-title {
+                    font-size: 16px;
+                    color: #18191c;
+
+                    margin: 10px 0;
+                    padding: 0 20px;
+
+                    box-sizing: border-box;
+                }
+
+
+                .recommend-history {
+
+                    .history-list {
+                        display: flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+
+                        padding: 0 20px;
+                        box-sizing: border-box;
+
+                        a {
+                            display: block;
+                            font-size: 12px;
+                            color: #18191c;
+
+                            margin: 0 10px 10px 0;
+                            padding: 7px 10px 8px 10px;
+
+                            background-color: #f6f7f8;
+
+                            border-radius: 6px;
+
+                            box-sizing: border-box;
+                        }
+                    }
+                }
+                .recommend-hot {
+                    .hot-list {
+                        display: grid;
+                        grid-template-rows: repeat(5,1fr);
+                        grid-auto-flow: column;
+                        grid-gap: 0 10px;
+                        a {
+                            display: flex;
+                            justify-content: start;
+                            align-items: center;
+
+                            width: 100%;
+                            height: 38px;
+
+                            &:hover {
+                                background-color: #e3e5e7;
+                            }
+                            .hot-rank {
+                                display: flex;
+                                justify-content: center;
+
+                                font-size: 14px;
+                                color: #9499A0;
+
+                                width: 30px;
+
+                                margin-left: 10px;
+                            }
+                            .hot-rank-top {
+                                // 前3个rank使用此样式
+                                color: #18191c;
+                            }
+                            .hot-title {
+                                font-size: 14px;
+                                color: #18191c;
+
+                            }
+                        }
                     }
                 }
             }
@@ -171,5 +311,5 @@ export default {
                 color: #fff;
             }
         }
-    }
+    }               
 </style>
