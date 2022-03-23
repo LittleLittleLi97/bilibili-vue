@@ -11,13 +11,14 @@
             <!-- <li class="type-item"><a href=""><i class="iconfont icon-iphone"></i>下载APP</a></li> -->
         </ul>
         <div class="search">
-            <div class="input-area">
-                <input type="text" placeholder="请输入搜索字段" @click="here">
+            <div class="search-mask" v-show="searchMaskShow" @click="cancelFocus"></div>
+            <div class="input-area" :style="inputAreaFocusStyle">
+                <input type="text" placeholder="请输入搜索字段" @click="inputClick" :style="inputFocusStyle">
                 <div class="search-button">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
-            <div class="recommend-area">
+            <div class="recommend-area" v-show="recommendShow">
                 <div class="recommend-history">
                     <div class="recommend-title">搜索历史</div>
                     <ul class="history-list">
@@ -71,15 +72,37 @@
 </template>
 
 <script>
-import {onMounted} from 'vue';
+import {ref, reactive, onMounted} from 'vue';
 export default {
     name:'MiniHeader',
     setup(props) {
-        function here() {
-            console.log(123)
+        let recommendShow = ref(false);
+        let inputAreaFocusStyle = ref();
+        let inputFocusStyle = ref();
+        let searchMaskShow = ref(false);
+        function inputClick(){
+            inputAreaFocusStyle.value = "border-radius: 8px 8px 0 0;";
+            inputFocusStyle.value = "background-color: #e3e5e7;";
+            recommendShow.value = true;
+            searchMaskShow.value = true;
         }
+        function cancelFocus(){
+            console.log("mask")
+            inputAreaFocusStyle.value = "";
+            inputFocusStyle.value = "";
+            recommendShow.value = false;
+            searchMaskShow.value = false;
+
+        }
+        onMounted(() => {
+        })
         return {
-            here,
+            inputClick,
+            inputAreaFocusStyle,
+            inputFocusStyle,
+            recommendShow,
+            searchMaskShow,
+            cancelFocus
         }
     }
 }   
@@ -116,10 +139,22 @@ export default {
 
             position: relative;
 
+            .search-mask {
+                position: fixed;
+                z-index: 20;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                // background-color: #bfa;
+            }
+
             .input-area {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
                 
                 flex: 1;
 
@@ -127,6 +162,7 @@ export default {
                 padding: 0 5px;
 
                 box-sizing: border-box;
+                border: 1px solid #e3e5e7;
                 border-radius: 8px;
 
                 background-color: #f1f2f3;
@@ -177,99 +213,101 @@ export default {
                 }
             }
             .recommend-area {
-                background-color: #fff;
-                position: absolute;
-                z-index: 100;
+                    position: absolute;
+                    top: 39px;
+                    z-index: 100;
 
-                width: 100%;
+                    background-color: #fff;
 
-                padding: 10px 0 20px 0;
+                    width: 100%;
 
-                border: 1px solid #e3e5e7;
-                border-top: none;
-                border-radius: 0 0 8px 8px;
-                
-                box-sizing: border-box;
+                    padding: 10px 0 20px 0;
 
-                // 推荐中标题的统一样式
-                .recommend-title {
-                    font-size: 16px;
-                    color: #18191c;
-
-                    margin: 10px 0;
-                    padding: 0 20px;
-
+                    border: 1px solid #e3e5e7;
+                    border-top: none;
+                    border-radius: 0 0 8px 8px;
+                    
                     box-sizing: border-box;
-                }
 
+                    // 推荐中标题的统一样式
+                    .recommend-title {
+                        font-size: 16px;
+                        color: #18191c;
 
-                .recommend-history {
-
-                    .history-list {
-                        display: flex;
-                        justify-content: space-between;
-                        flex-wrap: wrap;
-
+                        margin: 10px 0;
                         padding: 0 20px;
+
                         box-sizing: border-box;
-
-                        a {
-                            display: block;
-                            font-size: 12px;
-                            color: #18191c;
-
-                            margin: 0 10px 10px 0;
-                            padding: 7px 10px 8px 10px;
-
-                            background-color: #f6f7f8;
-
-                            border-radius: 6px;
-
-                            box-sizing: border-box;
-                        }
                     }
-                }
-                .recommend-hot {
-                    .hot-list {
-                        display: grid;
-                        grid-template-rows: repeat(5,1fr);
-                        grid-auto-flow: column;
-                        grid-gap: 0 10px;
-                        a {
+
+
+                    .recommend-history {
+
+                        .history-list {
                             display: flex;
-                            justify-content: start;
-                            align-items: center;
+                            justify-content: space-between;
+                            flex-wrap: wrap;
 
-                            width: 100%;
-                            height: 38px;
+                            padding: 0 20px;
+                            box-sizing: border-box;
 
-                            &:hover {
-                                background-color: #e3e5e7;
+                            a {
+                                display: block;
+                                font-size: 12px;
+                                color: #18191c;
+
+                                margin: 0 10px 10px 0;
+                                padding: 7px 10px 8px 10px;
+
+                                background-color: #f6f7f8;
+
+                                border-radius: 6px;
+
+                                box-sizing: border-box;
                             }
-                            .hot-rank {
+                        }
+                    }
+                    .recommend-hot {
+                        .hot-list {
+                            display: grid;
+                            grid-template-rows: repeat(5,1fr);
+                            grid-auto-flow: column;
+                            grid-gap: 0 10px;
+                            a {
                                 display: flex;
-                                justify-content: center;
+                                justify-content: start;
+                                align-items: center;
 
-                                font-size: 14px;
-                                color: #9499A0;
+                                width: 100%;
+                                height: 38px;
 
-                                width: 30px;
+                                &:hover {
+                                    background-color: #e3e5e7;
+                                }
+                                .hot-rank {
+                                    display: flex;
+                                    justify-content: center;
 
-                                margin-left: 10px;
-                            }
-                            .hot-rank-top {
-                                // 前3个rank使用此样式
-                                color: #18191c;
-                            }
-                            .hot-title {
-                                font-size: 14px;
-                                color: #18191c;
+                                    font-size: 14px;
+                                    color: #9499A0;
 
+                                    width: 30px;
+
+                                    margin-left: 10px;
+                                }
+                                .hot-rank-top {
+                                    // 前3个rank使用此样式
+                                    color: #18191c;
+                                }
+                                .hot-title {
+                                    font-size: 14px;
+                                    color: #18191c;
+
+                                }
                             }
                         }
                     }
                 }
-            }
         }
         .user-manipulate {
             display: flex;
@@ -311,5 +349,5 @@ export default {
                 color: #fff;
             }
         }
-    }               
+    }
 </style>
