@@ -10,8 +10,7 @@
             <li class="type-item"><a href="">赛事</a></li>
             <!-- <li class="type-item"><a href=""><i class="iconfont icon-iphone"></i>下载APP</a></li> -->
         </ul>
-        <div class="search">
-            <div class="search-mask" v-show="searchMaskShow" @click="cancelFocus"></div>
+        <div class="search" ref="searchDiv">
             <div class="input-area" :style="inputAreaFocusStyle">
                 <input type="text" placeholder="请输入搜索字段" @click="inputClick" :style="inputFocusStyle">
                 <div class="search-button">
@@ -72,37 +71,39 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted} from 'vue';
+import {ref, reactive, onMounted, toRefs, toRef} from 'vue';
 export default {
     name:'MiniHeader',
     setup(props) {
-        let recommendShow = ref(false);
-        let inputAreaFocusStyle = ref();
-        let inputFocusStyle = ref();
-        let searchMaskShow = ref(false);
-        function inputClick(){
-            inputAreaFocusStyle.value = "border-radius: 8px 8px 0 0;";
-            inputFocusStyle.value = "background-color: #e3e5e7;";
-            recommendShow.value = true;
-            searchMaskShow.value = true;
+        function searchShowEvent(){
+            let searchDiv = ref();
+            let searchStyleControl = reactive({
+                recommendShow: false,
+                inputAreaFocusStyle: null,
+                inputFocusStyle: null,
+            })
+            function inputClick(){
+                searchStyleControl.inputAreaFocusStyle = "border-radius: 8px 8px 0 0;";
+                searchStyleControl.inputFocusStyle = "background-color: #e3e5e7;";
+                searchStyleControl.recommendShow = true;
+            }
+            onMounted(() => {
+                document.addEventListener('click', (event)=>{
+                    if (!searchDiv.value.contains(event.target)) {
+                        searchStyleControl.inputAreaFocusStyle = "";
+                        searchStyleControl.inputFocusStyle = "";
+                        searchStyleControl.recommendShow = false;
+                    }
+                })
+            })
+            return {
+                searchDiv,
+                ...toRefs(searchStyleControl),
+                inputClick
+            }
         }
-        function cancelFocus(){
-            console.log("mask")
-            inputAreaFocusStyle.value = "";
-            inputFocusStyle.value = "";
-            recommendShow.value = false;
-            searchMaskShow.value = false;
-
-        }
-        onMounted(() => {
-        })
         return {
-            inputClick,
-            inputAreaFocusStyle,
-            inputFocusStyle,
-            recommendShow,
-            searchMaskShow,
-            cancelFocus
+            ...searchShowEvent(),
         }
     }
 }   
@@ -138,17 +139,6 @@ export default {
             flex: 1;
 
             position: relative;
-
-            .search-mask {
-                position: fixed;
-                z-index: 20;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: auto;
-                // background-color: #bfa;
-            }
 
             .input-area {
                 display: flex;
@@ -264,6 +254,10 @@ export default {
                                 border-radius: 6px;
 
                                 box-sizing: border-box;
+
+                                &:hover {
+                                    color: #00aeec;
+                                }
                             }
                         }
                     }
@@ -323,6 +317,10 @@ export default {
                     flex-direction: column;
                     align-items: center;
 
+                    &:hover i {
+                        animation: iconDance 0.5s 1;
+                    }
+
                     i {
                         margin-bottom: 5px;
                     }
@@ -344,10 +342,23 @@ export default {
 
             border-radius: 8px;
 
+            cursor: pointer;
+
             span {
                 font-size: 14px;
                 color: #fff;
             }
+        }
+    }
+    @keyframes iconDance {
+        0% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(0, -5px);
+        }
+        100% {
+            transform: translate(0, 0);
         }
     }
 </style>
