@@ -1,7 +1,10 @@
 <template>
-    <div class="banner">
+    <div class="banner" :class="{'banner-slide':slideFlag}">
+        <svg class="icon icon-bilibili" aria-hidden="true" v-show="slideFlag">
+            <use xlink:href="#icon-bilibili"></use>
+        </svg>
         <ul class="type-list">
-            <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line"></i>首页</a></li>
+            <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line" v-show="!slideFlag"></i>首页</a></li>
             <li class="type-item"><a href="">番剧</a></li>
             <li class="type-item"><a href="">直播</a></li>
             <li class="type-item"><a href="">游戏中心</a></li>
@@ -102,8 +105,22 @@ export default {
                 inputClick
             }
         }
+        function slideEvent(){
+            let slideFlag = ref(false);
+            onMounted(() => {
+                window.addEventListener('scroll', ()=>{
+                    let scrollTop = document.documentElement.scrollTop;
+                    if (scrollTop > 40) slideFlag.value = true;
+                    else slideFlag.value = false;
+                })
+            })
+            return {
+                slideFlag
+            }
+        }
         return {
             ...searchShowEvent(),
+            ...slideEvent(),
         }
     }
 }   
@@ -359,6 +376,38 @@ export default {
         }
         100% {
             transform: translate(0, 0);
+        }
+    }
+    .banner-slide {
+        position: fixed;
+        z-index: 100;
+
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+        animation: slideShow 0.5s 1 forwards;
+
+        // a标签的统一颜色，除了右侧iconfont底下的字颜色不同
+        a {
+            color: #18191c;
+        }
+        .icon-bilibili {
+            width: 60px;
+            height: 64px;
+            margin-right: 10px;
+        }
+        .user-manipulate {
+            span {
+                color: #61666d;
+            }
+        }
+    }
+    @keyframes slideShow {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
         }
     }
 </style>
