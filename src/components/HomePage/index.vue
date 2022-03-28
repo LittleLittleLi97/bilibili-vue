@@ -1,4 +1,5 @@
 <template>
+    <TotalHeader/>
     <div class="main-frame">
         <div class="main-recommend">
             <Carousel class="carousel"/>
@@ -15,11 +16,17 @@
 </template>
 
 <script>
+import TotalHeader from '../TotalHeader/index.vue'
+import Carousel from '../Carousel/index.vue'
+import VideoCard from '../VideoCard/VideoCard.vue'
 import Section from './Section.vue'
 import SectionWithRank from './SectionWithRank.vue'
 export default {
     name:'HomePage',
     components:{
+        TotalHeader,
+        Carousel,
+        VideoCard,
         Section,
         SectionWithRank,
     }

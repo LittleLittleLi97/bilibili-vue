@@ -1,10 +1,10 @@
 <template>
-    <div class="banner" :class="{'banner-slide':slideFlag}">
-        <svg class="icon icon-bilibili" aria-hidden="true" v-show="slideFlag">
+    <div class="banner" :class="{'banner-slide':slideShow}">
+        <svg class="icon icon-bilibili" aria-hidden="true" v-show="slideShow">
             <use xlink:href="#icon-bilibili"></use>
         </svg>
         <ul class="type-list">
-            <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line" v-show="!slideFlag"></i>首页</a></li>
+            <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line" v-show="!slideShow"></i>首页</a></li>
             <li class="type-item"><a href="">番剧</a></li>
             <li class="type-item"><a href="">直播</a></li>
             <li class="type-item"><a href="">游戏中心</a></li>
@@ -74,11 +74,14 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted, toRefs, toRef} from 'vue';
+import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
+import { useRoute } from 'vue-router';
 export default {
     name:'MiniHeader',
     setup(props) {
+        const route = useRoute();
         function searchShowEvent(){
+            // 点击搜索框的样式变化
             let searchDiv = ref();
             let searchStyleControl = reactive({
                 recommendShow: false,
@@ -106,16 +109,20 @@ export default {
             }
         }
         function slideEvent(){
-            let slideFlag = ref(false);
+            // MiniHeader显示样式的控制
+            let slideLoctionFlag = ref(false);
+            let slideShow = computed(()=>{
+                return route.meta.MiniHeaderStatus || slideLoctionFlag.value;
+            })
             onMounted(() => {
                 window.addEventListener('scroll', ()=>{
                     let scrollTop = document.documentElement.scrollTop;
-                    if (scrollTop > 40) slideFlag.value = true;
-                    else slideFlag.value = false;
+                    if (scrollTop > 40) slideLoctionFlag.value = true;
+                    else slideLoctionFlag.value = false;
                 })
             })
             return {
-                slideFlag
+                slideShow,
             }
         }
         return {
