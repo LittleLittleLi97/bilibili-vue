@@ -27,12 +27,12 @@
                 <a href="" class="channel-item">更多</a>
             </div>
             <div class="menu-activity">
-                <a href="" class="activity-item"><i class="iconfont icon-icon-zhuanlan-zhuanlanwenzhang"></i>专栏</a>
-                <a href="" class="activity-item"><i class="iconfont icon-qiziz"></i>活动</a>
-                <a href="" class="activity-item"><i class="iconfont icon-nav_shequzhongxin"></i>社区中心</a>
-                <a href="" class="activity-item"><i class="iconfont icon-zhibo"></i>直播</a>
-                <a href="" class="activity-item"><i class="iconfont icon-ketang"></i>课堂</a>
-                <a href="" class="activity-item"><i class="iconfont icon-gequ"></i>新歌热榜</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-icon-zhuanlan-zhuanlanwenzhang"></i>专栏</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-qiziz"></i>活动</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-nav_shequzhongxin"></i>社区中心</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-zhibo"></i>直播</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-ketang"></i>课堂</a>
+                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-gequ"></i>新歌热榜</a>
             </div>
         </div>
     </div>
@@ -44,42 +44,110 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     a {
         font-size: 13px;
     }
     .wrap {
-        margin-top: 20px;
-        /*background-color: #bfa;*/
-        padding: 0 56px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        margin-top: 20px;
+        padding: 0 56px;
+
+        .menu-abstract {
+            display: flex;
+
+            .abstract-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                color: #18191c;
+
+                margin-right: 16px;
+
+                .abstract-bgc {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    width: 40px;
+                    height: 40px;
+
+                    border-radius: 50%;
+
+                    margin-bottom: 8px;
+
+                    i {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .right-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            justify-items: end;
+
+            width: 100%;
+
+            .menu-channel {
+                display: grid;
+                grid-template-columns: repeat(9,1fr);
+                grid-gap: 10px;
+                grid-auto-flow: row;
+                justify-items: center;
+
+                margin-left: 10px;
+                padding-right: 20px;
+
+                width: 100%;
+
+                border-right: 1px solid #e3e5e7;
+                box-sizing: border-box;
+
+                .channel-item {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    height: 26px;
+                    width: 100%;
+
+                    background-color: #f6f7f8;
+
+                    color: #61666d;
+                    letter-spacing: 2px;
+                    
+                    border-radius: 8px;
+
+                    &:hover {
+                        animation: bgcGray 0.3s 1 forwards;
+                    }
+                }
+            }
+            .menu-activity {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1.5fr;
+                grid-template-rows: 1fr 1fr;
+                grid-gap: 10px;
+                justify-items: end;
+
+                width: 230px;
+
+                .activity-item {
+                    letter-spacing: 2px;
+                    height: 26px;
+                    line-height: 26px;
+                    color: #61666d;
+                }
+            }
+        }
     }
     /* 左侧abstract */
-    .menu-abstract {
-        display: flex;
-        }
-    .abstract-item {
-        color: #18191c;
-        margin-right: 16px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .abstract-item .abstract-bgc {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 8px;
-    }
-    .abstract-bgc i {
-        color: #fff;
-    }
     .bgc-dynamic {
         background-color: #ff9212;
     }
@@ -89,50 +157,12 @@ export default {
     .bgc-channel {
         background-color: #59ca73;
     }
-    /* 右侧grid */
-    .right-grid {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-        justify-items: end;
-        width: 100%;
-    }
-    /* 中间channel */
-    .menu-channel {
-        display: grid;
-        grid-template-columns: repeat(9,1fr);
-        grid-gap: 10px;
-        grid-auto-flow: row;
-        justify-items: center;
-        margin-left: 10px;
-        width: 100%;
-        border-right: 1px solid #e3e5e7;
-        padding-right: 20px;
-        box-sizing: border-box;
-    }
-    .menu-channel .channel-item {
-        background-color: #f6f7f8;
-        color: #61666d;
-        height: 26px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        letter-spacing: 2px;
-    }
-    /* 右侧activity */
-    .menu-activity {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1.5fr;
-        grid-gap: 10px;
-        width: 230px;
-        grid-template-rows: 1fr 1fr;
-        justify-items: end;
-    }
-    .menu-activity .activity-item {
-        letter-spacing: 2px;
-        height: 26px;
-        line-height: 26px;
-        color: #61666d;
+    @keyframes bgcGray {
+        0% {
+
+        }
+        100% {
+            background-color: #e3e5e7;
+        }
     }
 </style>

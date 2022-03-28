@@ -19,3 +19,17 @@
 .common-border-button i {
     font-size: 13px;
 }
+
+/* 文字变蓝动画 */
+.common-fontblue:hover {
+    animation: fontBlue 0.2s 1 forwards;
+}
+
+@keyframes fontBlue {
+    0%{
+
+    }
+    100% {
+        color: #00aeec;
+    }
+}
