@@ -20,6 +20,29 @@
                     <div class="extra-more"><i class="iconfont icon-gengduo"></i></div>
                 </div>
             </div>
+            <div class="video-text">
+                更新了！
+            </div>
+            <div class="video-tag">
+                <ul class="tag-list">
+                    <li class="tag-item"><a href="">2022冬季国产动画创作</a></li>
+                    <li class="tag-item"><a href="">修仙</a></li>
+                    <li class="tag-item"><a href="">解读</a></li>
+                    <li class="tag-item"><a href="">剧情解析</a></li>
+                    <li class="tag-item"><a href="">深度解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                    <li class="tag-item"><a href="">战斗解析</a></li>
+                </ul>
+            </div>
+            <div class="comment-area">
+                <Comment/>
+            </div>
         </div>
         <div class="right-frame"></div>
     </div>
@@ -27,10 +50,12 @@
 
 <script>
 import MiniHeader from '../TotalHeader/MiniHeader.vue'
+import Comment from './Comment.vue'
 export default {
     name:'VideoPage',
     components: {
         MiniHeader,
+        Comment,
     }
 }
 </script>
@@ -40,17 +65,15 @@ export default {
         display: flex;
         justify-content: center;
 
-        padding-top: 65px;
+        padding: 45px 80px 0 80px;
 
         box-sizing: border-box;
-        
-        height: 1000px;
 
         .left-frame {
-            width: 638px;
+            flex: 2;
 
             .video-header {
-                margin-top: 30px;
+                margin-top: 50px;
 
                 .video-title {
                     font-size: 18px;
@@ -64,8 +87,8 @@ export default {
                 }
             }
             .video-area {
-                width: 638px;
-                height: 405px;
+                width: 100%;
+
 
                 background-color: #bfa;
             }
@@ -132,9 +155,44 @@ export default {
                     }
                 }
             }
+            .video-text {
+                margin: 20px 0;
+
+                font-size: 12px;
+                color: #212121;
+            }
+            .video-tag {
+                padding-bottom: 12px;
+
+                border-bottom: 1px solid #e5e9ef;
+
+                box-sizing: border-box;
+
+                .tag-list {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    .tag-item {
+                        margin: 0 10px 15px 0;
+                        
+                        a {
+                            background-color: #f6f7f8;
+
+                            font-size: 12px;
+                            color: #61666D;
+    
+                            padding: 3px 12px;
+
+                            border-radius: 10px;
+    
+                            box-sizing: border-box;
+                        }
+                    }
+                }
+            }
         }
         .right-frame {
-            width: 320px;
+            flex: 1;
             height: 200px;
             background-color: #adc;
         }
