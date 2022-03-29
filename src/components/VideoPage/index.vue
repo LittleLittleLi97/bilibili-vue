@@ -7,6 +7,19 @@
                 <div class="video-info"><span>13.7万播放&nbsp;·&nbsp;总弹幕数200</span>&nbsp;&nbsp;&nbsp;<span>2022-03-18 19:00:05</span></div>
             </div>
             <div class="video-area"></div>
+            <div class="support-bar">
+                <ul class="support-list">
+                    <li class="support-item"><i class="iconfont icon-zan"></i><span>14.6万</span></li>
+                    <li class="support-item"><i class="iconfont icon-Bbi"></i><span>4.5万</span></li>
+                    <li class="support-item"><i class="iconfont icon-shoucangtianchong"></i><span>5.8万</span></li>
+                    <li class="support-item"><i class="iconfont icon-zhuanfa"></i><span>6181</span></li>
+                </ul>
+                <div class="bar-extra">
+                    <div class="extra-report">稿件投诉</div>
+                    <div class="extra-note">笔记</div>
+                    <div class="extra-more"><i class="iconfont icon-gengduo"></i></div>
+                </div>
+            </div>
         </div>
         <div class="right-frame"></div>
     </div>
@@ -55,6 +68,69 @@ export default {
                 height: 405px;
 
                 background-color: #bfa;
+            }
+            .support-bar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                margin-top: 15px;
+                padding-bottom: 15px;
+
+                color: #505050;
+
+                box-sizing: border-box;
+
+                border-bottom: 1px solid #e5e9f0;
+
+                .support-list {
+                    display: flex;
+
+                    .support-item {
+                        display: flex;
+                        align-items: center;
+
+                        margin-right: 10px;
+
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #00aeec;
+                        }
+                        .iconfont {
+                            font-size: 28px;
+                        }
+                        span {
+                            transition: all 0.2s;
+
+                            font-size: 14px;
+                        }
+                    }
+                }
+                .bar-extra {
+                    display: flex;
+                    align-items: center;
+
+                    font-size: 12px;
+
+                    div {
+                        cursor: pointer;
+                    }
+                    .extra-note {
+                        margin-left: 15px;
+                        padding: 5px 10px;
+
+                        color: #00a1d6;
+
+                        border: 1px solid #00a1d6;
+                        border-radius: 2px;
+
+                        box-sizing: border-box;
+                    }
+                    .extra-more {
+                        margin-left: 20px;
+                    }
+                }
             }
         }
         .right-frame {
