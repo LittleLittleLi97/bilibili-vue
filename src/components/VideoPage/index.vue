@@ -41,7 +41,20 @@
                 </ul>
             </div>
             <div class="comment-area">
-                <Comment/>
+                <Comment>
+                    <template  v-slot:reply>
+                        <Reply/>
+                        <Reply/>
+                        <Reply/>
+                    </template>
+                </Comment>
+                <Comment>
+                    <template  v-slot:reply>
+                        <Reply/>
+                        <Reply/>
+                        <Reply/>
+                    </template>
+                </Comment>
             </div>
         </div>
         <div class="right-frame"></div>
@@ -51,11 +64,13 @@
 <script>
 import MiniHeader from '../TotalHeader/MiniHeader.vue'
 import Comment from './Comment.vue'
+import Reply from './Reply.vue'
 export default {
     name:'VideoPage',
     components: {
         MiniHeader,
         Comment,
+        Reply,
     }
 }
 </script>

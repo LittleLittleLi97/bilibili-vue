@@ -18,6 +18,7 @@
                 <i class="iconfont icon--cai"></i>
                 <span class="comment-reply">回复</span>
             </div>
+            <slot name="reply"></slot>
         </div>
     </div>
 </template>
