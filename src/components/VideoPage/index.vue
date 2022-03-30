@@ -57,7 +57,22 @@
                 </Comment>
             </div>
         </div>
-        <div class="right-frame"></div>
+        <div class="right-frame">
+            <div class="up-info">
+                <div class="info-face"><img src="./images/face.jpeg" alt=""></div>
+                <div class="info-right">
+                    <div class="first-row">
+                        <div class="up-name">啊哈name</div>
+                        <div class="send-message"><i class="iconfont"></i><span>发消息</span></div>
+                    </div>
+                    <div class="info-description">来了就点个关注呗～</div>
+                    <div class="extra-manipulate">
+                        <a href="" class="charge">为TA充电</a>
+                        <a href="" class="focus">+&nbsp;&nbsp;关注30.3万</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -80,15 +95,14 @@ export default {
         display: flex;
         justify-content: center;
 
-        padding: 45px 80px 0 80px;
+        padding: 95px 80px 0 80px;
 
         box-sizing: border-box;
 
         .left-frame {
-            flex: 2;
+            flex: 2.5;
 
             .video-header {
-                margin-top: 50px;
 
                 .video-title {
                     font-size: 18px;
@@ -208,8 +222,85 @@ export default {
         }
         .right-frame {
             flex: 1;
-            height: 200px;
-            background-color: #adc;
+            
+            margin-left: 30px;
+
+            .up-info {
+                display: flex;
+                justify-content: space-between;
+
+                .info-face {
+                    width: 48px;
+                    height: 48px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+
+                        border-radius: 100%;
+                    }
+                }
+                .info-right {
+                    flex: 1;
+
+                    margin-left: 20px;
+
+                    .first-row {
+                        display: flex;
+                        align-items: center;
+
+                        line-height: 20px;
+
+                        .up-name {
+                            font-size: 14px;
+                            color: #fb7299;
+                            font-weight: bold;
+                        }
+                        .send-message {
+                            font-size: 12px;
+                            color: #505050;
+
+                            margin-left: 10px;
+                        }
+                    }
+                    .info-description {
+                        font-size: 12px;
+                        color: #999999;
+                        line-height: 20px;
+                    }
+                    .extra-manipulate {
+                        display: flex;
+                        justify-content: space-between;
+
+                        // line-height: 30px;
+
+                        .charge {
+                            font-size: 14px;
+                            color: #fb7299;
+
+                            padding: 5px 15px;
+
+                            border: 1px solid #fb7299;
+                            border-radius: 3px;
+
+                            box-sizing: border-box;
+                        }
+                        .focus {
+                            font-size: 14px;
+                            color: #fff;
+
+                            padding: 5px 25px;
+
+                            border: 1px solid #00a1d6;
+                            border-radius: 3px;
+
+                            background-color: #00a1d6;
+
+                            box-sizing: border-box;
+                        }
+                    }
+                }
+            }
         }
     }
 </style>
