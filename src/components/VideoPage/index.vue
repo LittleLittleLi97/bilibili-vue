@@ -72,6 +72,14 @@
                     </div>
                 </div>
             </div>
+            <div class="recommend-list">
+                <VideoCardRow/>
+                <VideoCardRow/>
+                <VideoCardRow/>
+                <VideoCardRow/>
+                <VideoCardRow/>
+                <VideoCardRow/>
+            </div>  
         </div>
     </div>
 </template>
@@ -80,12 +88,14 @@
 import MiniHeader from '../TotalHeader/MiniHeader.vue'
 import Comment from './Comment.vue'
 import Reply from './Reply.vue'
+import VideoCardRow from '../VideoCard/VideoCardRow.vue'
 export default {
     name:'VideoPage',
     components: {
         MiniHeader,
         Comment,
         Reply,
+        VideoCardRow,
     }
 }
 </script>
@@ -300,6 +310,12 @@ export default {
                         }
                     }
                 }
+            }
+            .recommend-list {
+                display: grid;
+                grid-gap: 12px;
+
+                margin-top: 20px;
             }
         }
     }
