@@ -12,5 +12,18 @@ module.exports = {
                 resolvers: [ElementPlusResolver()],
             }),
         ],
+    },
+    devServer:{
+        proxy: {
+            '/api': {
+                target: 'https://api.bilibili.com/',
+                headers: {
+                    Referer: 'https://www.bilibili.com/'
+                },
+                pathRewrite: {
+                    '^/api':''
+                }
+            }
+        }
     }
 }

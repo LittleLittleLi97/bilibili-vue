@@ -76,10 +76,12 @@
 <script>
 import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex'
 export default {
     name:'MiniHeader',
     setup(props) {
         const route = useRoute();
+        const store = useStore();
         function searchShowEvent(){
             // 点击搜索框的样式变化
             let searchDiv = ref();
@@ -125,9 +127,16 @@ export default {
                 slideShow,
             }
         }
+        function paddingPlaceholder(){
+            onMounted(()=>{
+                console.log(store)
+                store.dispatch('HomePage/getPlaceholder');
+            })
+        }
         return {
             ...searchShowEvent(),
             ...slideEvent(),
+            ...paddingPlaceholder(),
         }
     }
 }   
