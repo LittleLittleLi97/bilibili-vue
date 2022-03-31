@@ -10,12 +10,15 @@
             <VideoCard/>
             <VideoCard/>
         </div>
-        <Section/>
+        <Section v-for="(item, index) in sectionList" :key="index" :sectionType="item" />
         <SectionWithRank/>
     </div>
 </template>
 
 <script>
+import { onMounted, reactive } from 'vue'
+import { useStore } from 'vuex'
+
 import TotalHeader from '../TotalHeader/index.vue'
 import Carousel from '../Carousel/index.vue'
 import VideoCard from '../VideoCard/VideoCard.vue'
@@ -29,6 +32,24 @@ export default {
         VideoCard,
         Section,
         SectionWithRank,
+    },
+    setup(props) {
+        const store = useStore();
+        function sectionConstruct(){
+            const sectionList = reactive([
+                {VideoType:"动画", rid:1, num:5},
+                {VideoType:"国创", rid:167, num:5}
+            ])
+            onMounted(()=>{
+                sectionList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
+            })
+            return {
+                sectionList
+            }
+        }
+        return {
+            ...sectionConstruct(),
+        }
     }
 }
 </script>

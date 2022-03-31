@@ -10,8 +10,15 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
 export default {
     name:'VideoCard',
+    props:["videoInfo"],
+    setup(props) {
+        return {
+            videoInfo: props.videoInfo,
+        }
+    }
 }
 </script>
 

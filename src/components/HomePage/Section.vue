@@ -2,22 +2,32 @@
     <div class="section">
         <AreaHeader/>
         <div class="card-list">
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
+            <VideoCard v-if="videoList" v-for="(item, index) in videoList.archives" :key="index" :videoInfo="item" />
         </div>
     </div>
 </template>
 
 <script>
+import { onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
+
 import AreaHeader from './AreaHeader.vue'
 export default {
     name:'Section',
     components:{
         AreaHeader
     },
+    props:["sectionType"],
+    setup(props) {
+        const store = useStore();
+        const videoList = computed(()=>{
+            return store.state.HomePage.videoList[props.sectionType.rid];
+        })
+        return {
+            sectionType: props.sectionType,
+            videoList
+        }
+    }
 }
 </script>
 

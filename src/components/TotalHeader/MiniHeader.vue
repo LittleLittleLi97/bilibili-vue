@@ -15,7 +15,7 @@
         </ul>
         <div class="search" ref="searchDiv">
             <div class="input-area" :style="inputAreaFocusStyle">
-                <input type="text" placeholder="请输入搜索字段" @click="inputClick" :style="inputFocusStyle">
+                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle">
                 <div class="search-button">
                     <i class="iconfont icon-search"></i>
                 </div>
@@ -76,7 +76,7 @@
 <script>
 import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex'
+import { mapGetters, mapState, useStore } from 'vuex'
 export default {
     name:'MiniHeader',
     setup(props) {
@@ -128,10 +128,15 @@ export default {
             }
         }
         function paddingPlaceholder(){
+            let placeholderInfo = computed(()=>{
+                return store.state.HomePage.placeholderInfo;
+            });
             onMounted(()=>{
-                console.log(store)
                 store.dispatch('HomePage/getPlaceholder');
             })
+            return {
+                placeholderInfo,
+            }
         }
         return {
             ...searchShowEvent(),
