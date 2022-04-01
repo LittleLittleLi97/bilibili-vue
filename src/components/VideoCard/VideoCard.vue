@@ -1,22 +1,28 @@
 <template>
     <div class="video-card">
-        <div class="video-image"><a href=""><img src="./images/videoimage.png"></a></div>
-        <a class="video-title common-fontblue" href="">男生改造9㎡梦幻房间，电竞娱乐 家庭影院 智能家居</a>
+        <div class="video-image"><a href=""><img :src="videoInfo && videoInfo.pic"></a></div>
+        <a class="video-title common-fontblue" href="">{{ videoInfo && videoInfo.title }}</a>
         <a class="video-info common-fontblue" href="">
             <i class="iconfont icon-UPzhu"></i>&nbsp;
-            <span>造物员的故事</span>&nbsp;·&nbsp;<span>3-1</span>
+            <span>{{ videoInfo && videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>3-1</span>
         </a>
     </div>
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
     name:'VideoCard',
-    props:["videoInfo"],
+    props:["rid", "videoIndex"],
     setup(props) {
+        const store = useStore();
+        const videoInfo = computed(()=>{
+            // videoList可能已经有了值，但是videoList中的数据是逐步添加进来的，所以还要判断一下对应的rid是否已经有了值
+            return store.state.HomePage.videoList && store.state.HomePage.videoList[props.rid] && store.state.HomePage.videoList[props.rid].archives[props.videoIndex];
+        })
         return {
-            videoInfo: props.videoInfo,
+            videoInfo,
         }
     }
 }

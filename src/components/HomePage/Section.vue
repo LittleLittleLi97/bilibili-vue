@@ -2,7 +2,8 @@
     <div class="section">
         <AreaHeader/>
         <div class="card-list">
-            <VideoCard v-if="videoList" v-for="(item, index) in videoList.archives" :key="index" :videoInfo="item" />
+            <!-- <VideoCard v-if="videoList" v-for="(item, index) in videoList.archives" :key="index" :videoInfo="item" /> -->
+            <VideoCard v-for="index in sectionType.num" :key="index" :rid="sectionType.rid" :videoIndex="index-1" />
         </div>
     </div>
 </template>
@@ -19,13 +20,13 @@ export default {
     },
     props:["sectionType"],
     setup(props) {
-        const store = useStore();
-        const videoList = computed(()=>{
-            return store.state.HomePage.videoList[props.sectionType.rid];
-        })
+        // const store = useStore();
+        // const videoList = computed(()=>{
+        //     return store.state.HomePage.videoList[props.sectionType.rid];
+        // })
         return {
             sectionType: props.sectionType,
-            videoList
+            // videoList
         }
     }
 }
