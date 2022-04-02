@@ -1,10 +1,12 @@
 <template>
-    <div class="video-card" v-if="isLoad">
-        <div class="video-image"><a href=""><img :src="videoInfo.pic"></a></div>
-        <a class="video-title common-fontblue" href="">{{ videoInfo.title }}</a>
+    <div class="video-card" v-if="videoInfo">
+        <a :href="videoInfo.short_link">
+            <div class="video-image"><img :src="videoInfo.pic"></div>
+            <div class="video-title common-fontblue" href="">{{ videoInfo.title }}</div>
+        </a>
         <a class="video-info common-fontblue" href="">
             <i class="iconfont icon-UPzhu"></i>&nbsp;
-            <span>{{ videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>3-1</span>
+            <span>{{ videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>{{ time.M }}-{{ time.D }}</span>
         </a>
     </div>
 </template>
@@ -12,21 +14,19 @@
 <script>
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+
+import { changeTime } from '@/utils/index.js'
 export default {
     name:'VideoCard',
-    props:["rid", "videoIndex"],
+    props:["videoInfo"],
     setup(props) {
-        const store = useStore();
-        const isLoad = computed(()=>{
-            return store.state.HomePage.videoList[props.rid] ? true : false;
-        })
-        const videoInfo = computed(()=>{
-            // videoList可能已经有了值，但是videoList中的数据是逐步添加进来的，所以还要判断一下对应的rid是否已经有了值
-            return store.state.HomePage.videoList[props.rid] && store.state.HomePage.videoList[props.rid].archives[props.videoIndex];
+        const videoInfo = computed(()=>props.videoInfo);
+        const time = computed(()=>{
+            return changeTime(props.videoInfo && props.videoInfo.pubdate*1000);
         })
         return {
-            isLoad,
             videoInfo,
+            time,
         }
     }
 }
@@ -47,7 +47,12 @@ export default {
         }
     }
     .video-title {
-        display: block;
+        // 文字溢出隐藏，用...代替 https://blog.csdn.net/liqun_super/article/details/109747014
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
 
         color: #18191C;
         font-size: 15px;

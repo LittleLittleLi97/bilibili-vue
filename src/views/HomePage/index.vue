@@ -3,20 +3,19 @@
     <div class="main-frame">
         <div class="main-recommend">
             <Carousel class="carousel"/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
-            <VideoCard/>
+            <VideoCard v-for="(item, index) in recommendVideoList" :key="index"
+                :videoInfo="item" />
         </div>
-        <Section v-for="(item, index) in sectionList" :key="index" :sectionType="item" />
+        <Section v-for="(item, index) in sectionList" :key="index" 
+            :sectionType="item"
+            :videoList="videoList[item.rid] && videoList[item.rid].archives"
+        />
         <SectionWithRank/>
     </div>
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 import TotalHeader from '@/components/TotalHeader/index.vue'
@@ -35,19 +34,35 @@ export default {
     },
     setup(props) {
         const store = useStore();
+        // main-recommend区域
+        function recommendConstruct(){
+            const rid = 27;
+            const num = 6;
+            const recommendVideoList = computed(()=>store.state.HomePage.videoList[rid] && store.state.HomePage.videoList[rid].archives);
+            onMounted(()=>{
+                store.dispatch('HomePage/getVideoList', {rid, num});
+            })
+            return {
+                recommendVideoList,
+            }
+        }
+        // section区域
         function sectionConstruct(){
             const sectionList = reactive([
                 {videoType:"动画", rid:1, num:5},
                 {videoType:"国创", rid:167, num:5}
-            ])
+            ]);
+            const videoList = computed(()=>store.state.HomePage.videoList);
             onMounted(()=>{
                 sectionList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
             })
             return {
-                sectionList
+                sectionList,
+                videoList,
             }
         }
         return {
+            ...recommendConstruct(),
             ...sectionConstruct(),
         }
     }

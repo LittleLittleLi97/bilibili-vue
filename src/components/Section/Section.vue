@@ -2,8 +2,9 @@
     <div class="section">
         <AreaHeader :videoType="sectionType.videoType" />
         <div class="card-list">
-            <!-- <VideoCard v-if="videoList" v-for="(item, index) in videoList.archives" :key="index" :videoInfo="item" /> -->
-            <VideoCard v-for="index in sectionType.num" :key="index" :rid="sectionType.rid" :videoIndex="index-1" />
+            <VideoCard v-for="(item, index) in videoList" :key="index"
+                :videoInfo="item"
+            />
         </div>
     </div>
 </template>
@@ -13,20 +14,19 @@ import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import AreaHeader from './AreaHeader.vue'
+import VideoCard from '@/components/VideoCard/VideoCard.vue'
 export default {
     name:'Section',
     components:{
-        AreaHeader
+        AreaHeader,
+        VideoCard
     },
-    props:["sectionType"],
+    props:["sectionType", "videoList"],
     setup(props) {
-        // const store = useStore();
-        // const videoList = computed(()=>{
-        //     return store.state.HomePage.videoList[props.sectionType.rid];
-        // })
+        const videoList = computed(()=>props.videoList);
         return {
             sectionType: props.sectionType,
-            // videoList
+            videoList,
         }
     }
 }
