@@ -3,7 +3,7 @@
         <div class="area-left">
             <div class="area-title">
                 <i class="iconfont icon-guanggao"></i>&nbsp;
-                <a href="" class="common-title">推广</a>
+                <a href="" class="common-title">{{ videoType }}</a>
             </div>
             <div class="area-timer">
                 <a href="" class="date-select active">最近更新</a>
@@ -27,6 +27,12 @@
 <script>
 export default {
     name:'AreaHeader',
+    props:["videoType"],
+    setup(props) {
+        return {
+            videoType: props.videoType,
+        }
+    }
 }
 </script>
 

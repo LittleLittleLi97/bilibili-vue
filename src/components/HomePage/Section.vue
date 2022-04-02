@@ -1,6 +1,6 @@
 <template>
     <div class="section">
-        <AreaHeader/>
+        <AreaHeader :videoType="sectionType.videoType" />
         <div class="card-list">
             <!-- <VideoCard v-if="videoList" v-for="(item, index) in videoList.archives" :key="index" :videoInfo="item" /> -->
             <VideoCard v-for="index in sectionType.num" :key="index" :rid="sectionType.rid" :videoIndex="index-1" />

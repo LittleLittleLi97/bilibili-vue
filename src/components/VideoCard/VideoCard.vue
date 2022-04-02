@@ -1,10 +1,10 @@
 <template>
-    <div class="video-card">
-        <div class="video-image"><a href=""><img :src="videoInfo && videoInfo.pic"></a></div>
-        <a class="video-title common-fontblue" href="">{{ videoInfo && videoInfo.title }}</a>
+    <div class="video-card" v-if="isLoad">
+        <div class="video-image"><a href=""><img :src="videoInfo.pic"></a></div>
+        <a class="video-title common-fontblue" href="">{{ videoInfo.title }}</a>
         <a class="video-info common-fontblue" href="">
             <i class="iconfont icon-UPzhu"></i>&nbsp;
-            <span>{{ videoInfo && videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>3-1</span>
+            <span>{{ videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>3-1</span>
         </a>
     </div>
 </template>
@@ -17,11 +17,15 @@ export default {
     props:["rid", "videoIndex"],
     setup(props) {
         const store = useStore();
+        const isLoad = computed(()=>{
+            return store.state.HomePage.videoList[props.rid] ? true : false;
+        })
         const videoInfo = computed(()=>{
             // videoList可能已经有了值，但是videoList中的数据是逐步添加进来的，所以还要判断一下对应的rid是否已经有了值
-            return store.state.HomePage.videoList && store.state.HomePage.videoList[props.rid] && store.state.HomePage.videoList[props.rid].archives[props.videoIndex];
+            return store.state.HomePage.videoList[props.rid] && store.state.HomePage.videoList[props.rid].archives[props.videoIndex];
         })
         return {
+            isLoad,
             videoInfo,
         }
     }

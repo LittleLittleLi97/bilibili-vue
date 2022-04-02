@@ -37,8 +37,8 @@ export default {
         const store = useStore();
         function sectionConstruct(){
             const sectionList = reactive([
-                {VideoType:"动画", rid:1, num:5},
-                {VideoType:"国创", rid:167, num:5}
+                {videoType:"动画", rid:1, num:5},
+                {videoType:"国创", rid:167, num:5}
             ])
             onMounted(()=>{
                 sectionList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
