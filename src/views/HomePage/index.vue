@@ -10,7 +10,10 @@
             :sectionType="item"
             :videoList="videoList[item.rid] && videoList[item.rid].archives"
         />
-        <SectionWithRank/>
+        <SectionWithRank v-for="(item, index) in withRankList" :key="index"
+            :sectionType="item"
+            :videoList="videoList[item.rid] && videoList[item.rid].archives"
+        />
     </div>
 </template>
 
@@ -49,8 +52,8 @@ export default {
         // section区域
         function sectionConstruct(){
             const sectionList = reactive([
-                {videoType:"动画", rid:1, num:5},
-                {videoType:"国创", rid:167, num:5}
+                {videoType:"动画", rid:1, num:10},
+                {videoType:"国创", rid:167, num:10}
             ]);
             const videoList = computed(()=>store.state.HomePage.videoList);
             onMounted(()=>{
@@ -61,9 +64,23 @@ export default {
                 videoList,
             }
         }
+        // WithRank区域
+        function withRankConstruct(){
+            const withRankList = reactive([
+                {videoType:"音乐", rid:3, num:8},
+                {videoType:"舞蹈", rid:129, num:8},
+            ]);
+            onMounted(()=>{
+                withRankList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
+            })
+            return {
+                withRankList,
+            }
+        }
         return {
             ...recommendConstruct(),
             ...sectionConstruct(),
+            ...withRankConstruct(),
         }
     }
 }

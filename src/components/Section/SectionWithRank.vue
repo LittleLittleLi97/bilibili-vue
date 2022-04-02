@@ -2,16 +2,11 @@
     <div class="section-with-rank">
 
         <div class="area-left">
-            <AreaHeader/>
+            <AreaHeader :videoType="sectionType.videoType" />
             <div class="card-list">
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
-                <VideoCard/>
+                <VideoCard v-for="(item, index) in videoList" :key="index"
+                :videoInfo="item"
+            />
             </div>
         </div>
 
@@ -20,13 +15,26 @@
 </template>
 
 <script>
+import { onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
+
 import AreaHeader from './AreaHeader.vue'
+import VideoCard from '@/components/VideoCard/VideoCard.vue'
 import Rank from './Rank.vue'
 export default {
     name:'SectionWithRank',
     components:{
         AreaHeader,
+        VideoCard,
         Rank,
+    },
+    props:["sectionType", "videoList"],
+    setup(props) {
+        const videoList = computed(()=>props.videoList);
+        return {
+            sectionType: props.sectionType,
+            videoList,
+        }
     }
 }
 </script>
@@ -36,6 +44,8 @@ export default {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 20px 12px;
+
+    margin: 30px 0;
 }
 /* 左侧卡片区域 */
 .section-with-rank .area-left {

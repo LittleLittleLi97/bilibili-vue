@@ -33,6 +33,9 @@ export default {
 </script>
 
 <style scoped>
+.section {
+    margin: 30px 0;
+}
 .section .card-list {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
