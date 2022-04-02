@@ -19,11 +19,11 @@
 import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 
-import TotalHeader from '../TotalHeader/index.vue'
-import Carousel from '../Carousel/index.vue'
-import VideoCard from '../VideoCard/VideoCard.vue'
-import Section from './Section.vue'
-import SectionWithRank from './SectionWithRank.vue'
+import TotalHeader from '@/components/TotalHeader/index.vue'
+import Carousel from '@/components/Carousel/index.vue'
+import VideoCard from '@/components/VideoCard/VideoCard.vue'
+import Section from '@/components/Section/Section.vue'
+import SectionWithRank from '@/components/Section/SectionWithRank.vue'
 export default {
     name:'HomePage',
     components:{

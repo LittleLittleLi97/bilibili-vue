@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import HomePage from './components/HomePage'
-import VideoPage from './components/VideoPage'
-import Footer from './components/Footer'
+import HomePage from '@/views/HomePage'
+import VideoPage from '@/views/VideoPage'
+import Footer from '@/components/Footer'
 export default {
     name:'App',
     components: {

@@ -59,7 +59,7 @@
         </div>
         <div class="right-frame">
             <div class="up-info">
-                <div class="info-face"><img src="./images/face.jpeg" alt=""></div>
+                <div class="info-face"><img src="" alt=""></div>
                 <div class="info-right">
                     <div class="first-row">
                         <div class="up-name">啊哈name</div>
@@ -85,10 +85,10 @@
 </template>
 
 <script>
-import MiniHeader from '../TotalHeader/MiniHeader.vue'
-import Comment from './Comment.vue'
-import Reply from './Reply.vue'
-import VideoCardRow from '../VideoCard/VideoCardRow.vue'
+import MiniHeader from '@/components/TotalHeader/MiniHeader.vue'
+import Comment from '@/components/VideoPage/Comment.vue'
+import Reply from '@/components/VideoPage/Reply.vue'
+import VideoCardRow from '@/components/VideoCard/VideoCardRow.vue'
 export default {
     name:'VideoPage',
     components: {

@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import HomePage from '../components/HomePage/index.vue'
-import VideoPage from '../components/VideoPage/index.vue'
+import HomePage from '@/views/HomePage/index.vue'
+import VideoPage from '@/views/VideoPage/index.vue'
 
 export default createRouter({
     history:createWebHashHistory(),
