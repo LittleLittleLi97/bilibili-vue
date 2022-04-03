@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <Rank/>
+        <Rank :rankList="rankList"/>
     </div>
 </template>
 
@@ -28,12 +28,14 @@ export default {
         VideoCard,
         Rank,
     },
-    props:["sectionType", "videoList"],
+    props:["sectionType", "videoList", "rankList"],
     setup(props) {
         const videoList = computed(()=>props.videoList);
+        const rankList = computed(()=>props.rankList);
         return {
             sectionType: props.sectionType,
             videoList,
+            rankList,
         }
     }
 }

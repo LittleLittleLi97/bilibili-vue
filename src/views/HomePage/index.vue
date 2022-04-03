@@ -13,6 +13,7 @@
         <SectionWithRank v-for="(item, index) in withRankList" :key="index"
             :sectionType="item"
             :videoList="videoList[item.rid] && videoList[item.rid].archives"
+            :rankList="rankList[item.rid]"
         />
     </div>
 </template>
@@ -55,6 +56,7 @@ export default {
                 {videoType:"动画", rid:1, num:10},
                 {videoType:"国创", rid:167, num:10}
             ]);
+            // store中的视频列表，下面withrank中不需要再写此条计算属性，因为共用一个videoList
             const videoList = computed(()=>store.state.HomePage.videoList);
             onMounted(()=>{
                 sectionList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
@@ -67,14 +69,19 @@ export default {
         // WithRank区域
         function withRankConstruct(){
             const withRankList = reactive([
-                {videoType:"音乐", rid:3, num:8},
-                {videoType:"舞蹈", rid:129, num:8},
+                {videoType:"音乐", rid:3, num:8, day:3},
+                {videoType:"舞蹈", rid:129, num:8, day:3},
             ]);
+            const rankList = computed(()=>store.state.HomePage.rankList);
             onMounted(()=>{
-                withRankList.forEach((item)=>store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num}));
+                withRankList.forEach((item)=>{
+                    store.dispatch('HomePage/getVideoList', {rid:item.rid, num:item.num});
+                    store.dispatch('HomePage/getRankList', {rid:item.rid, day:item.day});
+                });
             })
             return {
                 withRankList,
+                rankList,
             }
         }
         return {
