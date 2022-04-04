@@ -77,12 +77,9 @@
                 </div>
             </div>
             <div class="recommend-list">
-                <VideoCardRow/>
-                <VideoCardRow/>
-                <VideoCardRow/>
-                <VideoCardRow/>
-                <VideoCardRow/>
-                <VideoCardRow/>
+                <VideoCardRow v-for="(item, index) in videoRelated" :key="index"
+                    :videoInfo="item"
+                />
             </div>  
         </div>
     </div>
@@ -112,6 +109,7 @@ export default {
         const store = useStore();
         const bvid = router.currentRoute.value.params.bvid;
 
+        // 视频区域，改用getters可能会更好
         function videoAreaInfo(){
             const videoInfo = computed(()=>store.state.VideoPage.videoInfo);
             const playNum = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.view));
@@ -136,8 +134,19 @@ export default {
                 videoDesc,
             }
         }
+        function relatedAreaInfo(){
+            // 这里先给10个，一共有40个，以后加上‘查看再多’再改
+            const videoRelated = computed(()=>store.state.VideoPage.videoRelated && store.state.VideoPage.videoRelated.slice(0,10));
+            onMounted(()=>{
+                store.dispatch('VideoPage/getVideoRelated', bvid);
+            })
+            return {
+                videoRelated,
+            }
+        }
         return {
             ...videoAreaInfo(),
+            ...relatedAreaInfo(),
         }
     }
 }

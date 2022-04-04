@@ -1,20 +1,41 @@
 <template>
     <div class="video-card-row">
-        <div class="video-image"><img src="./images/videoimage2.png" alt=""></div>
+        <router-link :to="toUrl" target="_blank">
+            <div class="video-image"><img :src="pic" alt=""></div>
+        </router-link>
         <div class="video-info">
-            <div class="info-title">世之奇伟、瑰怪，非常之观，常在于险远</div>
-            <div class="info-name">hisname</div>
-            <div class="info-popular">35.2万 播放 · 1237 弹幕</div>
+            <router-link :to="toUrl" target="_blank">
+                <div class="info-title">{{ title }}</div>
+            </router-link>
+            <div class="info-name">{{ authorName }}</div>
+            <div class="info-popular">{{ playNum }} 播放 · {{ danmaku }} 弹幕</div>
         </div>
     </div>
 </template>
 
 <script>
+import { computed } from 'vue'
+
+import { changeNum } from '@/utils'
 export default {
     // 放在video页面的横向卡片
     name:'VideoCardRow',
+    props:["videoInfo"],
     setup(props) {
-        
+        const pic = computed(()=>props.videoInfo.pic);
+        const title = computed(()=>props.videoInfo.title);
+        const authorName = computed(()=>props.videoInfo.owner.name);
+        const playNum = computed(()=>changeNum(props.videoInfo.stat.view));
+        const danmaku = computed(()=>props.videoInfo.stat.danmaku);
+        const toUrl = computed(()=>`/video/${props.videoInfo.bvid}`);
+        return {
+            pic,
+            title,
+            authorName,
+            playNum,
+            danmaku,
+            toUrl,
+        }
     }
 }
 </script>
@@ -45,6 +66,12 @@ export default {
         margin-left: 10px;
 
         .info-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+
             font-size: 14px;
             color: #222222;
             font-weight: 500;

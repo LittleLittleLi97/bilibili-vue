@@ -1,9 +1,10 @@
-import { reqVideoDesc, reqVideoInfo } from "@/api";
+import { reqVideoDesc, reqVideoInfo, reqVideoRelated } from "@/api";
 
 const state = ()=>{
     return {
         videoInfo:undefined,
         videoDesc:'',
+        videoRelated:undefined,
     }
 };
 
@@ -15,6 +16,10 @@ const actions = {
     async getVideoDesc({commit}, bvid){
         let result = await reqVideoDesc(bvid);
         if (result.status === 200) commit('GETVIDEODESC', result.data);
+    },
+    async getVideoRelated({commit}, bvid){
+        let result = await reqVideoRelated(bvid);
+        if (result.status === 200) commit('GETVIDEORELATED', result.data);
     }
 };
 
@@ -24,6 +29,9 @@ const mutations = {
     },
     GETVIDEODESC(state, videoDesc){
         state.videoDesc = videoDesc.data;
+    },
+    GETVIDEORELATED(state, videoRelated){
+        state.videoRelated = videoRelated.data;
     }
 };
 

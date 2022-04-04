@@ -1,6 +1,6 @@
 <template>
     <div class="video-card" v-if="videoInfo">
-        <router-link :to="toUrl">
+        <router-link :to="toUrl" target="_blank">
             <div class="image-wrapper">
                 <div class="video-image"><img :src="videoInfo.pic"></div>
                 <div class="mask">

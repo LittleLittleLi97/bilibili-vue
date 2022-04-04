@@ -32,3 +32,8 @@ export const reqVideoDesc = (bvid)=>requests({
     url:`/x/web-interface/archive/desc?bvid=${bvid}`,
     method:'get',
 })
+
+export const reqVideoRelated = (bvid)=>requests({
+    url:`/x/web-interface/archive/related?bvid=${bvid}`,
+    method:'get',
+})
