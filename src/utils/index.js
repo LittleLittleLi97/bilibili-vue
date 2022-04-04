@@ -11,10 +11,43 @@ export const changeTime = function(timestamp){
     }
 }
 
-// 播放数 以万为单位
+// 数字转换
 export const changeNum = function(num) {
     if (num < 10000) return num;
     num = num / 1000;
     if (num > 1000) return parseInt(num) + '万';
     else return num.toFixed(2) + '万';
+}
+
+export const parseVideoInfo = function(info){
+    const pic = info.pic;
+    const title = info.title;
+    const pubDate = (function(){
+        const time = changeTime(info.pubdate * 1000);
+        return `${time.M}-${time.D}`;
+    })();
+    const authorName = info.owner.name;
+    const playNum = changeNum(info.stat.view);
+    const likeNum = changeNum(info.stat.like);
+    const danmaku = changeNum(info.stat.danmaku);
+    const toVideoUrl = `/video/${info.bvid}`;
+    const durationStr = (function(){
+        const duration = info.duration;
+        let mm = parseInt(duration / 60);
+        let s = duration - mm * 60;
+        if (mm < 10) mm = '0' + mm;
+        if (s < 10) s = '0' + s;
+        return mm + ':' + s;
+    })();
+    return {
+        pic,
+        title,
+        pubDate,
+        authorName,
+        playNum,
+        likeNum,
+        danmaku,
+        toVideoUrl,
+        durationStr,
+    }
 }

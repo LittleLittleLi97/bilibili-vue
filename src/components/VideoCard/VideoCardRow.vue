@@ -1,40 +1,38 @@
 <template>
-    <div class="video-card-row">
-        <router-link :to="toUrl" target="_blank">
-            <div class="video-image"><img :src="pic" alt=""></div>
+    <div class="video-card-row" v-if="videoInfo">
+        <router-link :to="videoInfo.toVideoUrl" target="_blank">
+            <div class="video-image"><img :src="videoInfo.pic" alt=""></div>
         </router-link>
         <div class="video-info">
-            <router-link :to="toUrl" target="_blank">
-                <div class="info-title">{{ title }}</div>
+            <router-link :to="videoInfo.toVideoUrl" target="_blank">
+                <div class="info-title">{{ videoInfo.title }}</div>
             </router-link>
-            <div class="info-name">{{ authorName }}</div>
-            <div class="info-popular">{{ playNum }} 播放 · {{ danmaku }} 弹幕</div>
+            <div class="info-name">{{ videoInfo.authorName }}</div>
+            <div class="info-popular">{{ videoInfo.playNum }} 播放 · {{ videoInfo.danmaku }} 弹幕</div>
         </div>
     </div>
 </template>
 
 <script>
+import ImageArea from './ImageArea.vue'
+
 import { computed } from 'vue'
 
-import { changeNum } from '@/utils'
+import { parseVideoInfo } from '@/utils'
 export default {
     // 放在video页面的横向卡片
     name:'VideoCardRow',
+    components:{
+        ImageArea,
+    },
     props:["videoInfo"],
     setup(props) {
-        const pic = computed(()=>props.videoInfo.pic);
-        const title = computed(()=>props.videoInfo.title);
-        const authorName = computed(()=>props.videoInfo.owner.name);
-        const playNum = computed(()=>changeNum(props.videoInfo.stat.view));
-        const danmaku = computed(()=>props.videoInfo.stat.danmaku);
-        const toUrl = computed(()=>`/video/${props.videoInfo.bvid}`);
+        const videoInfo = computed(()=>{
+            if (props.videoInfo) return parseVideoInfo(props.videoInfo);
+            else return undefined;
+        });
         return {
-            pic,
-            title,
-            authorName,
-            playNum,
-            danmaku,
-            toUrl,
+            videoInfo
         }
     }
 }
