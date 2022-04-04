@@ -1,18 +1,22 @@
 <template>
     <MiniHeader/>
     <div class="video-frame">
-        <div class="left-frame">
+        <div class="left-frame" v-if="videoInfo">
             <div class="video-header">
-                <div class="video-title">纷吾既有内美兮，又重之以修能</div>
-                <div class="video-info"><span>13.7万播放&nbsp;·&nbsp;总弹幕数200</span>&nbsp;&nbsp;&nbsp;<span>2022-03-18 19:00:05</span></div>
+                <div class="video-title">{{ videoInfo.title }}</div>
+                <div class="video-info">
+                    <span>{{playNum}}万播放&nbsp;·&nbsp;总弹幕数{{ videoInfo.stat.danmaku }}</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <span>{{ videoPubDate.Y }}-{{ videoPubDate.M }}-{{ videoPubDate.D }} {{ videoPubDate.h }}:{{ videoPubDate.mm }}:{{ videoPubDate.s }}</span>
+                </div>
             </div>
             <div class="video-area"></div>
             <div class="support-bar">
                 <ul class="support-list">
-                    <li class="support-item"><i class="iconfont icon-zan"></i><span>14.6万</span></li>
-                    <li class="support-item"><i class="iconfont icon-Bbi"></i><span>4.5万</span></li>
-                    <li class="support-item"><i class="iconfont icon-shoucangtianchong"></i><span>5.8万</span></li>
-                    <li class="support-item"><i class="iconfont icon-zhuanfa"></i><span>6181</span></li>
+                    <li class="support-item"><i class="iconfont icon-zan"></i><span>{{ likeNum }}</span></li>
+                    <li class="support-item"><i class="iconfont icon-Bbi"></i><span>{{ coin }}</span></li>
+                    <li class="support-item"><i class="iconfont icon-shoucangtianchong"></i><span>{{ favorite }}</span></li>
+                    <li class="support-item"><i class="iconfont icon-zhuanfa"></i><span>{{ share }}</span></li>
                 </ul>
                 <div class="bar-extra">
                     <div class="extra-report">稿件投诉</div>
@@ -21,7 +25,7 @@
                 </div>
             </div>
             <div class="video-text">
-                更新了！
+                {{ videoDesc }}
             </div>
             <div class="video-tag">
                 <ul class="tag-list">
@@ -86,9 +90,15 @@
 
 <script>
 import MiniHeader from '@/components/TotalHeader/MiniHeader.vue'
-import Comment from '@/components/VideoPage/Comment.vue'
-import Reply from '@/components/VideoPage/Reply.vue'
+import Comment from '@/components/Comment/Comment.vue'
+import Reply from '@/components/Comment/Reply.vue'
 import VideoCardRow from '@/components/VideoCard/VideoCardRow.vue'
+
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+
+import { changeTime, changeNum } from '@/utils'
 export default {
     name:'VideoPage',
     components: {
@@ -96,6 +106,39 @@ export default {
         Comment,
         Reply,
         VideoCardRow,
+    },
+    setup(props) {
+        const router = useRouter();
+        const store = useStore();
+        const bvid = router.currentRoute.value.params.bvid;
+
+        function videoAreaInfo(){
+            const videoInfo = computed(()=>store.state.VideoPage.videoInfo);
+            const playNum = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.view));
+            const likeNum = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.like));
+            const coin = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.coin));
+            const favorite = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.favorite));
+            const share = computed(()=>changeNum(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.stat.share));
+            const videoPubDate = computed(()=>changeTime(store.state.VideoPage.videoInfo && store.state.VideoPage.videoInfo.pubdate * 1000));
+            const videoDesc = computed(()=>store.state.VideoPage.videoDesc);
+            onMounted(()=>{
+                store.dispatch('VideoPage/getVideoInfo', bvid);
+                store.dispatch('VideoPage/getVideoDesc', bvid);
+            })
+            return {
+                videoInfo,
+                playNum,
+                likeNum,
+                coin,
+                favorite,
+                share,
+                videoPubDate,
+                videoDesc,
+            }
+        }
+        return {
+            ...videoAreaInfo(),
+        }
     }
 }
 </script>
@@ -199,6 +242,8 @@ export default {
 
                 font-size: 12px;
                 color: #212121;
+                line-height: 18px;
+                white-space: pre-wrap;
             }
             .video-tag {
                 padding-bottom: 12px;

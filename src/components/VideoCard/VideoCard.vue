@@ -1,24 +1,24 @@
 <template>
     <div class="video-card" v-if="videoInfo">
-        <a :href="videoInfo.short_link">
+        <router-link :to="toUrl">
             <div class="image-wrapper">
                 <div class="video-image"><img :src="videoInfo.pic"></div>
                 <div class="mask">
                     <div class="mask-font">
                         <div class="font-left">
                             <div class="left-format">
-                                <i class="iconfont icon-24gl-playSquare"></i><span>{{ playNum }}万</span>
+                                <i class="iconfont icon-24gl-playSquare"></i><span>{{ playNum }}</span>
                             </div>
                             <div class="left-format">
-                                <i class="iconfont icon-zan1"></i><span>{{ likeNum }}万</span>
+                                <i class="iconfont icon-zan1"></i><span>{{ likeNum }}</span>
                             </div>
                         </div>
-                        <span class="duration">3:18</span>
+                        <span class="duration">{{ durationStr }}</span>
                     </div>
                 </div>
             </div>
-        </a>
-        <a class="video-title common-fontblue" :href="videoInfo.short_link">{{ videoInfo.title }}</a>
+            <div class="video-title common-fontblue">{{ videoInfo.title }}</div>
+        </router-link>
         <a class="video-info common-fontblue" href="">
             <i class="iconfont icon-UPzhu"></i>&nbsp;
             <span>{{ videoInfo.owner.name }}</span>&nbsp;·&nbsp;<span>{{ time.M }}-{{ time.D }}</span>
@@ -30,7 +30,7 @@
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
-import { changeTime } from '@/utils/index.js'
+import { changeTime, changeNum } from '@/utils/index.js'
 export default {
     name:'VideoCard',
     props:["videoInfo"],
@@ -40,26 +40,32 @@ export default {
             return changeTime(props.videoInfo && props.videoInfo.pubdate*1000);
         })
         const playNum = computed(()=>{
-            return props.videoInfo && (props.videoInfo.stat.view / 1000).toFixed(2);
+            return changeNum(props.videoInfo && props.videoInfo.stat.view);
         })
         const likeNum = computed(()=>{
-            if (props.videoInfo && props.videoInfo.stat.like > 1000) return (props.videoInfo.stat.like / 1000).toFixed(2);
-            return props.videoInfo && props.videoInfo.stat.like;
+            return changeNum(props.videoInfo && props.videoInfo.stat.like);
         });
         const durationStr = computed(()=>{
             if (props.videoInfo) {
                 const duration = props.videoInfo.duration;
-                if (duration < 60) return duration;
-                else {
-                    let mmStr = parseInt(duration / 60).toString();
-                }
+                let mm = parseInt(duration / 60);
+                let s = duration - mm * 60;
+                if (mm < 10) mm = '0' + mm;
+                if (s < 10) s = '0' + s;
+                return mm + ':' + s;
             }
+            return undefined;
+        })
+        const toUrl = computed(()=>{
+            return props.videoInfo && `/video/${props.videoInfo.bvid}`;
         })
         return {
             videoInfo,
             time,
             playNum,
             likeNum,
+            durationStr,
+            toUrl,
         }
     }
 }

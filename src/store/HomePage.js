@@ -1,11 +1,11 @@
-import { da } from "element-plus/lib/locale";
-import { reqPlaceholder, reqVideoList, reqVideoRank } from "../api";
+import { reqHotSearch, reqPlaceholder, reqVideoList, reqVideoRank } from "../api";
 
 const state = ()=>{
     return {
         placeholderInfo:{},
         videoList:{},
         rankList:{},
+        hotSearchList:[],
     }
 };
 
@@ -21,7 +21,11 @@ const actions = {
     async getRankList({commit}, {rid, day, original}){
         let result = await reqVideoRank(rid, day, original);
         if (result.status === 200) commit('GETRANKLIST', {data:result.data.data, rid});
-    }
+    },
+    // async getHotSearchList({commit}){
+    //     let result = await reqHotSearch();
+    //     if (result.code === 0) commit('GETHOTSEARCHLIST', result.data);
+    // }
 };
 
 const mutations = {
@@ -33,7 +37,10 @@ const mutations = {
     },
     GETRANKLIST(state, {data, rid}){
         state.rankList[rid] = data;
-    }
+    },
+    // GETHOTSEARCHLIST(state, data){
+    //     state.hotSearchList = data.list;
+    // }
 };
 
 const getters = {

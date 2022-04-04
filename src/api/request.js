@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-const requests = axios.create({
+export const requests = axios.create({
     baseURL:'/api',
 });
 
-export default requests;
+export const requestsSearch = axios.create({
+    baseURL:'/search',
+});

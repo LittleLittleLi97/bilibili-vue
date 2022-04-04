@@ -14,7 +14,7 @@ export default createRouter({
             }
         },
         {
-            path:'/video',
+            path:'/video/:bvid',
             component: VideoPage,
             meta: {
                 MiniHeaderStatus:true,
