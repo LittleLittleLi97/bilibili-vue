@@ -54,7 +54,12 @@
             </div>
         </div>
         <ul class="user-manipulate">
-            <li class="user-item"><a href="">登录</a></li>
+            <li class="user-item">
+                <div class="login-btn" v-if="!isLogin" @click="openLoginWindow">登录</div>
+                <div class="user-panel" v-else>
+                    <div class="user-face"><img :src="userInfo.face" alt=""></div>
+                </div>
+            </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i><span>大会员</span></a>
                 <!-- <div class="vip-none">
@@ -71,14 +76,21 @@
         </ul>
         <div class="upload"><span>投稿</span></div>
     </div>
+    <Login v-if="isLoginExist" :closeLoginWindow="closeLoginWindow" />
+
 </template>
 
 <script>
 import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
 import { useRoute } from 'vue-router';
-import { mapGetters, mapState, useStore } from 'vuex'
+import { useStore } from 'vuex'
+
+import Login from '@/components/Login/index.vue'
 export default {
     name:'MiniHeader',
+    components:{
+        Login,
+    },
     setup(props) {
         const route = useRoute();
         const store = useStore();
@@ -110,8 +122,8 @@ export default {
                 inputClick
             }
         }
+        // MiniHeader显示样式的控制，页面滑动后fixed到页面最顶部
         function slideEvent(){
-            // MiniHeader显示样式的控制
             let slideLoctionFlag = ref(false);
             let slideShow = computed(()=>{
                 return route.meta.MiniHeaderStatus || slideLoctionFlag.value;
@@ -127,6 +139,7 @@ export default {
                 slideShow,
             }
         }
+        // 搜索框placeholder
         function paddingPlaceholder(){
             let placeholderInfo = computed(()=>{
                 return store.state.HomePage.placeholderInfo;
@@ -138,10 +151,39 @@ export default {
                 placeholderInfo,
             }
         }
+        // Login组件的控制
+        function loginControl(){
+            const isLoginExist = ref(false);
+            function openLoginWindow(){
+                isLoginExist.value = true;
+            }
+            function closeLoginWindow(){
+                isLoginExist.value = false;
+            }
+            return {
+                isLoginExist,
+                openLoginWindow,
+                closeLoginWindow,
+            }
+        }
+        // 用户信息
+        function acquireUserInfo(){
+            const isLogin = computed(()=>store.state.Login.isLogin);
+            const userInfo = computed(()=>store.state.Login.userInfo);
+            onMounted(()=>{
+                store.dispatch('Login/getUserInfo');
+            })
+            return {
+                isLogin,
+                userInfo,
+            }
+        }
         return {
             ...searchShowEvent(),
             ...slideEvent(),
             ...paddingPlaceholder(),
+            ...loginControl(),
+            ...acquireUserInfo(),
         }
     }
 }   
@@ -350,6 +392,7 @@ export default {
 
                 margin-left: 8px;
 
+                // user-item中的通用样式
                 a {
                     display: flex;
                     flex-direction: column;
@@ -361,6 +404,37 @@ export default {
 
                     i {
                         margin-bottom: 5px;
+                    }
+                }
+                // 用户信息面板
+                .login-btn {
+                    width: 36px;
+                    height: 36px;
+
+                    color: #00aeec;
+                    font-size: 14px;
+                    line-height: 36px;
+                    text-align: center;
+
+                    background-color: #f6f6f6;
+
+                    border-radius: 50%;
+
+                    cursor: pointer;
+                }
+                .user-panel {
+                    
+                    .user-face {
+                        width: 36px;
+                        height: 36px;
+
+                        cursor: pointer;
+                        img {
+                            width: 100%;
+                            height: 100%;
+
+                            border-radius: 50%;
+                        }
                     }
                 }
             }

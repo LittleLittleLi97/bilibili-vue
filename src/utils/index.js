@@ -19,6 +19,7 @@ export const changeNum = function(num) {
     else return num.toFixed(2) + '万';
 }
 
+// 解析视频信息
 export const parseVideoInfo = function(info){
     const pic = info.pic;
     const title = info.title;
@@ -50,4 +51,11 @@ export const parseVideoInfo = function(info){
         toVideoUrl,
         durationStr,
     }
+}
+
+export const setCookie = function(cname,cvalue,exTime){
+    var d = new Date();
+    d.setTime(d.getTime()+exTime);
+    var expires = "expires="+d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
 }
