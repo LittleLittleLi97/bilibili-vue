@@ -1,5 +1,7 @@
 <template>
+
     <TotalHeader/>
+    <Login/>
     <div class="main-frame">
         <div class="main-recommend">
             <Carousel class="carousel"/>
@@ -27,6 +29,7 @@ import Carousel from '@/components/Carousel/index.vue'
 import VideoCard from '@/components/VideoCard/VideoCard.vue'
 import Section from '@/components/Section/Section.vue'
 import SectionWithRank from '@/components/Section/SectionWithRank.vue'
+import Login from '@/components/Login/index.vue'
 export default {
     name:'HomePage',
     components:{
@@ -35,6 +38,7 @@ export default {
         VideoCard,
         Section,
         SectionWithRank,
+        Login,
     },
     setup(props) {
         const store = useStore();

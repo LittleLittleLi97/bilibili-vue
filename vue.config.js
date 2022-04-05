@@ -24,6 +24,15 @@ module.exports = {
                     '^/api':''
                 }
             },
+            '/login': {
+                target: 'https://passport.bilibili.com/',
+                headers: {
+                    Referer: 'https://www.bilibili.com/'
+                },
+                pathRewrite: {
+                    '^/login':''
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import { requests, requestsSearch } from "./request";
+import { requests, requestsLogin, requestsSearch } from "./request";
 
 // HomePage
 export const reqPlaceholder = ()=>requests({
@@ -31,9 +31,24 @@ export const reqVideoInfo = (bvid)=>requests({
 export const reqVideoDesc = (bvid)=>requests({
     url:`/x/web-interface/archive/desc?bvid=${bvid}`,
     method:'get',
-})
+});
 
 export const reqVideoRelated = (bvid)=>requests({
     url:`/x/web-interface/archive/related?bvid=${bvid}`,
     method:'get',
+});
+
+// login
+export const reqQRCode = ()=>requestsLogin({
+    url:'/qrcode/getLoginUrl',
+    method:'get',
+})
+
+export const reqQRCodeLoginState = (data)=>requestsLogin({
+    url:'/qrcode/getLoginInfo',
+    method:'post',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data: data,
 })

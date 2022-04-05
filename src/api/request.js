@@ -7,3 +7,7 @@ export const requests = axios.create({
 export const requestsSearch = axios.create({
     baseURL:'/search',
 });
+
+export const requestsLogin = axios.create({
+    baseURL:'/login',
+});
