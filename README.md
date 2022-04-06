@@ -12,3 +12,6 @@ vue3复现bilibili
 ##### 几项需要更新的点：
 - 视频信息解析代码复用
 - VideoCard img区域组件抽取
+
+#### 需要学习：
+- box-shadow

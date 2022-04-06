@@ -68,7 +68,10 @@
                     <div class="blue-button">开通大会员</div>
                 </div> -->
             </li>
-            <li class="user-item"><a href=""><i class="iconfont icon-mail"></i><span>消息</span></a></li>
+            <li class="user-item">
+                <a href=""><i class="iconfont icon-mail"></i><span>消息</span></a>
+                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow"/> -->
+            </li>
             <li class="user-item"><a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a></li>
             <li class="user-item"><a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a></li>
             <li class="user-item"><a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a></li>
@@ -86,10 +89,12 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex'
 
 import Login from '@/components/Login/index.vue'
+import PopoverWithoutLogin from '@/components/Popover/Popover.vue'
 export default {
     name:'MiniHeader',
     components:{
         Login,
+        PopoverWithoutLogin,
     },
     setup(props) {
         const route = useRoute();
@@ -202,6 +207,7 @@ export default {
         position: absolute;
 
         width: 100%;
+        min-width: 1000px;
         padding: 0 24px;
 
         box-sizing: border-box;
@@ -392,6 +398,8 @@ export default {
 
                 margin-left: 8px;
 
+                position: relative;
+
                 // user-item中的通用样式
                 a {
                     display: flex;
@@ -399,7 +407,7 @@ export default {
                     align-items: center;
 
                     &:hover i {
-                        animation: iconDance 0.5s 1;
+                        animation: iconDance 0.3s 1;
                     }
 
                     i {

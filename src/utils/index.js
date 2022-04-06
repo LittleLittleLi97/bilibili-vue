@@ -16,7 +16,7 @@ export const changeNum = function(num) {
     if (num < 10000) return num;
     num = num / 1000;
     if (num > 1000) return parseInt(num) + '万';
-    else return num.toFixed(2) + '万';
+    else return num.toFixed(1) + '万';
 }
 
 // 解析视频信息

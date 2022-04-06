@@ -27,8 +27,10 @@ const actions = {
         if (result.data.status === true) {
             commit('SETLOGINCOOKIE', result.data.data.url);
             dispatch('getUserInfo');
+            return true;
         } else {
             commit('SETLOGINSTEP', result.data.data);
+            return false;
         }
     },
     async getUserInfo({commit}){

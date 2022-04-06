@@ -46,9 +46,10 @@ export default {
             const loginStep = computed(()=>store.state.Login.loginStep);
             onMounted(()=>{
                 store.dispatch('Login/getQRCode');
-                timer = setInterval(()=>{
-                    store.dispatch('Login/getQRCodeLoginState');
-                }, 5000);
+                timer = setInterval(async()=>{
+                    let result = await store.dispatch('Login/getQRCodeLoginState');
+                    if (result) props.closeLoginWindow();
+                }, 3000);
             })
             onUnmounted(()=>{
                 clearInterval(timer);

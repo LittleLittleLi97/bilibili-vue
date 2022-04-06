@@ -6,5 +6,5 @@
 }
 
 body {
-    /* position: absolute; */
+    min-width: 1000px;
 }

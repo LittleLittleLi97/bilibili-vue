@@ -12,7 +12,7 @@
     color: #18191C;
 }
 
-/* 按钮 带边框 */
+/* 按钮 带边框 用在AreaHeader右侧 */
 .common-border-button {
     font-size: 13px;
     color: #18191C;
@@ -29,15 +29,11 @@
 }
 
 /* 文字变蓝动画 */
-.common-fontblue:hover {
-    animation: fontBlue 0.2s 1 forwards;
+.common-fontblue {
+    transition: color 0.2s;
 }
 
-@keyframes fontBlue {
-    0%{
-
-    }
-    100% {
-        color: #00aeec;
-    }
+.common-fontblue:hover {
+    /* animation: fontBlue 0.2s 1 forwards; */
+    color: #00aeec !important;
 }
