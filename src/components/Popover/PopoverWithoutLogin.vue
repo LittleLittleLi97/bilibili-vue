@@ -2,7 +2,7 @@
     <Popover>
         <template v-slot:content>
             <div class="pop-content">
-                <div class="pop-text">登录即可查看消息记录</div>
+                <div class="pop-text">登录即可查看{{ text }}</div>
                 <div class="pop-button" @click="clickFunction">立即登录</div>
             </div>
         </template>
@@ -16,14 +16,15 @@ export default {
     components:{
         Popover,
     },
-    props:["clickBtnEvent"],
+    props:["clickBtnEvent", "text"],
     setup(props) {
         function clickFunction(){
             props.clickBtnEvent();
         }
         return {
             clickFunction,
-        }  
+            text: props.text,
+        }
     }
 }
 </script>
@@ -36,6 +37,9 @@ export default {
             text-align: center;
             color: #9499a0;
             font-size: 14px;
+
+            margin-top: 10px;
+            margin-bottom: 30px;
         }
         .pop-button {
             text-align: center;

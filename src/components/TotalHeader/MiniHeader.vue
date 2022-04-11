@@ -59,28 +59,33 @@
                 <div class="user-panel" v-else>
                     <div class="user-face"><img :src="userInfo.face" alt=""></div>
                 </div>
+                <PopoverUserPanel v-if="isLogin" class="popover"/>
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i><span>大会员</span></a>
-                <!-- <div class="vip-none">
-                    <div class="vip-none-title">精彩推荐</div>
-                    <img src="">
-                    <div class="blue-button">开通大会员</div>
-                </div> -->
+                <PopoverVIP style="left:-100px;" class="popover" />
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-mail"></i><span>消息</span></a>
-                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow"/> -->
+                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" class="popover" />
             </li>
-            <li class="user-item"><a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a></li>
-            <li class="user-item"><a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a></li>
+            <li class="user-item">
+                <a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a>
+                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="关注动态" style="left:-200px;" class="popover" />
+            </li>
+            <li class="user-item">
+                <a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a>
+                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="我的收藏" style="left:-200px;" class="popover" />
+            </li>
+            <li class="user-item">
+                <a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a>
+                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="历史记录" style="left:-200px;" class="popover" />
+            </li>
             <li class="user-item"><a href=""><i class="iconfont icon-icon"></i><span>创作中心</span></a></li>
         </ul>
         <div class="upload"><span>投稿</span></div>
     </div>
     <Login v-if="isLoginExist" :closeLoginWindow="closeLoginWindow" />
-
 </template>
 
 <script>
@@ -90,11 +95,15 @@ import { useStore } from 'vuex'
 
 import Login from '@/components/Login/index.vue'
 import PopoverWithoutLogin from '@/components/Popover/Popover.vue'
+import PopoverVIP from '@/components/Popover/PopoverVIP.vue'
+import PopoverUserPanel from '@/components/Popover/PopoverUserPanel.vue'
 export default {
     name:'MiniHeader',
     components:{
         Login,
         PopoverWithoutLogin,
+        PopoverVIP,
+        PopoverUserPanel,
     },
     setup(props) {
         const route = useRoute();
@@ -399,6 +408,13 @@ export default {
                 margin-left: 8px;
 
                 position: relative;
+
+                .popover {
+                    display: none;
+                }
+                &:hover .popover {
+                    display: block;
+                }
 
                 // user-item中的通用样式
                 a {
