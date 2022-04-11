@@ -25,40 +25,11 @@ export default {
     props:["videoInfo"],
     setup(props) {
         const videoInfo = computed(()=>{
-            if (props.videoInfo) return parseVideoInfo(props.videoInfo);
+            if (props.videoInfo) return parseVideoInfo(props.videoInfo, "@672w_378h_1c.webp");
             else return undefined;
         });
-        // const videoInfo = computed(()=>props.videoInfo);
-        // const time = computed(()=>{
-        //     return changeTime(props.videoInfo && props.videoInfo.pubdate*1000);
-        // })
-        // const playNum = computed(()=>{
-        //     return changeNum(props.videoInfo && props.videoInfo.stat.view);
-        // })
-        // const likeNum = computed(()=>{
-        //     return changeNum(props.videoInfo && props.videoInfo.stat.like);
-        // });
-        // const durationStr = computed(()=>{
-        //     if (props.videoInfo) {
-        //         const duration = props.videoInfo.duration;
-        //         let mm = parseInt(duration / 60);
-        //         let s = duration - mm * 60;
-        //         if (mm < 10) mm = '0' + mm;
-        //         if (s < 10) s = '0' + s;
-        //         return mm + ':' + s;
-        //     }
-        //     return undefined;
-        // })
-        // const toUrl = computed(()=>{
-        //     return props.videoInfo && `/video/${props.videoInfo.bvid}`;
-        // })
         return {
             videoInfo,
-            // time,
-            // playNum,
-            // likeNum,
-            // durationStr,
-            // toUrl,
         }
     }
 }

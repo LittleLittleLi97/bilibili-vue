@@ -20,8 +20,9 @@ export const changeNum = function(num) {
 }
 
 // 解析视频信息
-export const parseVideoInfo = function(info){
-    const pic = info.pic;
+export const parseVideoInfo = function(info, img_params){
+    var pic = info.pic;
+    if (img_params) pic += img_params;
     const title = info.title;
     const pubDate = (function(){
         const time = changeTime(info.pubdate * 1000);

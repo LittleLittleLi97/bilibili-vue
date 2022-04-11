@@ -35,7 +35,6 @@ export default {
 <style scoped lang="less">
     .image-wrapper{
         position: relative;
-        height: 130px;
 
         border-radius: 6px;
         overflow: hidden;
