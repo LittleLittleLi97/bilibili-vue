@@ -1,8 +1,8 @@
-import { reqQRCode, reqQRCodeLoginState, reqUserInfo } from "@/api";
+import { reqQRCode, reqQRCodeLoginState, reqLoginInfo, reqUserInfo, reqUserCardInfo } from "@/api";
 
 import { setCookie } from "@/utils";
 
-import qs from 'qs'
+import qs from 'qs';
 
 const state = ()=>{
     return {
@@ -10,7 +10,9 @@ const state = ()=>{
         oauthKey:undefined,
         loginStep:-4,
         isLogin:false,
+        loginInfo:undefined,
         userInfo:undefined,
+        userCardInfo:undefined,
     }
 };
 
@@ -23,20 +25,33 @@ const actions = {
         let result = await reqQRCodeLoginState(qs.stringify({
             oauthKey: state.oauthKey
         }));
-        console.log(result);
         if (result.data.status === true) {
             commit('SETLOGINCOOKIE', result.data.data.url);
-            dispatch('getUserInfo');
+            dispatch('getLoginInfo');
             return true;
         } else {
             commit('SETLOGINSTEP', result.data.data);
             return false;
         }
     },
-    async getUserInfo({commit}){
+    async getLoginInfo({commit, dispatch}){
         // ！！！ 页面初始化时发送，登录成功后也要记得发送，不然登录信息没更新 ！！！
+        let result = await reqLoginInfo();
+        if (result.status === 200) {
+            commit('GETLOGININFO', result.data.data);
+            if (result.data.data.isLogin === true) {
+                dispatch('getUserInfo');
+                dispatch('getUserCardInfo', result.data.data.mid);
+            }
+        }
+    },
+    async getUserInfo({commit}){
         let result = await reqUserInfo();
         if (result.status === 200) commit('GETUSERINFO', result.data.data);
+    },
+    async getUserCardInfo({commit}, mid){
+        let result = await reqUserCardInfo(mid);
+        if (result.status === 200) commit('GETUSERCARDINFO', result.data.data);
     }
 };
 
@@ -53,9 +68,15 @@ const mutations = {
     SETLOGINSTEP(state, step){
         state.loginStep = step;
     },
+    GETLOGININFO(state, loginInfo){
+        state.isLogin = loginInfo.isLogin;
+        state.loginInfo = loginInfo;
+    },
     GETUSERINFO(state, userInfo){
-        state.isLogin = userInfo.isLogin;
         state.userInfo = userInfo;
+    },
+    GETUSERCARDINFO(state, userCardInfo){
+        state.userCardInfo = userCardInfo;
     }
 };
 

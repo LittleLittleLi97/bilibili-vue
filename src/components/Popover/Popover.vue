@@ -15,6 +15,7 @@ export default {
 <style scoped lang="less">
     .popover {
         position: absolute;
+        z-index: 100;
         top: 100%;
 
         padding-top: 15px;

@@ -57,9 +57,9 @@
             <li class="user-item">
                 <div class="login-btn" v-if="!isLogin" @click="openLoginWindow">登录</div>
                 <div class="user-panel" v-else>
-                    <div class="user-face"><img :src="userInfo.face" alt=""></div>
+                    <div class="user-face"><img :src="loginInfo.face" alt=""></div>
                 </div>
-                <PopoverUserPanel v-if="isLogin" class="popover"/>
+                <PopoverUserPanel v-if="isLogin" class="popover" style="left:-150px;" />
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i><span>大会员</span></a>
@@ -180,16 +180,16 @@ export default {
                 closeLoginWindow,
             }
         }
-        // 用户信息
-        function acquireUserInfo(){
+        // 用户登录信息
+        function acquireLoginInfo(){
             const isLogin = computed(()=>store.state.Login.isLogin);
-            const userInfo = computed(()=>store.state.Login.userInfo);
+            const loginInfo = computed(()=>store.state.Login.loginInfo);
             onMounted(()=>{
-                store.dispatch('Login/getUserInfo');
+                store.dispatch('Login/getLoginInfo');
             })
             return {
                 isLogin,
-                userInfo,
+                loginInfo,
             }
         }
         return {
@@ -197,7 +197,7 @@ export default {
             ...slideEvent(),
             ...paddingPlaceholder(),
             ...loginControl(),
-            ...acquireUserInfo(),
+            ...acquireLoginInfo(),
         }
     }
 }   

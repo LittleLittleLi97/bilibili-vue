@@ -1,12 +1,12 @@
 <template>
-    <Popover>
+    <Popover v-if="userInfo">
         <template v-slot:content>
             <div class="pop-content">
-                <div class="user-name">Li97</div>
-                <div class="user-vip">大会员</div>
+                <div class="user-name">{{ userInfo.name }}</div>
+                <div class="user-vip" v-if="userInfo.vip.status===1">大会员</div>
                 <div class="user-coin">
                     <div class="coin-left">
-                        <span class="coin-key">硬币：</span><span class="coin-value">612</span>
+                        <span class="coin-key">硬币：</span><span class="coin-value">{{ userInfo.coins }}</span>
                     </div>
                     <div class="coin-right">
                         <span class="coin-key">B币：</span><span class="coin-value">612</span>
@@ -15,16 +15,30 @@
                 <div class="user-level">
                     <div class="level-icon">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-ic_userlevel_4"></use>
+                            <use :xlink:href="currentLevelClass"></use>
                         </svg>
                     </div>
-                    <div class="level-progress"><div class="level-progress-inner"></div></div>
+                    <div class="level-progress"><div class="level-progress-inner" :style="levelProgressStyle" ></div></div>
                     <div class="level-icon">
                         <!-- 这里直接用不带颜色的iconfont，方便改颜色 -->
-                        <i class="iconfont icon-ic_userlevel_5"></i>
+                        <i class="iconfont" :class="nextLevelClass"></i>
                     </div>
                 </div>
-                <div class="user-level-text">当前成长5256，距离升级Lv.5 还需要5544</div>
+                <div class="user-level-text">当前成长{{ userInfo.level_exp.current_exp }}，距离升级Lv.{{ userInfo.level+1 }}&nbsp;还需要{{ userInfo.level_exp.next_exp - userInfo.level_exp.current_exp }}</div>
+                <div class="follow-area">
+                    <a class="follow-item">
+                        <div class="follow-value">{{ userCardInfo && userCardInfo.card.friend }}</div>
+                        <div class="follow-key">关注</div>
+                    </a>
+                    <a class="follow-item">
+                        <div class="follow-value">{{ userCardInfo && userCardInfo.card.fans }}</div>
+                        <div class="follow-key">粉丝</div>
+                    </a>
+                    <a class="follow-item">
+                        <div class="follow-value">6</div>
+                        <div class="follow-key">动态</div>
+                    </a>
+                </div>
             </div>
         </template>
     </Popover>
@@ -32,10 +46,31 @@
 
 <script>
 import Popover from './Popover.vue'
+
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
     name:'PopoverUserPanel',
     components:{
         Popover,
+    },
+    setup(props) {
+        const store = useStore();
+        // 用户的信息有好几个接口，内容有重复，也有不同
+        const userInfo = computed(()=>store.state.Login.userInfo);
+        const userCardInfo = computed(()=>store.state.Login.userCardInfo);
+
+        const currentLevelClass = computed(()=>`#icon-ic_userlevel_${store.state.Login.userInfo.level}`);
+        const nextLevelClass = computed(()=>`icon-ic_userlevel_${store.state.Login.userInfo.level + 1}`);
+        const levelProgressStyle = computed(()=>`width:${(store.state.Login.userInfo.level_exp.current_exp / store.state.Login.userInfo.level_exp.next_exp * 100).toFixed(2)}%;`)
+        return {
+            userInfo,
+            userCardInfo,
+
+            currentLevelClass,
+            nextLevelClass,
+            levelProgressStyle,
+        }
     }
 }
 </script>
@@ -59,6 +94,7 @@ export default {
 
             background-color: #fb7299;
 
+            margin-top: 10px;
             padding: 2px 10px;
 
             border-radius: 4px;
@@ -67,6 +103,8 @@ export default {
         }
         .user-coin {
             display: flex;
+
+            margin-top: 10px;
 
             .coin-right {
                 margin-left: 10px;
@@ -119,6 +157,45 @@ export default {
         .user-level-text {
             font-size: 12px;
             color: #c9ccd0;
+        }
+        .follow-area {
+            display: flex;
+            justify-content: space-between;
+
+            width: 100%;
+
+            margin-top: 10px;
+            padding: 0 20px;
+
+            box-sizing: border-box;
+
+            .follow-item {
+
+                &:hover .follow-value {
+                    color: #00aeec;
+                }
+                &:hover .follow-key {
+                    color: #00aeec;
+                }
+                .follow-value {
+                    text-align: center;
+
+                    font-size: 18px;
+                    color: #18191c;
+                    font-weight: 500;
+
+                    transition: color 0.2s;
+                }
+                .follow-key {
+                    font-size: 12px;
+                    color: #9499a0;
+                    font-weight: 400;
+
+                    margin-top: 5px;
+
+                    transition: color 0.2s;
+                }
+            }
         }
     }
 </style>

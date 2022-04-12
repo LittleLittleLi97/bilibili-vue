@@ -53,8 +53,19 @@ export const reqQRCodeLoginState = (data)=>requestsLogin({
     data: data,
 })
 
-// 用户信息
-export const reqUserInfo = ()=>requests({
+// 用户登录信息
+export const reqLoginInfo = ()=>requests({
     url:'/x/web-interface/nav',
     method:'get',
+})
+
+// 用户信息
+export const reqUserInfo = ()=>requests({
+    url:'/x/space/myinfo',
+    method:'get',
+})
+
+export const reqUserCardInfo = (mid)=>requests({
+    url:`/x/web-interface/card?mid=${mid}`,
+    method:'get'
 })
