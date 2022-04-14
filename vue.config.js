@@ -24,6 +24,15 @@ module.exports = {
                     '^/api':''
                 }
             },
+            '/search': {
+                target: 'https://s.search.bilibili.com/',
+                headers: {
+                    Referer: 'https://www.bilibili.com/'
+                },
+                pathRewrite: {
+                    '^/search':''
+                }
+            },
             '/login': {
                 target: 'https://passport.bilibili.com/',
                 headers: {

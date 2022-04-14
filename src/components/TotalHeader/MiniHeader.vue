@@ -39,16 +39,13 @@
                 <div class="recommend-hot">
                     <div class="recommend-title">热搜</div>
                     <ul class="hot-list">
-                        <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank hot-rank-top">2</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank hot-rank-top">3</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">4</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">5</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">6</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">7</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">8</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">9</span><span class="hot-title">今天你码代码了吗</span></a></li>
-                        <li><a href=""><span class="hot-rank">10</span><span class="hot-title">今天你码代码了吗</span></a></li>
+                        <!-- <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li> -->
+                        <li v-for="(item, index) in hotSearchList" :key="item.id">
+                            <a href="">
+                                <span class="hot-rank" :class="{'hot-rank-top':item.id<=3}">{{ item.id }}</span>
+                                <span class="hot-title">{{ item.show_name }}</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -153,16 +150,17 @@ export default {
                 slideShow,
             }
         }
-        // 搜索框placeholder
-        function paddingPlaceholder(){
-            let placeholderInfo = computed(()=>{
-                return store.state.HomePage.placeholderInfo;
-            });
+        // 搜索框
+        function searchPanel(){
+            const placeholderInfo = computed(()=>store.state.Search.placeholderInfo);
+            const hotSearchList = computed(()=>store.state.Search.hotSearchList);
             onMounted(()=>{
-                store.dispatch('HomePage/getPlaceholder');
+                store.dispatch('Search/getPlaceholder');
+                store.dispatch('Search/getHotSearch');
             })
             return {
                 placeholderInfo,
+                hotSearchList,
             }
         }
         // Login组件的控制
@@ -195,7 +193,7 @@ export default {
         return {
             ...searchShowEvent(),
             ...slideEvent(),
-            ...paddingPlaceholder(),
+            ...searchPanel(),
             ...loginControl(),
             ...acquireLoginInfo(),
         }
@@ -216,7 +214,7 @@ export default {
         position: absolute;
 
         width: 100%;
-        min-width: 1000px;
+        min-width: 1200px;
         padding: 0 24px;
 
         box-sizing: border-box;

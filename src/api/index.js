@@ -18,7 +18,7 @@ export const reqVideoRank = (rid, day=3, original=0)=>requests({
 
 // 热搜
 export const reqHotSearch = ()=>requestsSearch({
-    url:'http://s.search.bilibili.com/main/hotword',
+    url:'/main/hotword',
     method:'get',
 });
 
