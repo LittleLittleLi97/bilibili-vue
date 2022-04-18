@@ -20,6 +20,7 @@ export const changeNum = function(num) {
 }
 
 // 解析视频信息
+// 这里推荐视频和搜索视频的参数不一样，简直了
 export const parseVideoInfo = function(info, img_params){
     var pic = info.pic;
     if (img_params) pic += img_params;
@@ -28,10 +29,10 @@ export const parseVideoInfo = function(info, img_params){
         const time = changeTime(info.pubdate * 1000);
         return `${time.M}-${time.D}`;
     })();
-    const authorName = info.owner.name;
-    const playNum = changeNum(info.stat.view);
-    const likeNum = changeNum(info.stat.like);
-    const danmaku = changeNum(info.stat.danmaku);
+    const authorName = info.author || info.owner.name;
+    const playNum = changeNum(info.play || info.stat.view);
+    const likeNum = changeNum(info.like || info.stat.like);
+    const danmaku = changeNum(0);
     const toVideoUrl = `/video/${info.bvid}`;
     const durationStr = (function(){
         const duration = info.duration;

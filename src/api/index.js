@@ -16,12 +16,6 @@ export const reqVideoRank = (rid, day=3, original=0)=>requests({
     method:'get',
 });
 
-// 热搜
-export const reqHotSearch = ()=>requestsSearch({
-    url:'/main/hotword',
-    method:'get',
-});
-
 // VideoPage
 export const reqVideoInfo = (bvid)=>requests({
     url:`/x/web-interface/view?bvid=${bvid}`,
@@ -68,4 +62,16 @@ export const reqUserInfo = ()=>requests({
 export const reqUserCardInfo = (mid)=>requests({
     url:`/x/web-interface/card?mid=${mid}`,
     method:'get'
+})
+
+// 热搜
+export const reqHotSearch = ()=>requestsSearch({
+    url:'/main/hotword',
+    method:'get',
+});
+
+// 搜索
+export const reqSearch = (keyword)=>requests({
+    url:`x/web-interface/search/all/v2?keyword=${keyword}`,
+    method:'get',
 })

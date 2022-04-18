@@ -2,7 +2,7 @@
     <div class="video-card" v-if="videoInfo">
         <router-link :to="videoInfo.toVideoUrl" target="_blank">
             <ImageArea :pic="videoInfo.pic" :playNum="videoInfo.playNum" :likeNum="videoInfo.likeNum" :durationStr="videoInfo.durationStr" />
-            <div class="video-title common-fontblue">{{ videoInfo.title }}</div>
+            <div class="video-title common-fontblue" v-html="videoInfo.title"></div>
         </router-link>
         <a class="video-info common-fontblue" href="">
             <i class="iconfont icon-UPzhu"></i>&nbsp;
