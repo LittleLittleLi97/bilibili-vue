@@ -15,8 +15,8 @@
         </ul>
         <div class="search" ref="searchDiv">
             <div class="input-area" :style="inputAreaFocusStyle">
-                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle">
-                <div class="search-button">
+                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle" v-model="searchKeyword" @keyup.enter="searchJump">
+                <div class="search-button" @click="searchJump">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
 <script>
 import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex'
 
 import Login from '@/components/Login/index.vue'
@@ -104,7 +104,9 @@ export default {
     },
     setup(props) {
         const route = useRoute();
+        const router = useRouter();
         const store = useStore();
+        // 搜索样式和搜索控制
         function searchShowEvent(){
             // 点击搜索框的样式变化
             let searchDiv = ref();
@@ -127,10 +129,32 @@ export default {
                     }
                 })
             })
+            // 搜索控制
+            function searchFunction(){
+                const searchKeyword = ref();
+                function searchJump(){
+                    store.dispatch('Search/getSearch', searchKeyword.value);
+                    router.push({
+                        path:`/search`,
+                        query: {
+                            keyword: searchKeyword.value
+                        }
+                    })
+                    // 搜索后搜索框样式需要恢复
+                    searchStyleControl.inputAreaFocusStyle = "";
+                    searchStyleControl.inputFocusStyle = "";
+                    searchStyleControl.recommendShow = false;
+                }
+                return {
+                    searchKeyword,
+                    searchJump,
+                }
+            }
             return {
                 searchDiv,
                 ...toRefs(searchStyleControl),
-                inputClick
+                inputClick,
+                ...searchFunction(),
             }
         }
         // MiniHeader显示样式的控制，页面滑动后fixed到页面最顶部
@@ -150,7 +174,7 @@ export default {
                 slideShow,
             }
         }
-        // 搜索框
+        // 搜索框 数据加载
         function searchPanel(){
             const placeholderInfo = computed(()=>store.state.Search.placeholderInfo);
             const hotSearchList = computed(()=>store.state.Search.hotSearchList);
@@ -194,6 +218,7 @@ export default {
             ...searchShowEvent(),
             ...slideEvent(),
             ...searchPanel(),
+            // ...searchFunction(),
             ...loginControl(),
             ...acquireLoginInfo(),
         }

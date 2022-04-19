@@ -80,7 +80,7 @@
                 <VideoCardRow v-for="(item, index) in videoRelated" :key="index"
                     :videoInfo="item"
                 />
-            </div>  
+            </div> 
         </div>
     </div>
 </template>

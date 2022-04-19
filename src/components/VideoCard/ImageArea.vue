@@ -39,7 +39,7 @@ export default {
         border-radius: 6px;
         overflow: hidden;
         .video-image {
-    
+            
             img {
                 width: 100%;
                 height: 100%;

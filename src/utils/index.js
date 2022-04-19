@@ -32,15 +32,21 @@ export const parseVideoInfo = function(info, img_params){
     const authorName = info.author || info.owner.name;
     const playNum = changeNum(info.play || info.stat.view);
     const likeNum = changeNum(info.like || info.stat.like);
-    const danmaku = changeNum(0);
+    const danmaku = changeNum(info.stat && info.stat.danmaku);
     const toVideoUrl = `/video/${info.bvid}`;
     const durationStr = (function(){
         const duration = info.duration;
-        let mm = parseInt(duration / 60);
-        let s = duration - mm * 60;
-        if (mm < 10) mm = '0' + mm;
-        if (s < 10) s = '0' + s;
-        return mm + ':' + s;
+        if (typeof(duration) === 'number') {
+            let mm = parseInt(duration / 60);
+            let s = duration - mm * 60;
+            if (mm < 10) mm = '0' + mm;
+            if (s < 10) s = '0' + s;
+            return mm + ':' + s;
+        }else {
+            let timeArray = duration.split(':');
+            if (timeArray[1].length < 2) timeArray[1] = '0' + timeArray[1];
+            return timeArray.join(':');
+        }
     })();
     return {
         pic,

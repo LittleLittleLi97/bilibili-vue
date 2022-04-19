@@ -9,8 +9,9 @@
                 <div class="search-btn">搜索</div>
             </div>
         </div> -->
-        <div class="video-area">
-            <VideoCard  v-for="(item, index) in videoList" :key="index" :videoInfo="item" />
+        <div class="video-area" v-if="searchResult">
+            <!-- 这里key一定要用后端给的id，用index的话，图片更新不了（可能被视为数据没有更新） -->
+            <VideoCard v-for="(item, index) in searchResult.video" :key="item.id" :videoInfo="item" />
         </div>
     </div>
 </template>
@@ -19,7 +20,7 @@
 import MiniHeader from '@/components/TotalHeader/MiniHeader.vue'
 import VideoCard from '@/components/VideoCard/VideoCard.vue'
 
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUpdated, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 export default {
@@ -32,12 +33,12 @@ export default {
         const route = useRoute();
         const store = useStore();
 
-        const videoList = computed(()=>store.state.Search.searchResult && store.state.Search.searchResult.video);
-        onMounted(() => {
+        const searchResult = computed(()=>store.state.Search.searchResult);
+        onMounted(()=>{
             store.dispatch('Search/getSearch', route.query.keyword);
         })
         return {
-            videoList,
+            searchResult,
         }
     }
 }
