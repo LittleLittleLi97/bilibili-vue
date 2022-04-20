@@ -70,8 +70,14 @@ export const reqHotSearch = ()=>requestsSearch({
     method:'get',
 });
 
-// 搜索
+// 默认搜索，返回各类型视频信息20条
 export const reqSearch = (keyword)=>requests({
-    url:`x/web-interface/search/all/v2?keyword=${keyword}`,
+    url:`/x/web-interface/search/all/v2?keyword=${keyword}`,
+    method:'get',
+})
+
+// 按类别搜索，用于点击页数后的刷新数据
+export const reqSearchTypeForPage = (keyword, type, page)=>requests({
+    url:`/x/web-interface/search/type?keyword=${keyword}&search_type=${type}&page=${page}`,
     method:'get',
 })

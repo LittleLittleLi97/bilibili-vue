@@ -25,7 +25,7 @@ export default {
     props:["videoInfo"],
     setup(props) {
         const videoInfo = computed(()=>{
-            if (props.videoInfo) return parseVideoInfo(props.videoInfo, "@672w_378h_1c.webp");
+            if (props.videoInfo) return parseVideoInfo(props.videoInfo, "@672w_378h_1c_100q.webp");
             else return undefined;
         });
         return {

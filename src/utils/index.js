@@ -30,8 +30,8 @@ export const parseVideoInfo = function(info, img_params){
         return `${time.M}-${time.D}`;
     })();
     const authorName = info.author || info.owner.name;
-    const playNum = changeNum(info.play || info.stat.view);
-    const likeNum = changeNum(info.like || info.stat.like);
+    const playNum = changeNum(typeof(info.play)=='undefined'? info.stat.view:info.play);
+    const likeNum = changeNum(typeof(info.like)=='undefined'? info.stat.like:info.like);
     const danmaku = changeNum(info.stat && info.stat.danmaku);
     const toVideoUrl = `/video/${info.bvid}`;
     const durationStr = (function(){

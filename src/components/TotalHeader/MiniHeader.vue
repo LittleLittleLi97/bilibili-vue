@@ -1,8 +1,10 @@
 <template>
     <div class="banner" :class="{'banner-slide':slideShow}">
-        <svg class="icon icon-bilibili" aria-hidden="true" v-show="slideShow">
-            <use xlink:href="#icon-bilibili"></use>
-        </svg>
+        <router-link to="/">
+            <svg class="icon icon-bilibili" aria-hidden="true" v-show="slideShow">
+                <use xlink:href="#icon-bilibili"></use>
+            </svg>
+        </router-link>
         <ul class="type-list">
             <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line" v-show="!slideShow"></i>首页</a></li>
             <li class="type-item"><a href="">番剧</a></li>
@@ -15,8 +17,8 @@
         </ul>
         <div class="search" ref="searchDiv">
             <div class="input-area" :style="inputAreaFocusStyle">
-                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle" v-model="searchKeyword" @keyup.enter="searchJump">
-                <div class="search-button" @click="searchJump">
+                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle" v-model="searchKeyword" @keyup.enter="searchJump(searchKeyword)">
+                <div class="search-button" @click="searchJump(searchKeyword)">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
@@ -41,10 +43,10 @@
                     <ul class="hot-list">
                         <!-- <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li> -->
                         <li v-for="(item, index) in hotSearchList" :key="item.id">
-                            <a href="">
+                            <div class="hot-item" @click="searchJump(item.keyword)">
                                 <span class="hot-rank" :class="{'hot-rank-top':item.id<=3}">{{ item.id }}</span>
                                 <span class="hot-title">{{ item.show_name }}</span>
-                            </a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -132,12 +134,12 @@ export default {
             // 搜索控制
             function searchFunction(){
                 const searchKeyword = ref();
-                function searchJump(){
-                    store.dispatch('Search/getSearch', searchKeyword.value);
+                function searchJump(keyword){
+                    store.dispatch('Search/getSearch', keyword);
                     router.push({
                         path:`/search`,
                         query: {
-                            keyword: searchKeyword.value
+                            keyword: keyword
                         }
                     })
                     // 搜索后搜索框样式需要恢复
@@ -250,7 +252,12 @@ export default {
             .type-item {
                 margin-right: 8px;
 
-                line-height: 64px;
+                a {
+                    display: block;
+
+                    line-height: 64px;
+                    height: 64px;
+                }
             }
         }
         .search {
@@ -353,7 +360,7 @@ export default {
 
                         .history-list {
                             display: flex;
-                            justify-content: space-between;
+                            justify-content: start;
                             flex-wrap: wrap;
 
                             padding: 0 20px;
@@ -385,13 +392,15 @@ export default {
                             grid-template-rows: repeat(5,1fr);
                             grid-auto-flow: column;
                             grid-gap: 0 10px;
-                            a {
+                            .hot-item {
                                 display: flex;
                                 justify-content: start;
                                 align-items: center;
 
                                 width: 100%;
                                 height: 38px;
+
+                                cursor: pointer;
 
                                 &:hover {
                                     background-color: #e3e5e7;

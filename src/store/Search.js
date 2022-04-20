@@ -1,10 +1,11 @@
-import { reqHotSearch, reqPlaceholder, reqSearch } from "../api";
+import { reqHotSearch, reqPlaceholder, reqSearch, reqSearchTypeForPage } from "../api";
 
 const state = ()=>{
     return {
         placeholderInfo:{},
         hotSearchList:[],
         searchResult:undefined,
+        numPages:1,
     }
 };
 
@@ -20,6 +21,10 @@ const actions = {
     async getSearch({commit}, keyword){
         let result = await reqSearch(keyword);
         if (result.status === 200) commit('GETSEARCH', result.data.data);
+    },
+    async getSearchTypeForPage({commit}, {keyword, type, page}){
+        let result = await reqSearchTypeForPage(keyword, type, page);
+        if (result.status === 200) commit('GETSEARCHTYPEFORPAGE', {type, data: result.data.data})
     }
 };
 
@@ -34,6 +39,10 @@ const mutations = {
         const result = {};
         data.result.forEach(item => result[item.result_type] = item.data);
         state.searchResult = result;
+        state.numPages = data.numPages;
+    },
+    GETSEARCHTYPEFORPAGE(state, {type, data}){
+        state.searchResult[type] = data.result;
     }
 };
 
