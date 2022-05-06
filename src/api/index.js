@@ -47,6 +47,16 @@ export const reqQRCodeLoginState = (data)=>requestsLogin({
     data: data,
 })
 
+// 退出登录
+export const reqLogout = (data)=>requestsLogin({
+    url:'/login/exit/v2',
+    method:'post',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data: data,
+})
+
 // 用户登录信息
 export const reqLoginInfo = ()=>requests({
     url:'/x/web-interface/nav',

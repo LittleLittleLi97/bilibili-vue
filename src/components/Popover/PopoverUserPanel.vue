@@ -39,6 +39,7 @@
                         <div class="follow-key">动态</div>
                     </a>
                 </div>
+                <div class="logout-btn common-bgcgrey" @click="logoutFunction"><i class="iconfont icon-tuichu"></i><span>退出登录</span></div>
             </div>
         </template>
     </Popover>
@@ -63,6 +64,12 @@ export default {
         const currentLevelClass = computed(()=>`#icon-ic_userlevel_${store.state.Login.userInfo.level}`);
         const nextLevelClass = computed(()=>`icon-ic_userlevel_${store.state.Login.userInfo.level + 1}`);
         const levelProgressStyle = computed(()=>`width:${(store.state.Login.userInfo.level_exp.current_exp / store.state.Login.userInfo.level_exp.next_exp * 100).toFixed(2)}%;`)
+
+        async function logoutFunction(){
+            let result = await store.dispatch('Login/getLogout');
+            console.log(result)
+            if (result === true) window.location.reload();
+        }
         return {
             userInfo,
             userCardInfo,
@@ -70,6 +77,8 @@ export default {
             currentLevelClass,
             nextLevelClass,
             levelProgressStyle,
+
+            logoutFunction,
         }
     }
 }
@@ -195,6 +204,29 @@ export default {
 
                     transition: color 0.2s;
                 }
+            }
+        }
+        .logout-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-weight: 500;
+
+            width: 100%;
+
+            margin-top: 30px;
+            padding: 15px 0;
+
+            border: 1px solid #e3e5e7;
+            border-radius: 6px;
+
+            box-sizing: border-box;
+
+            cursor: pointer;
+
+            .iconfont {
+                margin-right: 10px;
             }
         }
     }

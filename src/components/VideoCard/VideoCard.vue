@@ -1,7 +1,9 @@
 <template>
     <div class="video-card" v-if="videoInfo">
-        <router-link :to="videoInfo.toVideoUrl" target="_blank">
+        <router-link :to="videoInfo.toVideoUrl" target="_blank" class="image-area">
             <ImageArea :pic="videoInfo.pic" :playNum="videoInfo.playNum" :likeNum="videoInfo.likeNum" :durationStr="videoInfo.durationStr" />
+        </router-link>
+        <router-link :to="videoInfo.toVideoUrl" target="_blank">
             <div class="video-title common-fontblue" v-html="videoInfo.title"></div>
         </router-link>
         <a class="video-info common-fontblue" href="">
@@ -37,8 +39,15 @@ export default {
 
 <style scoped lang="less">
 .video-card {
+    display: flex;
+    flex-direction: column;
+
     width: 100%;
     height: 100%;
+
+    .image-area {
+        flex: 1;
+    }
 
     .video-title {
         // 文字溢出隐藏，用...代替 https://blog.csdn.net/liqun_super/article/details/109747014
@@ -55,7 +64,6 @@ export default {
 
         height: 44px;
 
-
         margin-top: 5px;
     }
     .video-info {
@@ -65,6 +73,8 @@ export default {
 
         color: #9499A0;
         font-size: 13px;
+
+        height: 13px;
 
         margin-top: 5px;
     }

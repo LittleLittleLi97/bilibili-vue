@@ -62,11 +62,11 @@
             </div>
         </div>
         <div class="right-frame">
-            <div class="up-info">
-                <div class="info-face"><img src="" alt=""></div>
+            <div class="up-info" v-if="videoInfo">
+                <div class="info-face"><img :src="videoInfo.owner.face" alt=""></div>
                 <div class="info-right">
                     <div class="first-row">
-                        <div class="up-name">啊哈name</div>
+                        <div class="up-name">{{ videoInfo.owner.name }}</div>
                         <div class="send-message"><i class="iconfont"></i><span>发消息</span></div>
                     </div>
                     <div class="info-description">来了就点个关注呗～</div>

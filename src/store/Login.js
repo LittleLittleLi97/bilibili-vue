@@ -1,6 +1,6 @@
-import { reqQRCode, reqQRCodeLoginState, reqLoginInfo, reqUserInfo, reqUserCardInfo } from "@/api";
+import { reqQRCode, reqQRCodeLoginState, reqLoginInfo, reqUserInfo, reqUserCardInfo, reqLogout } from "@/api";
 
-import { setCookie } from "@/utils";
+import { setCookie, getCookie } from "@/utils";
 
 import qs from 'qs';
 
@@ -33,6 +33,13 @@ const actions = {
             commit('SETLOGINSTEP', result.data.data);
             return false;
         }
+    },
+    async getLogout(){
+        let result = await reqLogout(qs.stringify({
+            biliCSRF: getCookie('bili_jct')
+        }));
+        if (result.status === 200 && result.data.status) return true;
+        else return false;
     },
     async getLoginInfo({commit, dispatch}){
         // ！！！ 页面初始化时发送，登录成功后也要记得发送，不然登录信息没更新 ！！！

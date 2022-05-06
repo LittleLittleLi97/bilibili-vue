@@ -20,8 +20,6 @@ export default {
 
         padding-top: 15px;
 
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-
         box-sizing: border-box;
     
         .popover-inner {
@@ -31,6 +29,8 @@ export default {
     
             border: 1px solid #e3e5e7;
             border-radius: 8px;
+
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 
             box-sizing: border-box;
         }

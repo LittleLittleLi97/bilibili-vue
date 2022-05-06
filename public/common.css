@@ -37,3 +37,12 @@
     /* animation: fontBlue 0.2s 1 forwards; */
     color: #00aeec !important;
 }
+
+/* 背景变灰 */
+.common-bgcgrey {
+    transition: background-color 0.2s;
+}
+
+.common-bgcgrey:hover {
+    background-color: #e3e5e7;
+}

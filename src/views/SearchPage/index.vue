@@ -72,7 +72,7 @@ export default {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            grid-gap: 12px;
+            grid-gap: 20px 12px;
         }
         .pagination-area {
             display: flex;

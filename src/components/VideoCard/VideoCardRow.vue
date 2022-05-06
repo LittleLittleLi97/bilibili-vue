@@ -5,9 +5,9 @@
         </router-link>
         <div class="video-info">
             <router-link :to="videoInfo.toVideoUrl" target="_blank">
-                <div class="info-title">{{ videoInfo.title }}</div>
+                <div class="info-title common-fontblue">{{ videoInfo.title }}</div>
             </router-link>
-            <div class="info-name">{{ videoInfo.authorName }}</div>
+            <div class="info-name common-fontblue">{{ videoInfo.authorName }}</div>
             <div class="info-popular">{{ videoInfo.playNum }} 播放 · {{ videoInfo.danmaku }} 弹幕</div>
         </div>
     </div>
@@ -78,6 +78,8 @@ export default {
         .info-name {
             font-size: 12px;
             color: #999999;
+
+            cursor: pointer;
         }
         .info-popular {
             font-size: 12px;

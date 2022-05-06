@@ -38,12 +38,16 @@ export default {
 
         border-radius: 6px;
         overflow: hidden;
+        width: 100%;
+        height: 100%;
         .video-image {
+            width: 100%;
+            height: 100%;
             
             img {
                 width: 100%;
                 height: 100%;
-                height: 128px;
+                object-fit: cover;
             }
         }
         .mask {
