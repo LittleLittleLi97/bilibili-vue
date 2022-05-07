@@ -1,23 +1,95 @@
 <template>
-    <div class="block">
-        <el-carousel indicator-position="outside" trigger="click" arrow="always">
-            <el-carousel-item><img src="./images/01.png"></el-carousel-item>
-            <el-carousel-item><img src="./images/02.png"></el-carousel-item>
-            <el-carousel-item><img src="./images/03.png"></el-carousel-item>
-            <el-carousel-item><img src="./images/04.png"></el-carousel-item>
-        </el-carousel>
+    <div class="block" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+        <div class="image-list">
+            <div class="image-item" v-for="(item, index) in imageList" :key="index">
+                <transition>
+                    <img 
+                        :src="require(`./images/${item.image_name}`)"
+                        class="image-link"
+                        v-show="currentIndex === index"
+                    >
+                </transition>
+            </div>
+        </div>
+        <div class="turn-page">
+            <div class="turn-page-button" @click="changeIndex(currentIndex - 1)">
+                <i class="iconfont icon-prev"></i>
+            </div>
+            <div class="turn-page-button" @click="changeIndex(currentIndex + 1)">
+                <i class="iconfont icon-next"></i>
+            </div>
+        </div>
+        <div class="dot">
+            <div class="dot-item"
+                :style="currentIndex === index-1 ? 'width:14px; height:14px;' : ''"
+                v-for="index in imageLength"
+                @click="changeIndex(index-1)"
+            ></div>
+        </div>
         <!-- 遮罩层问题以后用js来解决 -->
         <div class="carousel-mask"></div>
     </div>
 </template>
 
 <script>
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 export default {
     name:'Carousel',
+    setup(props) {
+        // 准备数据
+        const imageList = reactive([
+            {image_name:'01.png'},
+            {image_name:'02.png'},
+            {image_name:'03.png'},
+            {image_name:'04.png'}
+        ]);
+        const imageLength = computed(()=>imageList.length);
+
+        // 定时器
+        const currentIndex = ref(0);
+        let timer = null;
+        function autoplay(){
+            clearInterval(timer);
+            timer = setInterval(() => {
+                currentIndex.value += 1;
+            }, 3000);
+        }
+        watch(currentIndex, (value)=>{
+            if (currentIndex.value === imageList.length) currentIndex.value = 0;
+            else if (currentIndex.value < 0) currentIndex.value = imageList.length - 1;
+        })
+        function changeIndex(index){
+            currentIndex.value = index;
+            clearInterval(timer);
+            autoplay();
+        }
+        function mouseEnter(){
+            clearInterval(timer);
+            timer = null;
+        }
+        function mouseLeave(){
+            autoplay();
+        }
+        onMounted(()=>{
+            autoplay();
+        })
+        onBeforeUnmount(()=>{
+            clearInterval(timer);
+            timer = null;
+        })
+        return {
+            imageList,
+            imageLength,
+            currentIndex,
+            changeIndex,
+            mouseEnter,
+            mouseLeave,
+        }
+    }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .block {
     position: relative;
 
@@ -26,23 +98,97 @@ export default {
 
     border-radius: 6px;
     overflow: hidden;
-}
-.block img {
-    width: 100%;
-    height: 100%;
-}
-.el-carousel__button {
-    /* 加上scoped后，此选择器不能生效 */
-}
-.block .carousel-mask {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
 
-    height: 700px;
-    /* background-color: #adc; */
-    -webkit-mask-image: linear-gradient(0,#2f3238 11%,transparent 20%);
+    .image-list {
+        position: relative;
+
+        .image-item {
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            .image-link {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .turn-page {
+        display: flex;
+
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2;
+
+        .turn-page-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 28px;
+            height: 28px;
+
+            margin: 0 8px;
+
+            border-radius: 8px;
+
+            background-color: rgba(225, 225, 225, 0.2);
+
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(225, 225, 225, 0.5);
+            }
+            .iconfont {
+                color: #fff;
+                font-weight: 1000;
+            }
+        }
+    }
+    .dot {
+        display: flex;
+        align-items: center;
+
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        z-index: 2;
+
+        .dot-item {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            margin: 0 5px;
+
+            background-color: #fff;
+
+            cursor: pointer;
+        }
+    }
+    .carousel-mask {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+
+        height: 700px;
+        background-color: #adc;
+        -webkit-mask-image: linear-gradient(0,#2f3238 11%,transparent 20%);
+    }
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: all 0.2s;
+}
+.v-enter-from {
+    transform: translateX(100%);
+}
+.v-leave-to {
+    transform: translateX(-100%);
 }
 </style>
