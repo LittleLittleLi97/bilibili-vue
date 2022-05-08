@@ -1,9 +1,10 @@
-import { reqVideoList, reqVideoRank } from "../api";
+import { reqCarouselInfo, reqVideoList, reqVideoRank } from "../api";
 
 const state = ()=>{
     return {
         videoList:{},
         rankList:{},
+        carouselList:[],
     }
 };
 
@@ -16,6 +17,10 @@ const actions = {
         let result = await reqVideoRank(rid, day, original);
         if (result.status === 200) commit('GETRANKLIST', {data:result.data.data, rid});
     },
+    async getCarouselInfo({commit}){
+        let result = await reqCarouselInfo();
+        if (result.status === 200) commit('GETCAROUSELINFO', result.data);
+    }
 };
 
 const mutations = {
@@ -25,6 +30,9 @@ const mutations = {
     GETRANKLIST(state, {data, rid}){
         state.rankList[rid] = data;
     },
+    GETCAROUSELINFO(state, data){
+        state.carouselList = data;
+    }
 };
 
 const getters = {

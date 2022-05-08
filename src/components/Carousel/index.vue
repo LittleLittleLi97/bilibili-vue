@@ -1,14 +1,16 @@
 <template>
     <div class="block" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
         <div class="image-list">
-            <div class="image-item" v-for="(item, index) in imageList" :key="index">
-                <transition>
+            <div class="image-item" v-for="(item, index) in carouselList" :key="index">
+                <router-link :to="`/video/${item.bvid}`" target="_blank">
+                    <transition>
                     <img 
-                        :src="require(`./images/${item.image_name}`)"
+                        :src="item.image_url"
                         class="image-link"
                         v-show="currentIndex === index"
                     >
-                </transition>
+                    </transition>
+                </router-link>
             </div>
         </div>
         <div class="turn-page">
@@ -26,25 +28,21 @@
                 @click="changeIndex(index-1)"
             ></div>
         </div>
-        <!-- 遮罩层问题以后用js来解决 -->
-        <div class="carousel-mask"></div>
+        <div class="image-title">{{ carouselList[currentIndex]&&carouselList[currentIndex].title }}</div>
+        <div class="carousel-mask" :style="`background-color:${carouselList[currentIndex]&&carouselList[currentIndex].RGB};`"></div>
     </div>
 </template>
 
 <script>
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+import { useStore } from 'vuex';
 export default {
     name:'Carousel',
     setup(props) {
+        const store = useStore();
         // 准备数据
-        const imageList = reactive([
-            {image_name:'01.png'},
-            {image_name:'02.png'},
-            {image_name:'03.png'},
-            {image_name:'04.png'}
-        ]);
-        const imageLength = computed(()=>imageList.length);
-
+        const carouselList = computed(()=>store.state.HomePage.carouselList);
+        const imageLength = computed(()=>carouselList.value.length);
         // 定时器
         const currentIndex = ref(0);
         let timer = null;
@@ -55,8 +53,8 @@ export default {
             }, 3000);
         }
         watch(currentIndex, (value)=>{
-            if (currentIndex.value === imageList.length) currentIndex.value = 0;
-            else if (currentIndex.value < 0) currentIndex.value = imageList.length - 1;
+            if (currentIndex.value >= imageLength.value) currentIndex.value = 0;
+            else if (currentIndex.value < 0) currentIndex.value = imageLength.value - 1;
         })
         function changeIndex(index){
             currentIndex.value = index;
@@ -72,13 +70,14 @@ export default {
         }
         onMounted(()=>{
             autoplay();
+            store.dispatch('HomePage/getCarouselInfo');
         })
         onBeforeUnmount(()=>{
             clearInterval(timer);
             timer = null;
         })
         return {
-            imageList,
+            carouselList,
             imageLength,
             currentIndex,
             changeIndex,
@@ -117,7 +116,7 @@ export default {
         display: flex;
 
         position: absolute;
-        right: 20px;
+        right: 10px;
         bottom: 20px;
         z-index: 2;
 
@@ -168,6 +167,16 @@ export default {
             cursor: pointer;
         }
     }
+    .image-title {
+        position: absolute;
+        left: 20px;
+        bottom: 50px;
+        z-index: 2;
+
+        font-size: 18px;
+        font-weight: 400;
+        color: #fff;
+    }
     .carousel-mask {
         position: absolute;
         left: 0;
@@ -176,8 +185,11 @@ export default {
         z-index: 1;
 
         height: 700px;
-        background-color: #adc;
+        background-color: #fff;
         -webkit-mask-image: linear-gradient(0,#2f3238 11%,transparent 20%);
+
+        // mask盖住图片会阻止点击事件，使用此来解决
+        pointer-events: none;
     }
 }
 

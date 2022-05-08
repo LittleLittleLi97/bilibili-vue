@@ -41,6 +41,12 @@ module.exports = {
                 pathRewrite: {
                     '^/login':''
                 }
+            },
+            '/nodejs': {
+                target: 'http://localhost:3030/',
+                pathRewrite: {
+                    '^/nodejs':''
+                }
             }
         }
     }

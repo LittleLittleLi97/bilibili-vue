@@ -14,3 +14,8 @@ export const requestsSearch = axios.create({
 export const requestsLogin = axios.create({
     baseURL:'/login',
 });
+
+// nodejs
+export const requestsNodejs = axios.create({
+    baseURL:'/nodejs',
+})

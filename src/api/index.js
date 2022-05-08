@@ -1,4 +1,4 @@
-import { requests, requestsLogin, requestsSearch } from "./request";
+import { requests, requestsLogin, requestsNodejs, requestsSearch } from "./request";
 
 // HomePage
 export const reqPlaceholder = ()=>requests({
@@ -15,6 +15,11 @@ export const reqVideoRank = (rid, day=3, original=0)=>requests({
     url:`/x/web-interface/ranking/region?day=${day}&original=${original}&rid=${rid}`,
     method:'get',
 });
+
+export const reqCarouselInfo = ()=>requestsNodejs({
+    url:'/info/carousel',
+    method:'get',
+})
 
 // VideoPage
 export const reqVideoInfo = (bvid)=>requests({
