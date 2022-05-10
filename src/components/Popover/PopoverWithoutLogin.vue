@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Popover from './Popover.vue'
+import Popover from './base/Popover.vue'
 export default {
     name:'PopoverWithoutLogin',
     components:{
@@ -29,9 +29,13 @@ export default {
 }
 </script>
 
-<style scpoed lang="less">
+<style scoped lang="less">
     .pop-content {
         width: 360px;
+
+        padding: 22px 20px;
+
+        box-sizing: border-box;
 
         .pop-text {
             text-align: center;

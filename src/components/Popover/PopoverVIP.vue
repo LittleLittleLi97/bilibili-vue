@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Popover from './Popover.vue'
+import Popover from './base/Popover.vue'
 export default {
     name:'PopoverVIP',
     components:{
@@ -23,6 +23,10 @@ export default {
 <style scoped lang="less">
     .pop-content {
         width: 230px;
+
+        padding: 22px 20px;
+
+        box-sizing: border-box;
 
         .title {
             font-size: 14px;

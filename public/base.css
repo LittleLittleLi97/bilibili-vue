@@ -8,3 +8,18 @@
 body {
     min-width: 1200px;
 }
+
+body *, body *:before, body *:after {
+    box-sizing: border-box;
+}
+
+:root {
+    --text1: #18191c;
+    --text2: #61666d;
+
+    --line_regular: #e3e5e7;
+
+    --brand-blue: #00aeec;
+
+    --graph-bg-thick: #e3e5e7;
+}

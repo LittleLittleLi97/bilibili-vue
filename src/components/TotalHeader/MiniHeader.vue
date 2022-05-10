@@ -66,11 +66,13 @@
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-mail"></i><span>消息</span></a>
-                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" class="popover" />
+                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" class="popover" /> -->
+                <PopoverMessage />
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a>
-                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="关注动态" style="left:-200px;" class="popover" />
+                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="关注动态" style="left:-200px;" class="popover" /> -->
+                <PopoverDynamic style="left:-200px;" />
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a>
@@ -93,9 +95,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex'
 
 import Login from '@/components/Login/index.vue'
-import PopoverWithoutLogin from '@/components/Popover/Popover.vue'
+import PopoverWithoutLogin from '@/components/Popover/PopoverWithoutLogin.vue'
 import PopoverVIP from '@/components/Popover/PopoverVIP.vue'
 import PopoverUserPanel from '@/components/Popover/PopoverUserPanel.vue'
+import PopoverMessage from '@/components/Popover/PopoverMessage.vue'
+import PopoverDynamic from '@/components/Popover/PopoverDynamic.vue'
 export default {
     name:'MiniHeader',
     components:{
@@ -103,6 +107,8 @@ export default {
         PopoverWithoutLogin,
         PopoverVIP,
         PopoverUserPanel,
+        PopoverMessage,
+        PopoverDynamic,
     },
     setup(props) {
         const route = useRoute();

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Popover from './Popover.vue'
+import Popover from './base/Popover.vue'
 
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
@@ -91,6 +91,10 @@ export default {
         align-items: center;
 
         width: 280px;
+
+        padding: 22px 20px;
+
+        box-sizing: border-box;
         
         .user-name {
             font-size: 18px;

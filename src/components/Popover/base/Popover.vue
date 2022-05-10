@@ -23,7 +23,7 @@ export default {
         box-sizing: border-box;
     
         .popover-inner {
-            padding: 22px 20px;
+            // padding: 22px 20px;
 
             background-color: #fff;
     
