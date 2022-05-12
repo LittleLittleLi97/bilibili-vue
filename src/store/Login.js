@@ -4,6 +4,8 @@ import { setCookie, getCookie } from "@/utils";
 
 import qs from 'qs';
 
+// 有部分应该放在UserInfo中的函数，还没有动
+
 const state = ()=>{
     return {
         QRCodeUrl:undefined,

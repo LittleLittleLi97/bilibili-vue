@@ -40,7 +40,7 @@
 
 /* 背景变灰 */
 .common-bgcgrey {
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
 }
 
 .common-bgcgrey:hover {

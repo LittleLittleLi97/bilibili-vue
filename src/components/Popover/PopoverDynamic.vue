@@ -1,19 +1,23 @@
 <template>
-    <PopoverThreeColumns>
-        here
-    </PopoverThreeColumns>
+    <PopoverOneColumn title="视频动态">
+        <DynamicCard/>
+        <DynamicCard/>
+        <DynamicCard/>
+    </PopoverOneColumn>
 </template>
 
 <script>
-import PopoverThreeColumns from './base/PopoverThreeColumns.vue'
+import PopoverOneColumn from './base/PopoverOneColumn.vue'
+import DynamicCard from '@/components/VideoCard/DynamicCard.vue'
 export default {
     name: 'PopoverDynamic',
     components: {
-        PopoverThreeColumns
+        PopoverOneColumn,
+        DynamicCard,
     }
 }
 </script>
 
-<style>
+<style scoped lang="less">
 
 </style>

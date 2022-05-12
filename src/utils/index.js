@@ -19,6 +19,16 @@ export const changeNum = function(num) {
     else return num.toFixed(1) + '万';
 }
 
+// 数字前填充0，比如C中的%2d
+export const paddingNum = function(num, length) {
+    let len = (num + "").length;
+    let diff = length - len + 1;
+    if(diff > 0) {
+        return Array(diff).join("0") + num;
+    }
+    return num;
+}
+
 // 解析视频信息
 // 这里推荐视频和搜索视频的参数不一样，简直了
 export const parseVideoInfo = function(info, img_params){

@@ -5,7 +5,7 @@
                 <div class="content-header">
                     <div class="title-active title">视频动态</div>
                     <div class="title">直播</div>
-                    <div class="title">专栏</div>
+                    <div class="title">{{ columnsName[2] }}</div>
                 </div>
                 <slot></slot>
             </div>
@@ -14,11 +14,23 @@
 </template>
 
 <script>
+// 未添加非普通视频，暂时不用此组件
 import Popover from './Popover.vue'
 export default {
     name: 'PopoverThreeColumns',
     components: {
         Popover
+    },
+    props: {
+        columnsName: {
+            type: Array,
+            default: []
+        }
+    },
+    setup(props) {
+        return {
+            columnsName: props['columnsName'],
+        }  
     }
 }
 </script>

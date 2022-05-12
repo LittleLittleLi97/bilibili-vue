@@ -76,7 +76,13 @@ export const reqUserInfo = ()=>requests({
 
 export const reqUserCardInfo = (mid)=>requests({
     url:`/x/web-interface/card?mid=${mid}`,
-    method:'get'
+    method:'get',
+})
+
+// 用户信息：历史记录
+export const reqGetHistory = ()=>requests({
+    url:'/x/web-interface/history/cursor',
+    method:'get',
 })
 
 // 热搜

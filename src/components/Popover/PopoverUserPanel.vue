@@ -8,9 +8,9 @@
                     <div class="coin-left">
                         <span class="coin-key">硬币：</span><span class="coin-value">{{ userInfo.coins }}</span>
                     </div>
-                    <div class="coin-right">
+                    <!-- <div class="coin-right">
                         <span class="coin-key">B币：</span><span class="coin-value">612</span>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="user-level">
                     <div class="level-icon">

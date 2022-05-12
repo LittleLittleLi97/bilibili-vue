@@ -80,7 +80,8 @@
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a>
-                <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="历史记录" style="left:-200px;" class="popover" />
+                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="历史记录" style="left:-200px;" class="popover" /> -->
+                <PopoverHistory style="left:-200px"/>
             </li>
             <li class="user-item"><a href=""><i class="iconfont icon-icon"></i><span>创作中心</span></a></li>
         </ul>
@@ -100,6 +101,7 @@ import PopoverVIP from '@/components/Popover/PopoverVIP.vue'
 import PopoverUserPanel from '@/components/Popover/PopoverUserPanel.vue'
 import PopoverMessage from '@/components/Popover/PopoverMessage.vue'
 import PopoverDynamic from '@/components/Popover/PopoverDynamic.vue'
+import PopoverHistory from '@/components/Popover/PopoverHistory.vue'
 export default {
     name:'MiniHeader',
     components:{
@@ -109,6 +111,7 @@ export default {
         PopoverUserPanel,
         PopoverMessage,
         PopoverDynamic,
+        PopoverHistory,
     },
     setup(props) {
         const route = useRoute();
