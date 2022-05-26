@@ -1,4 +1,4 @@
-import { requests, requestsLogin, requestsNodejs, requestsSearch } from "./request";
+import { requests, requestsApivc, requestsLogin, requestsNodejs, requestsSearch } from "./request";
 
 // HomePage
 export const reqPlaceholder = ()=>requests({
@@ -79,9 +79,28 @@ export const reqUserCardInfo = (mid)=>requests({
     method:'get',
 })
 
-// 用户信息：历史记录
+// 用户信息：MiniHeader 历史记录
 export const reqGetHistory = ()=>requests({
     url:'/x/web-interface/history/cursor',
+    method:'get',
+})
+
+// 用户信息：MiniHeader 视频动态
+// https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/dynamic_new?uid=${}&type_list=${}
+export const reqVideoDynamic = (uid)=>requestsApivc({
+    // url:`/dynamic_svr/v1/dynamic_svr/dynamic_new?uid=${uid}&type_list=8,512,4097,4098,4099,4100,4101`,
+    url:'/dynamic_draft/v1/dynamic_draft/get_draft_cnt',
+    method:'get',
+})
+
+// 用户信息：收藏夹
+export const reqUserCollect = (uid)=>requests({
+    url:`/x/v3/fav/folder/created/list-all?up_mid=${uid}`,
+    method:'get',
+})
+
+export const reqUserCollectDetail = (id)=>requests({
+    url:`/x/v3/fav/resource/list?media_id=${id}&ps=10`,
     method:'get',
 })
 

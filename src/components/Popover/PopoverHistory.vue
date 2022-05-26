@@ -48,7 +48,6 @@ export default {
         const historyInfoClassify = computed(()=>store.getters['UserInfo/historyInfoClassify']);
         onMounted(()=>{
             store.dispatch('UserInfo/getHistoryInfo');
-            setTimeout(()=>console.log(store.getters),3000);
         })
         return {
             historyInfoClassify,

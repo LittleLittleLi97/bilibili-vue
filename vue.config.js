@@ -24,6 +24,15 @@ module.exports = {
                     '^/api':''
                 }
             },
+            '/apivc': {
+                target: 'https://api.vc.bilibili.com/',
+                headers: {
+                    Referer: 'https://t.bilibili.com/'
+                },
+                pathRewrite: {
+                    '^/apivc':''
+                }
+            },
             '/search': {
                 target: 'https://s.search.bilibili.com/',
                 headers: {

@@ -6,6 +6,11 @@ export const requests = axios.create({
     baseURL:'/api',
 });
 
+export const requestsApivc = axios.create({
+    // 用于https://api.vc.bilibili.com/
+    baseURL:'/apivc',
+})
+
 export const requestsSearch = axios.create({
     baseURL:'/search',
 });

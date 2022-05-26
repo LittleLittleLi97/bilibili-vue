@@ -29,6 +29,12 @@ export const paddingNum = function(num, length) {
     return num;
 }
 
+export const durationToStr = function(duration){
+    const mm = parseInt(duration / 60);
+    const s = duration - mm * 60;
+    return paddingNum(mm, 2) + ':' + paddingNum(s, 2);
+}
+
 // 解析视频信息
 // 这里推荐视频和搜索视频的参数不一样，简直了
 export const parseVideoInfo = function(info, img_params){
@@ -79,8 +85,7 @@ export const setCookie = function(cname,cvalue,exTime){
     document.cookie = cname+"="+cvalue+"; "+expires;
 }
 
-export const getCookie = function(cname)
-{
+export const getCookie = function(cname){
   var name = cname + "=";
   var ca = document.cookie.split(';');
   for(var i=0; i<ca.length; i++) 
@@ -89,4 +94,9 @@ export const getCookie = function(cname)
     if (c.indexOf(name)==0) return c.substring(name.length,c.length);
   }
   return "";
+}
+
+// 获取用户id
+export const getUid = function(){
+    return getCookie('DedeUserID');
 }
