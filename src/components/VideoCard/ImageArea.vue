@@ -40,14 +40,22 @@ export default {
         overflow: hidden;
         width: 100%;
         height: 100%;
-        .video-image {
+
+        .video-image { // https://blog.csdn.net/aben_sky/article/details/123684331
+            position: relative;
+
             width: 100%;
-            height: 100%;
+            height: 0;
+
+            padding-bottom: 60%;
             
             img {
+                position: absolute;
+
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                object-position: center;
             }
         }
         .mask {

@@ -44,5 +44,5 @@
 }
 
 .common-bgcgrey:hover {
-    background-color: #e3e5e7;
+    background-color: #e3e5e7 !important;
 }

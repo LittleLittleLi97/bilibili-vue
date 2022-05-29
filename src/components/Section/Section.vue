@@ -1,6 +1,6 @@
 <template>
     <div class="section">
-        <AreaHeader :videoType="sectionType.videoType" />
+        <AreaHeader :videoType="sectionType.videoType" :svg="sectionType.svg" />
         <div class="card-list">
             <VideoCard v-for="(item, index) in videoList" :key="index"
                 :videoInfo="item"

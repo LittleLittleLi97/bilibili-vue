@@ -54,8 +54,8 @@ export default {
         // section区域
         function sectionConstruct(){
             const sectionList = reactive([
-                {videoType:"动画", rid:1, num:10},
-                {videoType:"国创", rid:167, num:10}
+                {videoType:"动画", svg:"icon-fanjutuijian", rid:1, num:10},
+                {videoType:"国创", svg:"icon-dianshiju", rid:167, num:10}
             ]);
             // store中的视频列表，下面withrank中不需要再写此条计算属性，因为共用一个videoList
             const videoList = computed(()=>store.state.HomePage.videoList);
@@ -70,8 +70,8 @@ export default {
         // WithRank区域
         function withRankConstruct(){
             const withRankList = reactive([
-                {videoType:"音乐", rid:3, num:8, day:3},
-                {videoType:"舞蹈", rid:129, num:8, day:3},
+                {videoType:"音乐", svg:"icon-yule", rid:3, num:8, day:3},
+                {videoType:"舞蹈", svg:"icon-zhibo1", rid:129, num:8, day:3},
             ]);
             const rankList = computed(()=>store.state.HomePage.rankList);
             onMounted(()=>{

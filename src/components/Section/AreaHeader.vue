@@ -2,10 +2,13 @@
     <div class="area-header">
         <div class="area-left">
             <div class="area-title">
-                <i class="iconfont icon-guanggao"></i>&nbsp;
+                <svg class="icon" aria-hidden="true">
+                    <use :xlink:href="`#${svg}`"></use>
+                </svg>
+                &nbsp;&nbsp;
                 <a href="" class="common-title">{{ videoType }}</a>
             </div>
-            <div class="area-timer">
+            <!-- <div class="area-timer">
                 <a href="" class="date-select active">最近更新</a>
                 <a href="" class="date-select">周一</a>
                 <a href="" class="date-select">周二</a>
@@ -14,12 +17,12 @@
                 <a href="" class="date-select">周五</a>
                 <a href="" class="date-select">周六</a>
                 <a href="" class="date-select">周日</a>
-            </div>
+            </div> -->
         </div>
         <div class="area-right">
-            <a href="" class="common-border-button right-change"><i class="iconfont icon-shuaxin"></i>&nbsp;换一换</a>
-            <a href="" class="common-border-button right-timer">新番时间表<i class="iconfont icon-arrow"></i></a>
-            <a href="" class="common-border-button right-more">查看更多<i class="iconfont icon-arrow"></i></a>
+            <a href="javascript:;" class="common-border-button right-change"><i class="iconfont icon-shuaxin"></i>&nbsp;换一换</a>
+            <a href="javascript:;" class="common-border-button right-timer">新番时间表<i class="iconfont icon-arrow"></i></a>
+            <a href="javascript:;" class="common-border-button right-more">查看更多<i class="iconfont icon-arrow"></i></a>
         </div>
     </div>
 </template>
@@ -27,10 +30,11 @@
 <script>
 export default {
     name:'AreaHeader',
-    props:["videoType"],
+    props:["videoType", "svg"],
     setup(props) {
         return {
             videoType: props.videoType,
+            svg: props.svg,
         }
     }
 }
@@ -49,8 +53,13 @@ export default {
     align-items: center;
 }
 /* 左侧标题 */
-.area-title i {
-    font-size: 24px;
+.area-title {
+    display: flex;
+    align-items: center;
+}
+.area-title .icon {
+    width: 28px;
+    height: 28px;
 }
 /* 左侧日期选择 */
 .area-timer {

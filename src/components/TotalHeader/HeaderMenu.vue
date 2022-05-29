@@ -7,24 +7,24 @@
         </div>
         <div class="right-grid">
             <div class="menu-channel">
-                <a href="" class="channel-item">番剧</a>
-                <a href="" class="channel-item">国创</a>
-                <a href="" class="channel-item">综艺</a>
-                <a href="" class="channel-item">动画</a>
-                <a href="" class="channel-item">鬼畜</a>
-                <a href="" class="channel-item">舞蹈</a>
-                <a href="" class="channel-item">娱乐</a>
-                <a href="" class="channel-item">科技</a>
-                <a href="" class="channel-item">美食</a>
-                <a href="" class="channel-item">电影</a>
-                <a href="" class="channel-item">电视剧</a>
-                <a href="" class="channel-item">纪录片</a>
-                <a href="" class="channel-item">游戏</a>
-                <a href="" class="channel-item">音乐</a>
-                <a href="" class="channel-item">影视</a>
-                <a href="" class="channel-item">知识</a>
-                <a href="" class="channel-item">资讯</a>
-                <a href="" class="channel-item">更多</a>
+                <a href="" class="channel-item common-bgcgrey">番剧</a>
+                <a href="" class="channel-item common-bgcgrey">国创</a>
+                <a href="" class="channel-item common-bgcgrey">综艺</a>
+                <a href="" class="channel-item common-bgcgrey">动画</a>
+                <a href="" class="channel-item common-bgcgrey">鬼畜</a>
+                <a href="" class="channel-item common-bgcgrey">舞蹈</a>
+                <a href="" class="channel-item common-bgcgrey">娱乐</a>
+                <a href="" class="channel-item common-bgcgrey">科技</a>
+                <a href="" class="channel-item common-bgcgrey">美食</a>
+                <a href="" class="channel-item common-bgcgrey">电影</a>
+                <a href="" class="channel-item common-bgcgrey">电视剧</a>
+                <a href="" class="channel-item common-bgcgrey">纪录片</a>
+                <a href="" class="channel-item common-bgcgrey">游戏</a>
+                <a href="" class="channel-item common-bgcgrey">音乐</a>
+                <a href="" class="channel-item common-bgcgrey">影视</a>
+                <a href="" class="channel-item common-bgcgrey">知识</a>
+                <a href="" class="channel-item common-bgcgrey">资讯</a>
+                <a href="" class="channel-item common-bgcgrey">更多</a>
             </div>
             <div class="menu-activity">
                 <a href="" class="activity-item common-fontblue"><i class="iconfont icon-icon-zhuanlan-zhuanlanwenzhang"></i>专栏</a>
@@ -123,10 +123,6 @@ export default {
                     letter-spacing: 2px;
                     
                     border-radius: 8px;
-
-                    &:hover {
-                        animation: bgcGray 0.3s 1 forwards;
-                    }
                 }
             }
             .menu-activity {
@@ -156,13 +152,5 @@ export default {
     }
     .bgc-channel {
         background-color: #59ca73;
-    }
-    @keyframes bgcGray {
-        0% {
-
-        }
-        100% {
-            background-color: #e3e5e7;
-        }
     }
 </style>

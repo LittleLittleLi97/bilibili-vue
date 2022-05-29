@@ -5,9 +5,15 @@
             <a href="" class="common-border-button">更多<i class="iconfont icon-arrow"></i></a>
         </div>
         <div class="rank-list" ref="rankListDiv">
-            <a href="" class="rank-item" v-for="(item, index) in rankList" :key="index">
-                <span class="item-index" :data-index="index+1">{{ index+1 }}</span><span class="item-title">{{ item.title }}</span>
-            </a>
+            <router-link 
+                class="rank-item" 
+                v-for="(item, index) in rankList" 
+                :key="index"
+                :to="`/video/${item.bvid}`"
+                target="_blank"
+                >
+                <span class="item-index" :data-index="index+1">{{ index+1 }}</span><span class="item-title common-fontblue">{{ item.title }}</span>
+            </router-link>
         </div>
     </div>
 </template>
@@ -73,6 +79,7 @@ export default {
                 font-family: Avenir;
                 font-style: italic;
                 font-weight: 600;
+                color: var(--graph_weak);
                 
                 &[data-index="1"] {
                     color: #ff473d;

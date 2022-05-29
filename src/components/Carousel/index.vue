@@ -93,7 +93,7 @@ export default {
     position: relative;
 
     width: 100%;
-    height: 82.5%;
+    height: 83.5%;
 
     border-radius: 6px;
     overflow: hidden;
@@ -184,7 +184,7 @@ export default {
         bottom: 0;
         z-index: 1;
 
-        height: 700px;
+        height: 850px;
         background-color: #fff;
         -webkit-mask-image: linear-gradient(0,#2f3238 11%,transparent 20%);
 

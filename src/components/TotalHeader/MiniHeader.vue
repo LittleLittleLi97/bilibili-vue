@@ -58,33 +58,44 @@
                 <div class="user-panel" v-else>
                     <div class="user-face"><img :src="loginInfo.face" alt=""></div>
                 </div>
-                <PopoverUserPanel v-if="isLogin" class="popover" style="left:-150px;" />
+                <div class="pop-frame">
+                    <PopoverUserPanel v-if="isLogin" style="left:-150px;" />
+                </div>
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-icon_dingdao_dahuiyuan"></i><span>大会员</span></a>
-                <PopoverVIP style="left:-100px;" class="popover" />
+                <div class="pop-frame">
+                    <PopoverVIP style="left:-100px;" />
+                </div>
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-mail"></i><span>消息</span></a>
-                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" class="popover" /> -->
-                <PopoverMessage />
+                <div class="pop-frame">
+                    <PopoverMessage v-if="isLogin" />
+                    <PopoverWithoutLogin v-else :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" />
+                </div>
             </li>
-            <li class="user-item">
+            <!-- 接口获取数据有问题，暂时不弄 -->
+            <!-- <li class="user-item">
                 <a href=""><i class="iconfont icon-fengche"></i><span>动态</span></a>
-                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="关注动态" style="left:-200px;" class="popover" /> -->
-                <PopoverDynamic style="left:-200px;" />
-            </li>
+                <PopoverDynamic v-if="isLogin" style="left:-200px;" />
+                <PopoverWithoutLogin v-else :clickBtnEvent="openLoginWindow" text="关注动态" style="left:-200px;" />
+            </li> -->
             <li class="user-item">
                 <a href=""><i class="iconfont icon-shoucang"></i><span>收藏</span></a>
-                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="我的收藏" style="left:-200px;" class="popover" /> -->
-                <PopoverCollect style="left:-300px;" />
+                <div class="pop-frame">
+                    <PopoverCollect v-if="isLogin" style="left:-300px;" />
+                    <PopoverWithoutLogin v-else :clickBtnEvent="openLoginWindow" text="我的收藏" style="left:-200px;" />
+                </div>
             </li>
             <li class="user-item">
                 <a href=""><i class="iconfont icon-history"></i><span>历史记录</span></a>
-                <!-- <PopoverWithoutLogin :clickBtnEvent="openLoginWindow" text="历史记录" style="left:-200px;" class="popover" /> -->
-                <PopoverHistory style="left:-200px"/>
+                <div class="pop-frame">
+                    <PopoverHistory v-if="isLogin" style="left:-200px"/>
+                    <PopoverWithoutLogin v-else :clickBtnEvent="openLoginWindow" text="历史记录" style="left:-200px;" />
+                </div>
             </li>
-            <li class="user-item"><a href=""><i class="iconfont icon-icon"></i><span>创作中心</span></a></li>
+            <li class="user-item"><a href="javascript:;"><i class="iconfont icon-icon"></i><span>创作中心</span></a></li>
         </ul>
         <div class="upload"><span>投稿</span></div>
     </div>
@@ -92,7 +103,7 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted, toRefs, toRef, computed} from 'vue';
+import {ref, reactive, onMounted, toRefs, toRef, computed, onBeforeUnmount} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex'
 
@@ -129,19 +140,26 @@ export default {
                 inputAreaFocusStyle: null,
                 inputFocusStyle: null,
             })
+            // 添加样式
             function inputClick(){
                 searchStyleControl.inputAreaFocusStyle = "border-radius: 8px 8px 0 0;";
                 searchStyleControl.inputFocusStyle = "background-color: #e3e5e7;";
                 searchStyleControl.recommendShow = true;
             }
+            // 去除样式
+            function removeStyle(){
+                searchStyleControl.inputAreaFocusStyle = "";
+                searchStyleControl.inputFocusStyle = "";
+                searchStyleControl.recommendShow = false;
+            }
+            function mountClickFunction(event){
+                if (!searchDiv.value.contains(event.target)) removeStyle();
+            }
             onMounted(() => {
-                document.addEventListener('click', (event)=>{
-                    if (!searchDiv.value.contains(event.target)) {
-                        searchStyleControl.inputAreaFocusStyle = "";
-                        searchStyleControl.inputFocusStyle = "";
-                        searchStyleControl.recommendShow = false;
-                    }
-                })
+                document.addEventListener('click', mountClickFunction);
+            })
+            onBeforeUnmount(()=>{
+                document.removeEventListener('click', mountClickFunction);
             })
             // 搜索控制
             function searchFunction(){
@@ -155,9 +173,7 @@ export default {
                         }
                     })
                     // 搜索后搜索框样式需要恢复
-                    searchStyleControl.inputAreaFocusStyle = "";
-                    searchStyleControl.inputFocusStyle = "";
-                    searchStyleControl.recommendShow = false;
+                    removeStyle();
                 }
                 return {
                     searchKeyword,
@@ -276,6 +292,8 @@ export default {
             flex: 1;
 
             position: relative;
+
+            margin: 0 20px;
 
             .input-area {
                 display: flex;
@@ -453,10 +471,17 @@ export default {
 
                 position: relative;
 
-                .popover {
+                // .popover {
+                //     // display: none;
+                // }
+                // &:hover .popover {
+                //     // display: block;
+                // }
+
+                .pop-frame {
                     display: none;
                 }
-                &:hover .popover {
+                &:hover .pop-frame {
                     display: block;
                 }
 
