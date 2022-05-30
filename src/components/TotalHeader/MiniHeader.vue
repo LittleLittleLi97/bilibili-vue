@@ -35,7 +35,6 @@
                         <li v-for="(item, index) in historyList" :key="item.time">
                             <div @click="searchJump(item.keyword)">{{ item.keyword }}</div>
                         </li>
-                        <li><a href="">凡人修仙传</a></li>
                     </ul>
                 </div>
                 <div class="recommend-hot">
@@ -71,7 +70,7 @@
             <li class="user-item">
                 <a href=""><i class="iconfont icon-mail"></i><span>消息</span></a>
                 <div class="pop-frame">
-                    <PopoverMessage v-if="isLogin" />
+                    <PopoverMessage v-if="isLogin" style="left:-20px;" />
                     <PopoverWithoutLogin v-else :clickBtnEvent="openLoginWindow" text="消息记录" style="left:-200px;" />
                 </div>
             </li>

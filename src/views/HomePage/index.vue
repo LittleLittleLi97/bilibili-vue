@@ -41,7 +41,7 @@ export default {
         const store = useStore();
         // main-recommend区域
         function recommendConstruct(){
-            const rid = 27;
+            const rid = 36;
             const num = 6;
             const recommendVideoList = computed(()=>store.state.HomePage.videoList[rid] && store.state.HomePage.videoList[rid].archives);
             onMounted(()=>{

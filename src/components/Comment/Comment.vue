@@ -3,7 +3,7 @@
         <div class="person-face"><img src="./images/face.jpeg" alt=""></div>
         <div class="right-detail">
             <div class="person-info">
-                <div class="person-name">HeyGirlImUrs</div>
+                <div class="person-name">哈喽哈喽</div>
                 <div class="person-badge">
                     <svg class="icon svg-level" aria-hidden="true"><use xlink:href="#icon-ic_userlevel_6"></use></svg>
                     <svg class="icon svg-up" aria-hidden="true"><use xlink:href="#icon-UPzhu"></use></svg>

@@ -1,5 +1,5 @@
 <template>
-    <div class="collect-card">
+    <router-link :to="`/video/${videoInfo.bvid}`" target="_blank" class="collect-card">
         <div class="image-area">
             <img :src="videoInfo.cover" alt="">
         </div>
@@ -8,7 +8,7 @@
             <div class="time font">{{ timeStr }}</div>
             <div class="author-name font"><i class="iconfont icon-UPzhu"></i>&nbsp;<span>{{ videoInfo.upper.name }}</span></div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>

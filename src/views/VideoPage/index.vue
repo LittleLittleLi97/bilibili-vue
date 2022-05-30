@@ -10,7 +10,9 @@
                     <span>{{ videoPubDate.Y }}-{{ videoPubDate.M }}-{{ videoPubDate.D }} {{ videoPubDate.h }}:{{ videoPubDate.mm }}:{{ videoPubDate.s }}</span>
                 </div>
             </div>
-            <div class="video-area"></div>
+            <div class="video-area">
+                <iframe :src="`//player.bilibili.com/player.html?aid=213485948&bvid=${videoInfo.bvid}&cid=${videoInfo.cid}`" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="600px"> </iframe>
+            </div>
             <div class="support-bar">
                 <ul class="support-list">
                     <li class="support-item"><i class="iconfont icon-zan"></i><span>{{ likeNum }}</span></li>
@@ -168,6 +170,7 @@ export default {
 
                 .video-title {
                     font-size: 18px;
+                    line-height: 25px;
                     color: #212121;
                     font-weight: 500;
                 }
@@ -181,7 +184,7 @@ export default {
                 width: 100%;
 
 
-                background-color: #bfa;
+                // background-color: #bfa;
             }
             .support-bar {
                 display: flex;

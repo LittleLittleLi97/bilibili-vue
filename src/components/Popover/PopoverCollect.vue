@@ -14,6 +14,7 @@
                 </div>
                 <div class="collect-list" v-if="collectShow && collectShow.medias">
                     <CollectCard
+                        class="common-bgcgrey"
                         v-for="item in collectShow.medias"
                         :key="item.id"
                         :videoInfo="item"

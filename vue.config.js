@@ -13,6 +13,12 @@ module.exports = {
             }),
         ],
     },
+    chainWebpack: config =>{
+        config.plugin('html').tap(args => {
+            args[0].title = "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili";
+        return args;
+        })
+    },
     devServer:{
         proxy: {
             '/api': {
