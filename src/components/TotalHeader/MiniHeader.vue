@@ -6,36 +6,36 @@
             </svg>
         </router-link>
         <ul class="type-list">
-            <li class="type-item"><a href=""><i class="iconfont icon-bilibili-line" v-show="!slideShow"></i>首页</a></li>
-            <li class="type-item"><a href="">番剧</a></li>
-            <li class="type-item"><a href="">直播</a></li>
-            <li class="type-item"><a href="">游戏中心</a></li>
-            <li class="type-item"><a href="">会员购</a></li>
-            <li class="type-item"><a href="">漫画</a></li>
-            <li class="type-item"><a href="">赛事</a></li>
+            <li class="type-item"><a href="javascript:;"><i class="iconfont icon-bilibili-line" v-show="!slideShow"></i>首页</a></li>
+            <li class="type-item"><a href="javascript:;">番剧</a></li>
+            <li class="type-item"><a href="javascript:;">直播</a></li>
+            <li class="type-item"><a href="javascript:;">游戏中心</a></li>
+            <li class="type-item"><a href="javascript:;">会员购</a></li>
+            <li class="type-item"><a href="javascript:;">漫画</a></li>
+            <li class="type-item"><a href="javascript:;">赛事</a></li>
             <!-- <li class="type-item"><a href=""><i class="iconfont icon-iphone"></i>下载APP</a></li> -->
         </ul>
         <div class="search" ref="searchDiv">
             <div class="input-area" :style="inputAreaFocusStyle">
-                <input type="text" :placeholder="placeholderInfo.show_name" @click="inputClick" :style="inputFocusStyle" v-model="searchKeyword" @keyup.enter="searchJump(searchKeyword)">
+                <input type="text" 
+                    :placeholder="placeholderInfo.show_name" 
+                    @click="inputClick" 
+                    :style="inputFocusStyle" 
+                    v-model="searchKeyword" 
+                    @keyup.enter="searchJump(searchKeyword)"
+                >
                 <div class="search-button" @click="searchJump(searchKeyword)">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
             <div class="recommend-area" v-show="recommendShow">
-                <div class="recommend-history">
+                <div class="recommend-history" v-show="historyList.length > 0">
                     <div class="recommend-title">搜索历史</div>
                     <ul class="history-list">
+                        <li v-for="(item, index) in historyList" :key="item.time">
+                            <div @click="searchJump(item.keyword)">{{ item.keyword }}</div>
+                        </li>
                         <li><a href="">凡人修仙传</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
-                        <li><a href="">猫和老鼠</a></li>
                     </ul>
                 </div>
                 <div class="recommend-hot">
@@ -172,6 +172,16 @@ export default {
                             keyword: keyword
                         }
                     })
+                    // 添加历史记录
+                    const time = Date.now();
+                    let history = JSON.parse(localStorage.getItem('history')) || [];
+                    let index = -1;
+                    history.forEach((item, loc) => {
+                        if (item.keyword == keyword) index = loc;
+                    });
+                    if (index === -1) history.push({keyword, time});
+                    else history[index].time = time;
+                    localStorage.setItem('history', JSON.stringify(history));
                     // 搜索后搜索框样式需要恢复
                     removeStyle();
                 }
@@ -185,6 +195,17 @@ export default {
                 ...toRefs(searchStyleControl),
                 inputClick,
                 ...searchFunction(),
+            }
+        }
+        // 获取历史记录
+        function getHistoryList(){
+            const historyList = computed(()=>{
+                let history = JSON.parse(localStorage.getItem('history')) || [];
+                history.sort((a, b)=>a.time > b.time);
+                return history;
+            })
+            return {
+                historyList,
             }
         }
         // MiniHeader显示样式的控制，页面滑动后fixed到页面最顶部
@@ -246,6 +267,7 @@ export default {
         }
         return {
             ...searchShowEvent(),
+            ...getHistoryList(),
             ...slideEvent(),
             ...searchPanel(),
             // ...searchFunction(),
@@ -396,7 +418,7 @@ export default {
                             padding: 0 20px;
                             box-sizing: border-box;
 
-                            a {
+                            div {
                                 display: block;
                                 font-size: 12px;
                                 color: #18191c;
@@ -409,6 +431,8 @@ export default {
                                 border-radius: 6px;
 
                                 box-sizing: border-box;
+
+                                cursor: pointer;
 
                                 &:hover {
                                     color: #00aeec;

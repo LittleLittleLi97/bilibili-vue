@@ -6,7 +6,7 @@
                     <use :xlink:href="`#${svg}`"></use>
                 </svg>
                 &nbsp;&nbsp;
-                <a href="" class="common-title">{{ videoType }}</a>
+                <a href="javascript:;" class="common-title">{{ videoType }}</a>
             </div>
             <!-- <div class="area-timer">
                 <a href="" class="date-select active">最近更新</a>

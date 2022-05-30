@@ -1,38 +1,38 @@
 <template>
     <div class="wrap">
         <div class="menu-abstract">
-            <a href="" class="abstract-item"><div class="abstract-bgc bgc-dynamic"><i class="iconfont icon-fengche"></i></div>动态</a>
-            <a href="" class="abstract-item"><div class="abstract-bgc bgc-hot"><i class="iconfont icon-remen"></i></div>热门</a>
-            <a href="" class="abstract-item"><div class="abstract-bgc bgc-channel"><i class="iconfont icon-channel"></i></div>频道</a>
+            <a href="javascript:;" class="abstract-item"><div class="abstract-bgc bgc-dynamic"><i class="iconfont icon-fengche"></i></div>动态</a>
+            <a href="javascript:;" class="abstract-item"><div class="abstract-bgc bgc-hot"><i class="iconfont icon-remen"></i></div>热门</a>
+            <a href="javascript:;" class="abstract-item"><div class="abstract-bgc bgc-channel"><i class="iconfont icon-channel"></i></div>频道</a>
         </div>
         <div class="right-grid">
             <div class="menu-channel">
-                <a href="" class="channel-item common-bgcgrey">番剧</a>
-                <a href="" class="channel-item common-bgcgrey">国创</a>
-                <a href="" class="channel-item common-bgcgrey">综艺</a>
-                <a href="" class="channel-item common-bgcgrey">动画</a>
-                <a href="" class="channel-item common-bgcgrey">鬼畜</a>
-                <a href="" class="channel-item common-bgcgrey">舞蹈</a>
-                <a href="" class="channel-item common-bgcgrey">娱乐</a>
-                <a href="" class="channel-item common-bgcgrey">科技</a>
-                <a href="" class="channel-item common-bgcgrey">美食</a>
-                <a href="" class="channel-item common-bgcgrey">电影</a>
-                <a href="" class="channel-item common-bgcgrey">电视剧</a>
-                <a href="" class="channel-item common-bgcgrey">纪录片</a>
-                <a href="" class="channel-item common-bgcgrey">游戏</a>
-                <a href="" class="channel-item common-bgcgrey">音乐</a>
-                <a href="" class="channel-item common-bgcgrey">影视</a>
-                <a href="" class="channel-item common-bgcgrey">知识</a>
-                <a href="" class="channel-item common-bgcgrey">资讯</a>
-                <a href="" class="channel-item common-bgcgrey">更多</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">番剧</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">国创</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">综艺</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">动画</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">鬼畜</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">舞蹈</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">娱乐</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">科技</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">美食</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">电影</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">电视剧</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">纪录片</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">游戏</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">音乐</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">影视</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">知识</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">资讯</a>
+                <a href="javascript:;" class="channel-item common-bgcgrey">更多</a>
             </div>
             <div class="menu-activity">
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-icon-zhuanlan-zhuanlanwenzhang"></i>专栏</a>
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-qiziz"></i>活动</a>
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-nav_shequzhongxin"></i>社区中心</a>
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-zhibo"></i>直播</a>
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-ketang"></i>课堂</a>
-                <a href="" class="activity-item common-fontblue"><i class="iconfont icon-gequ"></i>新歌热榜</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-icon-zhuanlan-zhuanlanwenzhang"></i>专栏</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-qiziz"></i>活动</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-nav_shequzhongxin"></i>社区中心</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-zhibo"></i>直播</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-ketang"></i>课堂</a>
+                <a href="javascript:;" class="activity-item common-fontblue"><i class="iconfont icon-gequ"></i>新歌热榜</a>
             </div>
         </div>
     </div>
@@ -81,8 +81,10 @@ export default {
 
                     margin-bottom: 8px;
 
-                    i {
+                    .iconfont {
                         color: #fff;
+                        font-weight: 1000;
+                        font-size: 20px;
                     }
                 }
             }
