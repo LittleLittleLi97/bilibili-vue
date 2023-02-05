@@ -4,6 +4,7 @@
         <div class="area-left">
             <AreaHeader :videoType="sectionType.videoType" :svg="sectionType.svg" />
             <div class="card-list">
+                <SkeletonVideoCard :loading="videoList ? false : true" :length="10"/>
                 <VideoCard v-for="(item, index) in videoList" :key="index"
                 :videoInfo="item"
             />
@@ -20,12 +21,14 @@ import { useStore } from 'vuex'
 
 import AreaHeader from './AreaHeader.vue'
 import VideoCard from '@/components/VideoCard/VideoCard.vue'
+import SkeletonVideoCard from '@/components/VideoCard/SkeletonVideoCard.vue'
 import Rank from './Rank.vue'
 export default {
     name:'SectionWithRank',
     components:{
         AreaHeader,
         VideoCard,
+        SkeletonVideoCard,
         Rank,
     },
     props:["sectionType", "videoList", "rankList"],

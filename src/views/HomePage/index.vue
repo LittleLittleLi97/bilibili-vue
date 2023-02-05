@@ -4,6 +4,7 @@
     <div class="main-frame">
         <div class="main-recommend">
             <Carousel class="carousel"/>
+            <SkeletonVideoCard :loading="recommendVideoList ? false : true" :length="6"/>
             <VideoCard v-for="(item, index) in recommendVideoList" :key="index"
                 :videoInfo="item" />
         </div>
@@ -26,6 +27,7 @@ import { useStore } from 'vuex'
 import TotalHeader from '@/components/TotalHeader/index.vue'
 import Carousel from '@/components/Carousel/index.vue'
 import VideoCard from '@/components/VideoCard/VideoCard.vue'
+import SkeletonVideoCard from '@/components/VideoCard/SkeletonVideoCard.vue'
 import Section from '@/components/Section/Section.vue'
 import SectionWithRank from '@/components/Section/SectionWithRank.vue'
 export default {
@@ -34,6 +36,7 @@ export default {
         TotalHeader,
         Carousel,
         VideoCard,
+        SkeletonVideoCard,
         Section,
         SectionWithRank,
     },
