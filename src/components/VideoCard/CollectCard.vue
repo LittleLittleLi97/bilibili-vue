@@ -1,7 +1,7 @@
 <template>
     <router-link :to="`/video/${videoInfo.bvid}`" target="_blank" class="collect-card">
         <div class="image-area">
-            <img :src="videoInfo.cover" alt="">
+            <img v-lazy="videoInfo.cover" alt="">
         </div>
         <div class="right-info">
             <div class="title">{{ videoInfo.title }}</div>

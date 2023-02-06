@@ -1,5 +1,5 @@
 <template>
-    <el-skeleton style="width: 100%; height: 100%;" :loading="loading" v-for="item in length">
+    <el-skeleton style="width: 100%; height: 100%;" :loading="loading" v-for="item in length" animated :throttle="1000" >
         <template #template>
             <el-skeleton-item variant="image" style="width: 100%; padding-bottom: 60%;" />
             <div style="margin: 10px 0;">

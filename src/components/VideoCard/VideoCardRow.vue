@@ -1,7 +1,7 @@
 <template>
     <div class="video-card-row" v-if="videoInfo">
         <router-link :to="videoInfo.toVideoUrl" target="_blank">
-            <div class="video-image"><img :src="videoInfo.pic" alt=""></div>
+            <div class="video-image"><img v-lazy="videoInfo.pic" alt=""></div>
         </router-link>
         <div class="video-info">
             <router-link :to="videoInfo.toVideoUrl" target="_blank">

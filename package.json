@@ -16,6 +16,7 @@
     "less-loader": "^5.0.0",
     "qrcodejs2": "^0.0.2",
     "vue": "^3.0.0",
+    "vue-lazyload": "^3.0.0-rc.2",
     "vue-router": "^4.0.14",
     "vuex": "^4.0.2"
   },

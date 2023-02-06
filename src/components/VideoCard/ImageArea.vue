@@ -1,6 +1,6 @@
 <template>
     <div class="image-wrapper">
-        <div class="video-image"><img :src="pic"></div>
+        <div class="video-image"><img v-lazy="pic"></div>
         <div class="mask">
             <div class="mask-font">
                 <div class="font-left">
