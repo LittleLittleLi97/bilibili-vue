@@ -32,8 +32,8 @@
                 <div class="recommend-history" v-show="historyList.length > 0">
                     <div class="recommend-title">搜索历史</div>
                     <ul class="history-list">
-                        <li v-for="(item, index) in historyList" :key="item.time">
-                            <div @click="searchJump(item.keyword)">{{ item.keyword }}</div>
+                        <li v-for="(item, index) in historyList" :key="index">
+                            <div @click="searchJump(item)">{{ item }}</div>
                         </li>
                     </ul>
                 </div>
@@ -161,6 +161,7 @@ export default {
                 document.removeEventListener('click', mountClickFunction);
             })
             // 搜索控制
+            const historyList = ref(JSON.parse(localStorage.getItem('history')) || []);
             function searchFunction(){
                 const searchKeyword = ref();
                 function searchJump(keyword){
@@ -172,15 +173,10 @@ export default {
                         }
                     })
                     // 添加历史记录
-                    const time = Date.now();
-                    let history = JSON.parse(localStorage.getItem('history')) || [];
-                    let index = -1;
-                    history.forEach((item, loc) => {
-                        if (item.keyword == keyword) index = loc;
-                    });
-                    if (index === -1) history.push({keyword, time});
-                    else history[index].time = time;
-                    localStorage.setItem('history', JSON.stringify(history));
+                    const index = historyList.value.indexOf(keyword);
+                    if (index !== -1) historyList.value.splice(index, 1);
+                    historyList.value.unshift(keyword);
+                    localStorage.setItem('history', JSON.stringify(historyList.value));
                     // 搜索后搜索框样式需要恢复
                     removeStyle();
                 }
@@ -193,18 +189,8 @@ export default {
                 searchDiv,
                 ...toRefs(searchStyleControl),
                 inputClick,
-                ...searchFunction(),
-            }
-        }
-        // 获取历史记录
-        function getHistoryList(){
-            const historyList = computed(()=>{
-                let history = JSON.parse(localStorage.getItem('history')) || [];
-                history.sort((a, b)=>a.time > b.time);
-                return history;
-            })
-            return {
                 historyList,
+                ...searchFunction(),
             }
         }
         // MiniHeader显示样式的控制，页面滑动后fixed到页面最顶部
@@ -266,10 +252,8 @@ export default {
         }
         return {
             ...searchShowEvent(),
-            ...getHistoryList(),
             ...slideEvent(),
             ...searchPanel(),
-            // ...searchFunction(),
             ...loginControl(),
             ...acquireLoginInfo(),
         }
