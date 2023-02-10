@@ -30,6 +30,15 @@ module.exports = {
                     '^/api':''
                 }
             },
+            '/video': {
+                target: 'https://cn-sxxa-cu-02-02.bilivideo.com/',
+                headers: {
+                    Referer: 'https://www.bilibili.com/'
+                },
+                pathRewrite: {
+                    '^/video':''
+                }
+            },
             '/apivc': {
                 target: 'https://api.vc.bilibili.com/',
                 headers: {
