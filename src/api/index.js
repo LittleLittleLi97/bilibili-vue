@@ -37,6 +37,11 @@ export const reqVideoRelated = (bvid)=>requests({
     method:'get',
 });
 
+export const reqDanmaku = ()=>requestsNodejs({
+    url:'/info/danmaku',
+    method:'get',
+});
+
 // login
 export const reqQRCode = ()=>requestsLogin({
     url:'/qrcode/getLoginUrl',
