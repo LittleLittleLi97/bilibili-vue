@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="video-area">
-                <Video/>
+                <Video :cid="videoInfo.cid" />
             </div>
             <div class="support-bar">
                 <ul class="support-list">

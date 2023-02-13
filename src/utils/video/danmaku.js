@@ -1,10 +1,10 @@
 import DanmakuItem from "./danmakuItem";
 
 export default class Danmaku {
-    constructor(video, canvas, danmakuList) {
+    constructor(video, canvas, danmakuData) {
         this.video = video;
         this.canvas = canvas;
-        this.danmakuList = danmakuList;
+        this.danmakuData = danmakuData;
 
         this.canvasCtx = canvas.getContext('2d');
         this.canvas.width = video.offsetWidth;
@@ -14,7 +14,21 @@ export default class Danmaku {
         this.danmakuPool = this.createDanmakuPool();
     }
     createDanmakuPool() {
-        return this.danmakuList.map(dm => new DanmakuItem(dm, this));
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(this.danmakuData, 'text/xml');
+        const pool = Array.from(xml.getElementsByTagName('d')).map((item)=>{
+            const [time, type, font, color, sendTime, ..._] = item.getAttribute('p').split(',');
+            return new DanmakuItem({
+                content: item.textContent,
+                runTime: time,
+                color: parseInt(color, 10).toString(16),
+                speed: 2
+            }, this);
+        })
+        console.log(pool.length)
+        return pool;
+        // return this.danmakuList.map(dm => new DanmakuItem(dm, this));
+
     }
     render() { // 渲染前先清除再画
         this.clearRect();

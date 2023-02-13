@@ -37,6 +37,11 @@ export const reqVideoRelated = (bvid)=>requests({
     method:'get',
 });
 
+export const reqDanmakuXML = (cid)=>requests({
+    url: `/x/v1/dm/list.so?oid=${cid}`,
+    method: 'get',
+})
+
 export const reqDanmaku = ()=>requestsNodejs({
     url:'/info/danmaku',
     method:'get',

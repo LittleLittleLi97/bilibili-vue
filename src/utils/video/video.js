@@ -1,27 +1,28 @@
 import Danmaku from "./danmaku";
 
 export default class Video {
-    constructor(video, canvas, danmakuList) {
+    constructor(video, canvas, danmakuData) {
         this.video = video;
         this.canvas = canvas;
 
-        this.danmaku = new Danmaku(video, canvas, danmakuList);
+        this.danmaku = new Danmaku(video, canvas, danmakuData);
 
         this.bindEvent();
     }
     bindEvent() {
-        this.video.addEventListener('play', this.handleVideoPlay, false);
-        this.video.addEventListener('pause', this.hanldeVideoPause, false);
-        this.video.addEventListener('seeked', this.handleVideoSeek, false);
+        // 回调时this有问题，用bind解决
+        this.video.addEventListener('play', this.handleVideoPlay.bind(this), false);
+        this.video.addEventListener('pause', this.hanldeVideoPause.bind(this), false);
+        this.video.addEventListener('seeked', this.handleVideoSeek.bind(this), false);
     }
     handleVideoPlay() {
         this.danmaku.paused = false;
         this.danmaku.render();
     }
     hanldeVideoPause() {
-        window.videoDanmaku.paused = true;
+        this.danmaku.paused = true;
     }
     handleVideoSeek() {
-        window.videoDanmaku.reset();
+        this.danmaku.reset();
     }
 }
