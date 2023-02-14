@@ -1,10 +1,13 @@
 import DanmakuItem from "./danmakuItem";
+import proto from './dm_pb.js';
+
 
 export default class Danmaku {
-    constructor(video, canvas, danmakuData) {
+    constructor(video, canvas, danmakuData, danmakuType) {
         this.video = video;
         this.canvas = canvas;
         this.danmakuData = danmakuData;
+        this.danmakuType = danmakuType;
 
         this.canvasCtx = canvas.getContext('2d');
         this.canvas.width = video.offsetWidth;
@@ -14,21 +17,7 @@ export default class Danmaku {
         this.danmakuPool = this.createDanmakuPool();
     }
     createDanmakuPool() {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(this.danmakuData, 'text/xml');
-        const pool = Array.from(xml.getElementsByTagName('d')).map((item)=>{
-            const [time, type, font, color, sendTime, ..._] = item.getAttribute('p').split(',');
-            return new DanmakuItem({
-                content: item.textContent,
-                runTime: time,
-                color: parseInt(color, 10).toString(16),
-                speed: 2
-            }, this);
-        })
-        console.log(pool.length)
-        return pool;
-        // return this.danmakuList.map(dm => new DanmakuItem(dm, this));
-
+        return this[this.danmakuType]();
     }
     render() { // 渲染前先清除再画
         this.clearRect();
@@ -66,5 +55,23 @@ export default class Danmaku {
                 dm.stopDrawing = true;
             }
         })
+    }
+    xml() {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(this.danmakuData, 'text/xml');
+        const pool = Array.from(xml.getElementsByTagName('d')).map((item)=>{
+            const [time, type, font, color, sendTime, ..._] = item.getAttribute('p').split(',');
+            return new DanmakuItem({
+                content: item.textContent,
+                runTime: time,
+                color: parseInt(color, 10).toString(16),
+                speed: 2
+            }, this);
+        })
+        return pool;
+    }
+    protobuf() {
+        const a = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);
+        console.log(a)
     }
 }

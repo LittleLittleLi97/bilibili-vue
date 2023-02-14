@@ -10,7 +10,7 @@
 <script>
 import { ref, onMounted } from 'vue'
 
-import { reqDanmakuXML } from '@/api/index.js'
+import { reqDanmakuProtobuf } from '@/api/index.js'
 import Video from '@/utils/video/video.js'
 export default {
     name: 'Video',
@@ -19,9 +19,9 @@ export default {
         const canvasBox = ref();
         const videoBox = ref();
         onMounted(()=>{
-            const danmakuResult = reqDanmakuXML(props.cid);
+            const danmakuResult = reqDanmakuProtobuf(1, props.cid, 1);
             danmakuResult.then((result)=>{
-                new Video(videoBox.value, canvasBox.value, result.data);
+                new Video(videoBox.value, canvasBox.value, result.data, 'protobuf');
             })
         })
         return {

@@ -1,11 +1,11 @@
 import Danmaku from "./danmaku";
 
 export default class Video {
-    constructor(video, canvas, danmakuData) {
+    constructor(video, canvas, danmakuData, danmakuType) {
         this.video = video;
         this.canvas = canvas;
 
-        this.danmaku = new Danmaku(video, canvas, danmakuData);
+        this.danmaku = new Danmaku(video, canvas, danmakuData, danmakuType);
 
         this.bindEvent();
     }

@@ -37,6 +37,12 @@ export const reqVideoRelated = (bvid)=>requests({
     method:'get',
 });
 
+export const reqDanmakuProtobuf = (type, cid, segment_index)=>requests({
+    url: `/x/v2/dm/web/seg.so?type=${type}&oid=${cid}&segment_index=${segment_index}`,
+    method: 'get',
+    responseType: 'arraybuffer',
+})
+
 export const reqDanmakuXML = (cid)=>requests({
     url: `/x/v1/dm/list.so?oid=${cid}`,
     method: 'get',
