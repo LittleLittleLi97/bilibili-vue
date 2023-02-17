@@ -1,13 +1,3 @@
-import protobuf from 'protobufjs'
-
-export function isObject(value) {
-    return Object.prototype.toString.call(value) === '[object Object]';
-}
-
-export function isArray(value) {
-    return Array.isArray(value);
-}
-
 export function getTextWidth(content, fontSize) { // 可以尝试canvas的measureText
     const span = document.createElement('span');
     span.innerText = content;
@@ -30,8 +20,4 @@ export function getTextPosition(canvas, fontSize, ctx) {
 
 export function transformColorDecToHex(color) {
     return parseInt(color, 10).toString(16);
-}
-
-export function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
 }

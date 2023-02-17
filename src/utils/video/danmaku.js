@@ -1,3 +1,4 @@
+import RandomQueue from "../data-structure/RandomQueue";
 import DanmakuItem from "./danmakuItem";
 import proto from './dm_pb.js';
 import { transformColorDecToHex } from "./utils";
@@ -14,12 +15,13 @@ export default class Danmaku {
         this.canvas.width = video.offsetWidth;
         this.canvas.height = video.offsetHeight;
 
-        this.height = 50;
-        this.inlineGap = 50;
+        this.height = 30;
+        this.inlineGap = 30;
         
         this.paused = true;
         this.danmakuPool = this.createDanmakuPool();
-        this.track = []; // [[0, 50], [50, 100], ...]
+        this.track = [];
+        this.trackQueue = new RandomQueue();
 
         this.init();
     }
@@ -27,11 +29,17 @@ export default class Danmaku {
         this.initTrack();
     }
     initTrack() {
-        const trackNum = parseInt(this.canvas.width / this.height);
+        this.trackNum = parseInt(this.canvas.height / this.height);
 
-        for (let i = 0; i < trackNum; i++) {
-            this.track.push([i * this.height, (i + 1) * this.height]);
+        for (let i = 0; i < this.trackNum; i++) {
+            this.track.push({
+                id: i,
+                top: i * this.height, 
+                bottom: (i + 1) * this.height - 1,
+            });
+            this.trackQueue.push(i);
         }
+
     }
     createDanmakuPool() {
         return this[this.danmakuType]();
@@ -39,20 +47,38 @@ export default class Danmaku {
     render() { // 渲染前先清除再画
         this.clearRect();
         this.drawDanmaku();
+        this.canvasCtx.font = `20px PingFang SC`;
+        this.canvasCtx.fillStyle = `red`;
+        this.canvasCtx.fillText('测试', 0, 20);
         !this.paused && requestAnimationFrame(this.render.bind(this));
     }
     drawDanmaku() {
         const currentTime = this.video.currentTime;
         this.danmakuPool.map((dm)=>{
             if (!dm.stopDrawing && currentTime >= dm.runTime) {
-                if (!dm.isInitialized) {
-                    dm.initialize();
-                    dm.isInitialized = true;
+                if (!dm.isInitialized) { // 此danmakuItem是第一次绘制
+                    const trackId = this.trackQueue.get();
+                    const track = this.track[trackId];
+                    if (track) { // 满轨
+                        track.last = dm.id;
+                        dm.initialize(track.top);
+                        dm.trackId = track.id;
+                        dm.isInitialized = true;
+                    } else {
+                        dm.stopDrawing = true;
+                        return;
+                    }
                 }
                 dm.X -= dm.speed;
                 dm.draw();
 
-                if (dm.X <= dm.width * -1) {
+                // danmakuItem移动距离超过inline-gap，释放轨道
+                if (dm.id === this.track[dm.trackId].last && this.canvas.width - dm.X - dm.width > this.inlineGap) {
+                    this.track[dm.trackId].last = undefined;
+                    this.trackQueue.push(dm.trackId);
+                }
+
+                if (dm.X <= dm.width * -1) { // 此danmakuItem绘制结束
                     dm.stopDrawing = true;
                 }
             }
@@ -61,8 +87,15 @@ export default class Danmaku {
     clearRect() {
         this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+    resetTrack() {
+        this.trackQueue.clear();
+        for (let i = 0; i < this.trackNum; i++) {
+            this.trackQueue.push(i);
+        }
+    }
     reset() {
         this.clearRect();
+        this.resetTrack()
         const currentTime = this.video.currentTime;
         this.danmakuPool.map((dm)=>{
             dm.stopDrawing = false;
@@ -92,6 +125,7 @@ export default class Danmaku {
         const pool = result.array[0].map((item)=>{
             const [id, runTime, mode, fontsize, color, midHash, content, ctime, weight, action, pool, idStr] = item;
             return new DanmakuItem({
+                id,
                 content,
                 runTime: runTime / 1000,
                 color: transformColorDecToHex(color),
