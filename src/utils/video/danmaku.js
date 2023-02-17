@@ -12,8 +12,6 @@ export default class Danmaku {
         this.danmakuType = danmakuType;
 
         this.canvasCtx = canvas.getContext('2d');
-        this.canvas.width = video.offsetWidth;
-        this.canvas.height = video.offsetHeight;
 
         this.height = 30;
         this.inlineGap = 30;
@@ -26,7 +24,12 @@ export default class Danmaku {
         this.init();
     }
     init() {
+        this.initCanvas();
         this.initTrack();
+    }
+    initCanvas() {
+        this.canvas.width = this.video.offsetWidth;
+        this.canvas.height = this.video.offsetHeight;
     }
     initTrack() {
         this.trackNum = parseInt(this.canvas.height / this.height);
@@ -47,9 +50,6 @@ export default class Danmaku {
     render() { // 渲染前先清除再画
         this.clearRect();
         this.drawDanmaku();
-        this.canvasCtx.font = `20px PingFang SC`;
-        this.canvasCtx.fillStyle = `red`;
-        this.canvasCtx.fillText('测试', 0, 20);
         !this.paused && requestAnimationFrame(this.render.bind(this));
     }
     drawDanmaku() {
@@ -59,12 +59,19 @@ export default class Danmaku {
                 if (!dm.isInitialized) { // 此danmakuItem是第一次绘制
                     const trackId = this.trackQueue.get();
                     const track = this.track[trackId];
-                    if (track) { // 满轨
-                        track.last = dm.id;
+                    if (track) {
+                        dm.speed = 2 + Math.random(); // 2 ~ 3
+                        if (track.last && !track.last.stopDrawing) {
+                            const last = track.last;
+                            // 追及问题，保证前后弹幕间距始终大于inline-gap
+                            const maxSpeed = (this.canvas.width - this.inlineGap) / ((last.X + last.width) / last.speed);
+                            if (maxSpeed < dm.speed) dm.speed = maxSpeed;
+                        }
+                        track.release = dm;
+                        track.last = dm;
                         dm.initialize(track.top);
                         dm.trackId = track.id;
-                        dm.isInitialized = true;
-                    } else {
+                    } else { // 满轨
                         dm.stopDrawing = true;
                         return;
                     }
@@ -73,8 +80,8 @@ export default class Danmaku {
                 dm.draw();
 
                 // danmakuItem移动距离超过inline-gap，释放轨道
-                if (dm.id === this.track[dm.trackId].last && this.canvas.width - dm.X - dm.width > this.inlineGap) {
-                    this.track[dm.trackId].last = undefined;
+                if (dm === this.track[dm.trackId].release && this.canvas.width - dm.X - dm.width > this.inlineGap) {
+                    this.track[dm.trackId].release = undefined; // 防止重复释放
                     this.trackQueue.push(dm.trackId);
                 }
 
@@ -106,19 +113,10 @@ export default class Danmaku {
             }
         })
     }
-    xml() {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(this.danmakuData, 'text/xml');
-        const pool = Array.from(xml.getElementsByTagName('d')).map((item)=>{
-            const [time, type, font, color, sendTime, ..._] = item.getAttribute('p').split(',');
-            return new DanmakuItem({
-                content: item.textContent,
-                runTime: time,
-                color: transformColorDecToHex(color),
-                speed: 2
-            }, this);
-        })
-        return pool;
+    resize() {
+        this.initCanvas();
+        this.initTrack();
+        console.log(this.trackNum)
     }
     protobuf() {
         const result = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);

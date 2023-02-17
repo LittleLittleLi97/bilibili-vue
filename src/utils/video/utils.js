@@ -9,15 +9,6 @@ export function getTextWidth(content, fontSize) { // 可以尝试canvas的measur
     return width;
 }
 
-export function getTextPosition(canvas, fontSize, ctx) {
-    let x = canvas.width;
-    let y = canvas.height * Math.random();
-    y < fontSize && (y = fontSize);
-    y > canvas.height - fontSize && (y = canvas.height - fontSize);
-    ctx.X = x;
-    ctx.Y = y;
-}
-
 export function transformColorDecToHex(color) {
     return parseInt(color, 10).toString(16);
 }
