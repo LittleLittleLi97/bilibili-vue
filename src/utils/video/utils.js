@@ -27,3 +27,11 @@ export function getTextPosition(canvas, fontSize, ctx) {
     ctx.X = x;
     ctx.Y = y;
 }
+
+export function transformColorDecToHex(color) {
+    return parseInt(color, 10).toString(16);
+}
+
+export function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}

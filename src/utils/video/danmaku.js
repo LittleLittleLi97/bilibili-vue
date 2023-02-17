@@ -1,5 +1,6 @@
 import DanmakuItem from "./danmakuItem";
 import proto from './dm_pb.js';
+import { transformColorDecToHex } from "./utils";
 
 
 export default class Danmaku {
@@ -12,9 +13,25 @@ export default class Danmaku {
         this.canvasCtx = canvas.getContext('2d');
         this.canvas.width = video.offsetWidth;
         this.canvas.height = video.offsetHeight;
+
+        this.height = 50;
+        this.inlineGap = 50;
         
         this.paused = true;
         this.danmakuPool = this.createDanmakuPool();
+        this.track = []; // [[0, 50], [50, 100], ...]
+
+        this.init();
+    }
+    init() {
+        this.initTrack();
+    }
+    initTrack() {
+        const trackNum = parseInt(this.canvas.width / this.height);
+
+        for (let i = 0; i < trackNum; i++) {
+            this.track.push([i * this.height, (i + 1) * this.height]);
+        }
     }
     createDanmakuPool() {
         return this[this.danmakuType]();
@@ -64,14 +81,25 @@ export default class Danmaku {
             return new DanmakuItem({
                 content: item.textContent,
                 runTime: time,
-                color: parseInt(color, 10).toString(16),
+                color: transformColorDecToHex(color),
                 speed: 2
             }, this);
         })
         return pool;
     }
     protobuf() {
-        const a = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);
-        console.log(a)
+        const result = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);
+        const pool = result.array[0].map((item)=>{
+            const [id, runTime, mode, fontsize, color, midHash, content, ctime, weight, action, pool, idStr] = item;
+            return new DanmakuItem({
+                content,
+                runTime: runTime / 1000,
+                color: transformColorDecToHex(color),
+                mode,
+                fontsize,
+                speed: 2, // 速度现在这里固定，随机速度需要在第一次绘制前确定
+            }, this);
+        })
+        return pool;
     }
 }
