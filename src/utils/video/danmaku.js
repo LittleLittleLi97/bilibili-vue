@@ -16,6 +16,7 @@ export default class Danmaku {
         this.height = 30;
         this.inlineGap = 30;
         
+        this.lastPool = 0;
         this.currentPool = 0;
         this.paused = true;
         this.reqSended = [];
@@ -122,6 +123,7 @@ export default class Danmaku {
                 dm.stopDrawing = true;
             }
         })
+        this.lastPool = this.currentPool; // seek切换segment后reset，之后在当前segment内，reset的是当前segment
     }
     resize() {
         this.initCanvas();
@@ -167,6 +169,9 @@ export default class Danmaku {
         })
     }
     setSegment(segment_index) { // 切换使用的danmakuPool
-        this.currentPool = segment_index - 1;
+        if (segment_index - 1 !== this.currentPool) {
+            this.lastPool = this.currentPool;
+            this.currentPool = segment_index - 1;
+        }
     }
 }
