@@ -1,3 +1,4 @@
+import { reqDanmakuProtobuf } from "@/api";
 import RandomQueue from "../data-structure/RandomQueue";
 import DanmakuItem from "./danmakuItem";
 import proto from './dm_pb.js';
@@ -5,19 +6,20 @@ import { transformColorDecToHex } from "./utils";
 
 
 export default class Danmaku {
-    constructor(video, canvas, danmakuData, danmakuType) {
+    constructor(video, canvas, cid) {
         this.video = video;
         this.canvas = canvas;
-        this.danmakuData = danmakuData;
-        this.danmakuType = danmakuType;
+        this.cid = cid;
 
         this.canvasCtx = canvas.getContext('2d');
 
         this.height = 30;
         this.inlineGap = 30;
         
+        this.currentPool = 0;
         this.paused = true;
-        this.danmakuPool = this.createDanmakuPool();
+        this.reqSended = [];
+        this.danmakuPool = [];
         this.track = [];
         this.trackQueue = new RandomQueue();
 
@@ -26,6 +28,7 @@ export default class Danmaku {
     init() {
         this.initCanvas();
         this.initTrack();
+        this.reqDanmaku(1);
     }
     initCanvas() {
         this.canvas.width = this.video.offsetWidth;
@@ -44,17 +47,16 @@ export default class Danmaku {
         }
 
     }
-    createDanmakuPool() {
-        return this[this.danmakuType]();
-    }
     render() { // 渲染前先清除再画
         this.clearRect();
         this.drawDanmaku();
         !this.paused && requestAnimationFrame(this.render.bind(this));
     }
     drawDanmaku() {
+        if (!this.danmakuPool[this.currentPool]) return;
+
         const currentTime = this.video.currentTime;
-        this.danmakuPool.map((dm)=>{
+        this.danmakuPool[this.currentPool].map((dm)=>{
             if (!dm.stopDrawing && currentTime >= dm.runTime) {
                 if (!dm.isInitialized) { // 此danmakuItem是第一次绘制
                     const trackId = this.trackQueue.get();
@@ -106,10 +108,13 @@ export default class Danmaku {
         }
     }
     reset() {
+        /** seek时的reset，清除屏幕，重置轨道，重置弹幕的stopDrawing状态，时间点之前的为true，之后的为false。
+         *  但会有几秒的弹幕不满屏，效果不好。可以试着以随机speed计算弹幕在屏幕上的位置并填充。
+         */
         this.clearRect();
-        this.resetTrack()
+        this.resetTrack();
         const currentTime = this.video.currentTime;
-        this.danmakuPool.map((dm)=>{
+        this.danmakuPool[this.lastPool].map((dm)=>{
             dm.stopDrawing = false;
             if (currentTime <= dm.runTime) {
                 dm.isInitialized = false;
@@ -136,8 +141,8 @@ export default class Danmaku {
         }
         this.trackNum = newTrackNum;
     }
-    protobuf() {
-        const result = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);
+    protobuf(data) {
+        const result = proto.DmSegMobileReply.deserializeBinary(data);
         const pool = result.array[0].map((item)=>{
             const [id, runTime, mode, fontsize, color, midHash, content, ctime, weight, action, pool, idStr] = item;
             return new DanmakuItem({
@@ -151,5 +156,17 @@ export default class Danmaku {
             }, this);
         })
         return pool;
+    }
+    reqDanmaku(segment_index) {
+        const index = segment_index - 1;
+        if (this.reqSended[index]) return;
+        this.reqSended[index] = true;
+        reqDanmakuProtobuf(1, this.cid, segment_index).then((result)=>{
+            const pool = this.protobuf(result.data);
+            this.danmakuPool[index] = pool;
+        })
+    }
+    setSegment(segment_index) { // 切换使用的danmakuPool
+        this.currentPool = segment_index - 1;
     }
 }

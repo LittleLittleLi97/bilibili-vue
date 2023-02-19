@@ -31,11 +31,10 @@ export default {
             videoFull = !videoFull;
         }
         onMounted(()=>{
-            document.addEventListener('fullscreenchange', ()=>console.log('full'))
-            const danmakuResult = reqDanmakuProtobuf(1, props.cid, 1);
-            danmakuResult.then((result)=>{
-                new Video(videoBox.value, canvasBox.value, result.data, 'protobuf');
-            });
+            // const danmakuResult = reqDanmakuProtobuf(1, props.cid, 1);
+            // danmakuResult.then((result)=>{
+            // });
+            new Video(videoBox.value, canvasBox.value, props.cid);
         })
         return {
             videoAreaBox,
