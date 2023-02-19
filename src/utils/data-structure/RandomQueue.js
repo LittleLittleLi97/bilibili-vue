@@ -20,4 +20,8 @@ export default class RandomQueue {
     length() {
         return this.queue.length;
     }
+    filter(callback) {
+        this.queue = this.queue.filter(callback);
+        console.log(this.queue)
+    }
 }

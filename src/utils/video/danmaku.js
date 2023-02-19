@@ -115,8 +115,23 @@ export default class Danmaku {
     }
     resize() {
         this.initCanvas();
-        this.initTrack();
-        console.log(this.trackNum)
+        const newTrackNum = parseInt(this.canvas.height / this.height);
+        console.log(newTrackNum)
+        if (newTrackNum > this.trackNum) { // 增轨
+            for (let i = this.trackNum; i < newTrackNum; i++) {
+                this.track.push({
+                    id: i,
+                    top: i * this.height, 
+                    bottom: (i + 1) * this.height - 1,
+                });
+                this.trackQueue.push(i);
+            }
+            console.log(this.trackQueue)
+        } else { // 减轨
+            this.track.filter((item)=>item.id < newTrackNum);
+            this.trackQueue.filter((item)=>item < newTrackNum);
+        }
+        this.trackNum = newTrackNum;
     }
     protobuf() {
         const result = proto.DmSegMobileReply.deserializeBinary(this.danmakuData);

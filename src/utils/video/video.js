@@ -14,7 +14,7 @@ export default class Video {
         this.video.addEventListener('play', this.handleVideoPlay.bind(this), false);
         this.video.addEventListener('pause', this.hanldeVideoPause.bind(this), false);
         this.video.addEventListener('seeked', this.handleVideoSeek.bind(this), false);
-        // window.addEventListener('resize', this.handleVideoResize.bind(this), false);
+        window.addEventListener('resize', this.handleVideoResize.bind(this), false);
     }
     handleVideoPlay() {
         this.danmaku.paused = false;
@@ -31,6 +31,6 @@ export default class Video {
         this.timer = setTimeout(() => {
             this.danmaku.resize();
             clearTimeout(this.timer);
-        }, 200);
+        }, 500);
     }
 }
