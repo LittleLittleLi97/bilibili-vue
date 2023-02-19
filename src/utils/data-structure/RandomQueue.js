@@ -22,6 +22,5 @@ export default class RandomQueue {
     }
     filter(callback) {
         this.queue = this.queue.filter(callback);
-        console.log(this.queue)
     }
 }

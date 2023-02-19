@@ -10,9 +10,7 @@
                     <span>{{ videoPubDate.Y }}-{{ videoPubDate.M }}-{{ videoPubDate.D }} {{ videoPubDate.h }}:{{ videoPubDate.mm }}:{{ videoPubDate.s }}</span>
                 </div>
             </div>
-            <div class="video-area">
-                <Video :cid="videoInfo.cid" />
-            </div>
+            <Video :cid="videoInfo.cid" />
             <div class="support-bar">
                 <ul class="support-list">
                     <li class="support-item"><i class="iconfont icon-zan"></i><span>{{ likeNum }}</span></li>
@@ -181,12 +179,6 @@ export default {
                     font-size: 12px;
                     color: #999;
                 }
-            }
-            .video-area {
-                position: relative;
-                width: 100%;
-
-                // background-color: #bfa;
             }
             .support-bar {
                 display: flex;

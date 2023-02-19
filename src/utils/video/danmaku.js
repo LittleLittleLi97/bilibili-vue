@@ -76,6 +76,11 @@ export default class Danmaku {
                         return;
                     }
                 }
+
+                if (dm.trackId >= this.trackNum) { // 减轨后，溢出的弹幕不再渲染，并且防止溢出的轨道再次加入队列
+                    dm.stopDrawing = true;
+                    return;
+                }
                 dm.X -= dm.speed;
                 dm.draw();
 
@@ -116,7 +121,6 @@ export default class Danmaku {
     resize() {
         this.initCanvas();
         const newTrackNum = parseInt(this.canvas.height / this.height);
-        console.log(newTrackNum)
         if (newTrackNum > this.trackNum) { // 增轨
             for (let i = this.trackNum; i < newTrackNum; i++) {
                 this.track.push({
@@ -126,9 +130,8 @@ export default class Danmaku {
                 });
                 this.trackQueue.push(i);
             }
-            console.log(this.trackQueue)
         } else { // 减轨
-            this.track.filter((item)=>item.id < newTrackNum);
+            this.track = this.track.filter((item)=>item.id < newTrackNum);
             this.trackQueue.filter((item)=>item < newTrackNum);
         }
         this.trackNum = newTrackNum;
