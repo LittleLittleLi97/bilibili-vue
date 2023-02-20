@@ -28,11 +28,10 @@ export default class Video {
         this.danmaku.paused = true;
     }
     handleVideoSeek() {
-        this.danmaku.reset();
-        const currentTime = this.video.currentTime;
-        const currentSegment = Math.ceil(currentTime / this.segmentLength);
+        const currentSegment = this.getCurrentSegment();
         const p = this.danmaku.reqDanmaku(currentSegment);
-        if (p) p.then(()=>this.danmaku.reset())
+        if (p) p.then(()=>this.danmaku.reset());
+        else this.danmaku.reset();
         // seek后新请求的弹幕，由于没有经过reset，会产生瞬间的大量弹幕，比如seek到了新的segment7:30处，那么会一下渲染出6:00到7:30的所有弹幕
         // 当请求返回后，reset。
     }
@@ -44,8 +43,8 @@ export default class Video {
         }, 500);
     }
     handleTimeUpdate() {
-        const currentTime = this.video.currentTime;
-        const currentSegment = Math.ceil(currentTime / this.segmentLength);
+        const currentTime = this.getCurrentTime();
+        const currentSegment = this.getCurrentSegment();
 
         // 更改segment标号
         this.danmaku.setSegment(currentSegment)
@@ -54,5 +53,11 @@ export default class Video {
         if (this.segmentLength - currentTime % this.segmentLength < 10) {
             this.danmaku.reqDanmaku(currentSegment + 1);
         }
+    }
+    getCurrentTime() {
+        return this.video.currentTime;
+    }
+    getCurrentSegment() {
+        return Math.ceil(this.video.currentTime / this.segmentLength);
     }
 }

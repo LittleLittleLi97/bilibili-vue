@@ -16,10 +16,11 @@ export default class Danmaku {
         this.height = 30;
         this.inlineGap = 30;
         
-        this.lastPool = 0;
+        this.lastTime = 0;
         this.currentPool = 0;
         this.paused = true;
         this.reqSended = [];
+        this.danmakuData = [];
         this.danmakuPool = [];
         this.track = [];
         this.trackQueue = new RandomQueue();
@@ -29,7 +30,7 @@ export default class Danmaku {
     init() {
         this.initCanvas();
         this.initTrack();
-        this.reqDanmaku(1);
+        this.reqDanmaku(1); // 默认请求第一个segment
     }
     initCanvas() {
         this.canvas.width = this.video.offsetWidth;
@@ -58,13 +59,13 @@ export default class Danmaku {
 
         const currentTime = this.video.currentTime;
         this.danmakuPool[this.currentPool].map((dm)=>{
-            if (!dm.stopDrawing && currentTime >= dm.runTime) {
-                if (!dm.isInitialized) { // 此danmakuItem是第一次绘制
+            if (dm.state !== DanmakuItem.finish && currentTime >= dm.runTime) {
+                if (dm.state === DanmakuItem.unInit) { // 此danmakuItem是第一次绘制
                     const trackId = this.trackQueue.get();
                     const track = this.track[trackId];
                     if (track) {
                         dm.speed = 2 + Math.random(); // 2 ~ 3
-                        if (track.last && !track.last.stopDrawing) {
+                        if (track.last && track.last.state !== DanmakuItem.finish) {
                             const last = track.last;
                             // 追及问题，保证前后弹幕间距始终大于inline-gap
                             const maxSpeed = (this.canvas.width - this.inlineGap) / ((last.X + last.width) / last.speed);
@@ -75,13 +76,13 @@ export default class Danmaku {
                         dm.initialize(track.top);
                         dm.trackId = track.id;
                     } else { // 满轨
-                        dm.stopDrawing = true;
+                        dm.finish();
                         return;
                     }
                 }
 
                 if (dm.trackId >= this.trackNum) { // 减轨后，溢出的弹幕不再渲染，并且防止溢出的轨道再次加入队列
-                    dm.stopDrawing = true;
+                    dm.finish();
                     return;
                 }
                 dm.X -= dm.speed;
@@ -94,7 +95,7 @@ export default class Danmaku {
                 }
 
                 if (dm.X <= dm.width * -1) { // 此danmakuItem绘制结束
-                    dm.stopDrawing = true;
+                    dm.finish();
                 }
             }
         })
@@ -115,15 +116,13 @@ export default class Danmaku {
         this.clearRect();
         this.resetTrack();
         const currentTime = this.video.currentTime;
-        this.danmakuPool[this.lastPool].map((dm)=>{
-            dm.stopDrawing = false;
-                if (currentTime <= dm.runTime) {
-                    dm.isInitialized = false;
-                } else {
-                    dm.stopDrawing = true;
-                }
+        this.danmakuPool[this.currentPool].map((dm)=>{
+            if (currentTime <= dm.runTime) {
+                dm.unInit();
+            } else {
+                dm.finish();
+            }
         })
-        this.lastPool = this.currentPool; // seek切换segment后reset，之后在当前segment内，reset的是当前segment
     }
     resize() {
         this.initCanvas();
@@ -144,8 +143,10 @@ export default class Danmaku {
         this.trackNum = newTrackNum;
     }
     protobuf(data) {
-        const result = proto.DmSegMobileReply.deserializeBinary(data);
-        const pool = result.array[0].map((item)=>{
+        return proto.DmSegMobileReply.deserializeBinary(data).array[0];
+    }
+    createPool(data) {
+        return data.map((item)=>{
             const [id, runTime, mode, fontsize, color, midHash, content, ctime, weight, action, pool, idStr] = item;
             return new DanmakuItem({
                 id,
@@ -156,33 +157,42 @@ export default class Danmaku {
                 fontsize,
                 speed: 2, // 速度现在这里固定，随机速度需要在第一次绘制前确定
             }, this);
-        })
-        return pool;
+        });
     }
     reqDanmaku(segment_index) {
         const index = segment_index - 1;
         if (this.reqSended[index]) return;
         this.reqSended[index] = true;
         return reqDanmakuProtobuf(1, this.cid, segment_index).then((result)=>{
-            const pool = this.protobuf(result.data);
-            this.danmakuPool[index] = pool;
+            const data = this.protobuf(result.data);
+            this.danmakuData[index] = data;
+            this.danmakuPool[index] = this.createPool(data);
         })
     }
     setSegment(segment_index) { // 切换使用的danmakuPool
         const newPool = segment_index - 1;
+        const currentTime = this.video.currentTime;
+
         if (newPool !== this.currentPool) {
-            // 用于解决切换时弹幕出现断层的问题
-            const currentTime = this.video.currentTime;
-            if (!this.danmakuPool[newPool]) {
-                this.danmakuPool[newPool] = [];
+
+            if (currentTime - this.lastTime < 1) {  // 正常播放
+                // 用于解决切换时弹幕出现断层的问题
+                if (!this.danmakuPool[newPool]) this.danmakuPool[newPool] = [];
+                this.danmakuPool[this.currentPool].map((dm)=>{
+                    if (dm.state === DanmakuItem.rendering) {
+                        this.danmakuPool[newPool].push(dm);
+                    }
+                });
+
+            } else { // seek
+                console.log('seek')
             }
-            this.danmakuPool[this.currentPool].map((dm)=>{
-                if (!dm.stopDrawing && currentTime >= dm.runTime) {
-                    this.danmakuPool[newPool].push(dm);
-                }
-            })
-            this.lastPool = this.currentPool;
-            this.currentPool = newPool;
+
+            // 恢复上一分区
+            this.danmakuPool[this.currentPool] = this.createPool(this.danmakuData[this.currentPool]);
         }
+
+        this.currentPool = newPool;
+        this.lastTime = currentTime;
     }
 }
