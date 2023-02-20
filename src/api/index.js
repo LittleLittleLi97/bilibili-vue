@@ -132,6 +132,11 @@ export const reqSearch = (keyword)=>requests({
     method:'get',
 })
 
+export const reqSearchPropose = (keyword)=>requestsSearch({
+    url: `/main/suggest?term=${keyword}`,
+    method: 'get',
+})
+
 // 按类别搜索，用于点击页数后的刷新数据
 export const reqSearchTypeForPage = (keyword, type, page)=>requests({
     url:`/x/web-interface/search/type?keyword=${keyword}&search_type=${type}&page=${page}`,

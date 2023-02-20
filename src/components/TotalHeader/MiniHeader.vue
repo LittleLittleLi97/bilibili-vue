@@ -29,25 +29,38 @@
                 </div>
             </div>
             <div class="recommend-area" v-show="recommendShow">
-                <div class="recommend-history" v-show="historyList.length > 0">
-                    <div class="recommend-title">搜索历史</div>
-                    <ul class="history-list">
-                        <li v-for="(item, index) in historyList" :key="index">
-                            <div @click="searchJump(item)">{{ item }}</div>
-                        </li>
-                    </ul>
+                <div class="no-searching" v-show="!searchProposeShow">
+                    <div class="recommend-history" v-show="historyList.length > 0">
+                        <div class="recommend-title">搜索历史</div>
+                        <ul class="history-list">
+                            <li v-for="(item, index) in historyList" :key="index">
+                                <div @click="searchJump(item)">{{ item }}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="recommend-hot">
+                        <div class="recommend-title">热搜</div>
+                        <ul class="hot-list">
+                            <!-- <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li> -->
+                            <li v-for="(item, index) in hotSearchList" :key="item.id">
+                                <div class="hot-item" @click="searchJump(item.keyword)">
+                                    <span class="hot-rank" :class="{'hot-rank-top':item.id<=3}">{{ item.id }}</span>
+                                    <span class="hot-title">{{ item.show_name }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="recommend-hot">
-                    <div class="recommend-title">热搜</div>
-                    <ul class="hot-list">
-                        <!-- <li><a href=""><span class="hot-rank hot-rank-top">1</span><span class="hot-title">今天你码代码了吗</span></a></li> -->
-                        <li v-for="(item, index) in hotSearchList" :key="item.id">
-                            <div class="hot-item" @click="searchJump(item.keyword)">
-                                <span class="hot-rank" :class="{'hot-rank-top':item.id<=3}">{{ item.id }}</span>
-                                <span class="hot-title">{{ item.show_name }}</span>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="search-propose" v-show="searchProposeShow">
+                    <div class="recommend-title">bilibili热搜</div>
+                    <div class="propose-item" 
+                        v-for="(item, index) in searchPropose" 
+                        :key="item.value"
+                        @click="searchJump(item.value)"
+                    >
+                        <span class="propose-rank" :class="{'propose-rank-top':index<3}">{{ parseInt(index) + 1 }}</span>
+                        <span class="propose-title">{{ item.value }}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +115,7 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted, toRefs, toRef, computed, onBeforeUnmount} from 'vue';
+import {ref, reactive, onMounted, toRefs, toRef, computed, watch, onBeforeUnmount} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex'
 
@@ -164,6 +177,7 @@ export default {
             const historyList = ref(JSON.parse(localStorage.getItem('history')) || []);
             function searchFunction(){
                 const searchKeyword = ref();
+                // 搜索跳转
                 function searchJump(keyword){
                     store.dispatch('Search/getSearch', keyword);
                     router.push({
@@ -179,12 +193,28 @@ export default {
                     localStorage.setItem('history', JSON.stringify(historyList.value));
                     // 搜索后搜索框样式需要恢复
                     removeStyle();
+                    store.dispatch('Search/clearSearchPropose'); // 跳转后清空搜索建议
                 }
-                return {
-                    searchKeyword,
-                    searchJump,
-                }
+
+                // 搜索建议
+                const searchPropose = computed(()=>store.state.Search.searchPropose);
+                const searchProposeShow = computed(()=>Object.keys(searchPropose.value).length > 0);
+                let searchProposeTimer;
+                watch(()=>searchKeyword.value, ()=>{
+                    clearTimeout(searchProposeTimer);
+                    searchProposeTimer = setTimeout(() => {
+                        store.dispatch('Search/getSearchPropose', searchKeyword.value);
+                        clearTimeout(searchProposeTimer);
+                    }, 200);
+                })
+            return {
+                historyList,
+                searchKeyword,
+                searchJump,
+                searchPropose,
+                searchProposeShow,
             }
+        }
             return {
                 searchDiv,
                 ...toRefs(searchStyleControl),
@@ -462,6 +492,35 @@ export default {
                                     color: #18191c;
 
                                 }
+                            }
+                        }
+                    }
+                    .search-propose {
+
+                        .propose-item {
+                            font-size: 14px;
+                            line-height: 38px;
+
+                            padding-left: 20px;
+
+                            height: 38px;
+
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: #e3e5e7;
+                            }
+
+                            .propose-rank {
+                                display: inline-flex;
+                                justify-content: center;
+
+                                color: #9499A0;
+
+                                width: 30px;
+                            }
+                            .propose-rank-top {
+                                color: #18191c;
                             }
                         }
                     }

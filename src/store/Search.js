@@ -1,4 +1,4 @@
-import { reqHotSearch, reqPlaceholder, reqSearch, reqSearchTypeForPage } from "../api";
+import { reqHotSearch, reqPlaceholder, reqSearch, reqSearchPropose, reqSearchTypeForPage } from "../api";
 
 const state = ()=>{
     return {
@@ -6,6 +6,7 @@ const state = ()=>{
         hotSearchList:[],
         searchResult:undefined,
         numPages:1,
+        searchPropose: [],
     }
 };
 
@@ -25,6 +26,13 @@ const actions = {
     async getSearchTypeForPage({commit}, {keyword, type, page}){
         let result = await reqSearchTypeForPage(keyword, type, page);
         if (result.status === 200) commit('GETSEARCHTYPEFORPAGE', {type, data: result.data.data})
+    },
+    async getSearchPropose({commit}, keyword) {
+        const result = await reqSearchPropose(keyword);
+        if (result.status === 200) commit('GETSEARCHPROPOSE', result.data);
+    },
+    clearSearchPropose({commit}) {
+        commit('GETSEARCHPROPOSE', []);
     }
 };
 
@@ -43,6 +51,9 @@ const mutations = {
     },
     GETSEARCHTYPEFORPAGE(state, {type, data}){
         state.searchResult[type] = data.result;
+    },
+    GETSEARCHPROPOSE(state, data) {
+        state.searchPropose = data;
     }
 };
 
