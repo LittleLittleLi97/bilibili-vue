@@ -117,11 +117,11 @@ export default class Danmaku {
         const currentTime = this.video.currentTime;
         this.danmakuPool[this.lastPool].map((dm)=>{
             dm.stopDrawing = false;
-            if (currentTime <= dm.runTime) {
-                dm.isInitialized = false;
-            } else {
-                dm.stopDrawing = true;
-            }
+                if (currentTime <= dm.runTime) {
+                    dm.isInitialized = false;
+                } else {
+                    dm.stopDrawing = true;
+                }
         })
         this.lastPool = this.currentPool; // seek切换segment后reset，之后在当前segment内，reset的是当前segment
     }
@@ -163,15 +163,26 @@ export default class Danmaku {
         const index = segment_index - 1;
         if (this.reqSended[index]) return;
         this.reqSended[index] = true;
-        reqDanmakuProtobuf(1, this.cid, segment_index).then((result)=>{
+        return reqDanmakuProtobuf(1, this.cid, segment_index).then((result)=>{
             const pool = this.protobuf(result.data);
             this.danmakuPool[index] = pool;
         })
     }
     setSegment(segment_index) { // 切换使用的danmakuPool
-        if (segment_index - 1 !== this.currentPool) {
+        const newPool = segment_index - 1;
+        if (newPool !== this.currentPool) {
+            // 用于解决切换时弹幕出现断层的问题
+            const currentTime = this.video.currentTime;
+            if (!this.danmakuPool[newPool]) {
+                this.danmakuPool[newPool] = [];
+            }
+            this.danmakuPool[this.currentPool].map((dm)=>{
+                if (!dm.stopDrawing && currentTime >= dm.runTime) {
+                    this.danmakuPool[newPool].push(dm);
+                }
+            })
             this.lastPool = this.currentPool;
-            this.currentPool = segment_index - 1;
+            this.currentPool = newPool;
         }
     }
 }

@@ -31,8 +31,10 @@ export default class Video {
         this.danmaku.reset();
         const currentTime = this.video.currentTime;
         const currentSegment = Math.ceil(currentTime / this.segmentLength);
-        this.danmaku.reqDanmaku(currentSegment);
-        // seek后新请求的弹幕，由于没有经过reset，会产生瞬间的大量弹幕，比如seek到了新的segment7:30处，那么会一下渲染出6:00到7:30的所有弹幕，需要改
+        const p = this.danmaku.reqDanmaku(currentSegment);
+        if (p) p.then(()=>this.danmaku.reset())
+        // seek后新请求的弹幕，由于没有经过reset，会产生瞬间的大量弹幕，比如seek到了新的segment7:30处，那么会一下渲染出6:00到7:30的所有弹幕
+        // 当请求返回后，reset。
     }
     handleVideoResize() {
         clearTimeout(this.timer);
