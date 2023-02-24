@@ -1,4 +1,4 @@
-# 关于protobuf
+## 关于protobuf
 
 > 编辑于2023.02.14
 
@@ -61,3 +61,39 @@ console.log(message)
 - chatgpt和https://github.com/Croolch
 - https://www.jb51.net/article/160808.htm
 - https://blog.csdn.net/u010138825/article/details/85245995
+
+## 关于danmaku切换分区
+
+> 编辑于2023.02.24
+
+正常播放切换分区会触发一个事件：timeupdate
+
+seek到本分区会触发一个事件：seeked
+
+而seek切换分区会触发两个事件：先触发timeupdate，后触发seeked
+
+因此有以下流程：
+
+```js
+function requestDanmaku() {
+  	if (已经有Data) return;
+		return 请求Data.then(
+      	解析Data并存储;
+		  	Data加入Pool；
+    );
+}
+
+function timeupdate() {
+		if (seek) 渲染中的弹幕加入新分区;
+  	恢复上一分区的Pool；
+}
+
+function seeked() {
+		if (请求数据有返回值) { // seek到了新的分区
+      	异步reset()；
+    } else {
+      	reset(); // 未切换分区
+    }
+}
+```
+
